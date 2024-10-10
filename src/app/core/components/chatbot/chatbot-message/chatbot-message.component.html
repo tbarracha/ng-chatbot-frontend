@@ -1,0 +1,13 @@
+<div
+  class="{{
+    isUser
+      ? (isDarkMode
+          ? 'bg-gray-700 text-white self-end ml-auto'
+          : 'bg-[#f4f4f4] text-black self-end ml-auto')
+      : (isDarkMode
+          ? 'bg-gray-600 text-white self-start mr-auto'
+          : 'bg-[#e7e5e5] text-black self-start mr-auto')
+  }} p-3 rounded-lg max-w-xs w-auto my-2"
+>
+  {{ message }}
+</div>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SelectorComponent } from "../../standalone/selector/selector.component";
 import { SelectorOption } from '../../../models/standalone-models';
 import { ThemeToggleComponent } from "../../standalone/theme-toggle/theme-toggle.component";
-import { BaseThemedComponent } from '../../standalone/base-themed-component/base-themed-component.component';
+import { BaseThemedComponent } from '../../standalone/base-components/base-themed-component.component';
 
 @Component({
   selector: 'app-chatbot-header',

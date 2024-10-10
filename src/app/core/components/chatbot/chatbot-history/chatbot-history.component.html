@@ -1,3 +1,9 @@
-<div class="w-full h-full">
-    <p>Chatbot history!</p>
-</div>
+<div class="w-full h-full flex flex-col p-4 overflow-y-auto">
+    @for (msg of messages; track msg.content) {
+      <app-chatbot-message
+        [message]="msg.content"
+        [isUser]="msg.role === 'user'"
+      ></app-chatbot-message>
+    }
+  </div>
+  

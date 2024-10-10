@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ThemeService } from '../../../services/theme.service';
-import { BaseThemedComponent } from '../base-themed-component/base-themed-component.component';
+import { BaseThemedComponent } from '../base-components/base-themed-component.component';
 
 @Component({
   selector: 'app-theme-toggle',

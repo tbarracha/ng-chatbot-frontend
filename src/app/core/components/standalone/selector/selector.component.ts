@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SelectorOption } from '../../../models/standalone-models';
-import { BaseThemedComponent } from '../base-themed-component/base-themed-component.component';
+import { BaseThemedComponent } from '../base-components/base-themed-component.component';
 
 @Component({
   selector: 'app-selector',

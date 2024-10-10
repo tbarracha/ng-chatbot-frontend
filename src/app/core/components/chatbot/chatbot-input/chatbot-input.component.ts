@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { BaseThemedComponent } from '../../standalone/base-themed-component/base-themed-component.component';
+import { BaseThemedComponent } from '../../standalone/base-components/base-themed-component.component';
 
 @Component({
   selector: 'app-chatbot-input',
