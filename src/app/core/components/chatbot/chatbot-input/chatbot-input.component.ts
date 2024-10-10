@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { BaseThemedComponent } from '../../standalone/base-themed-component/base-themed-component.component';
 
 @Component({
   selector: 'app-chatbot-input',
@@ -8,7 +9,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   styleUrl: './chatbot-input.component.scss'
 })
 
-export class ChatbotInputComponent {
+export class ChatbotInputComponent extends BaseThemedComponent {
   @ViewChild('chatInput') chatInput!: ElementRef<HTMLTextAreaElement>;
 
   ngAfterViewInit() {

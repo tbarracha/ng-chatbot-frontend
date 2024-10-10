@@ -1,3 +1,17 @@
-<div class="w-full h-full bg-slate-200">
-    <h2>Chatbot Header!</h2>
+<div
+  class="{{
+    isDarkMode
+      ? 'w-full h-full flex items-center justify-between bg-gray-800 text-white px-4'
+      : 'w-full h-full flex items-center justify-between bg-[#f4f4f4] text-gray-900 px-4'
+  }}"
+>
+  <app-selector
+    [options]="llmModels"
+    (selectionChange)="onModelSelected($event)"
+    class="flex-1"
+  ></app-selector>
+  
+  <app-theme-toggle
+    class="flex-none ml-4"
+  ></app-theme-toggle>
 </div>

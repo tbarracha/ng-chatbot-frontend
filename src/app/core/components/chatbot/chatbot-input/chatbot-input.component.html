@@ -1,14 +1,28 @@
-<div class="flex w-full bg-[#f4f4f4] dark:bg-gray-800 rounded-32 p-2">
+<div
+  class="{{ isDarkMode ? 'bg-gray-800' : 'bg-[#f4f4f4]' }} flex w-full rounded-32 p-2"
+>
   <!-- Attachment Button -->
-  <button class="flex items-center justify-center h-12 w-12 rounded-full text-gray-700 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 self-end">
-    📎
+  <button
+    class="{{
+      isDarkMode
+        ? 'text-white bg-gray-700 hover:bg-gray-600'
+        : 'text-gray-700 bg-white hover:bg-gray-100'
+    }} flex items-center justify-center h-12 w-12 rounded-full self-end"
+    aria-label="Attach File"
+  >
+    <!-- Paperclip Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+    </svg>
   </button>
 
   <!-- Input Field -->
   <div class="flex-grow mx-2">
     <textarea
       #chatInput
-      class="w-full max-h-32 h-10 resize-none bg-transparent px-3 py-2 text-gray-900 placeholder-gray-400 outline-none dark:text-white"
+      class="{{
+        isDarkMode ? 'text-white' : 'text-gray-900'
+      }} w-full max-h-32 h-10 resize-none bg-transparent px-3 py-2 placeholder-gray-400 outline-none"
       placeholder="Type your message..."
       rows="1"
       id="chat-input"
@@ -18,7 +32,15 @@
   </div>
 
   <!-- Submit Button -->
-  <button class="flex items-center justify-center h-12 w-12 rounded-full bg-black text-white transition-colors hover:opacity-80 dark:bg-white dark:text-black self-end">
-    ➤
+  <button
+    class="{{
+      isDarkMode ? 'bg-white text-black' : 'bg-black text-white'
+    }} flex items-center justify-center h-12 w-12 rounded-full transition-colors hover:opacity-80 self-end"
+    aria-label="Send Message"
+  >
+    <!-- Arrow Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+    </svg>
   </button>
 </div>
