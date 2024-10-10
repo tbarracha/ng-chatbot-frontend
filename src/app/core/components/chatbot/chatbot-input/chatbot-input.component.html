@@ -1,0 +1,24 @@
+<div class="flex w-full bg-[#f4f4f4] dark:bg-gray-800 rounded-32 p-2">
+  <!-- Attachment Button -->
+  <button class="flex items-center justify-center h-12 w-12 rounded-full text-gray-700 bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 self-end">
+    📎
+  </button>
+
+  <!-- Input Field -->
+  <div class="flex-grow mx-2">
+    <textarea
+      #chatInput
+      class="w-full max-h-32 h-10 resize-none bg-transparent px-3 py-2 text-gray-900 placeholder-gray-400 outline-none dark:text-white"
+      placeholder="Type your message..."
+      rows="1"
+      id="chat-input"
+      style="min-height: 40px;"
+      (input)="adjustTextareaHeight($event)"
+    ></textarea>
+  </div>
+
+  <!-- Submit Button -->
+  <button class="flex items-center justify-center h-12 w-12 rounded-full bg-black text-white transition-colors hover:opacity-80 dark:bg-white dark:text-black self-end">
+    ➤
+  </button>
+</div>
