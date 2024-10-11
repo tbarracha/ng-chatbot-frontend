@@ -1,13 +1,15 @@
 <div>
-    <select
-      class="{{ isDarkMode ? 'bg-gray-700 text-white focus:ring-blue-300' : 'bg-[#e7e5e5] text-gray-900 focus:ring-blue-500' }} px-4 py-2 rounded-full focus:outline-none transition ease-in-out duration-200"
-      (change)="onSelectionChange($event)"
-    >
-      @for (option of options; track option.id) {
-        <option class="{{ isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900' }}" [value]="option.id">
-          {{ option.value }}
-        </option>
-      }
-    </select>
-  </div>
-  
+  <select
+    class="bg-light-accent text-gray-900 focus:ring-blue-500 dark:bg-dark-main dark:text-white dark:focus:ring-blue-300 px-4 py-2 rounded-lg focus:outline-none transition ease-in-out duration-200"
+    (change)="onSelectionChange($event)"
+  >
+    @for (option of options; track option.id) {
+      <option
+        class="bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
+        [value]="option.id"
+      >
+        {{ option.value }}
+      </option>
+    }
+  </select>
+</div>

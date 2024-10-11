@@ -2,7 +2,7 @@
     @for (msg of messages; track msg.content) {
       <app-chatbot-message
         [message]="msg.content"
-        [isUser]="msg.role === 'user'"
+        [role]="msg.role"
       ></app-chatbot-message>
     }
   </div>

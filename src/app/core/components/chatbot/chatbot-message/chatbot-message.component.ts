@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { BaseThemedComponent } from '../../standalone/base-components/base-themed-component.component';
 
 @Component({
   selector: 'app-chatbot-message',
@@ -8,7 +7,8 @@ import { BaseThemedComponent } from '../../standalone/base-components/base-theme
   templateUrl: './chatbot-message.component.html',
   styleUrl: './chatbot-message.component.scss'
 })
-export class ChatbotMessageComponent extends BaseThemedComponent {
+export class ChatbotMessageComponent {
   @Input() message: string = '';
-  @Input() isUser: boolean = false;
+  @Input() role: string = 'assistant';
+  @Input() avatar: string | null = null;
 }

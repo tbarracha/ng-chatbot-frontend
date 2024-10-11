@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SelectorOption } from '../../../models/standalone-models';
-import { BaseThemedComponent } from '../base-components/base-themed-component.component';
 
 @Component({
   selector: 'app-selector',
@@ -9,7 +8,7 @@ import { BaseThemedComponent } from '../base-components/base-themed-component.co
   templateUrl: './selector.component.html',
   styleUrls: ['./selector.component.scss']
 })
-export class SelectorComponent extends BaseThemedComponent {
+export class SelectorComponent {
   @Input() options: SelectorOption[] = [];
   @Output() selectionChange = new EventEmitter<SelectorOption>();
 
