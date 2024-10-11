@@ -1,4 +1,4 @@
-<div class="w-full h-full flex flex-col p-4 overflow-y-auto">
+<div class="slender-scrollbar w-full h-full flex flex-col p-4 overflow-y-auto">
     @for (msg of messages; track msg.content) {
       <app-chatbot-message
         [message]="msg.content"

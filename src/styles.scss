@@ -10,3 +10,27 @@ $color-light-dark: #818594;
 $color-dark-main: #0e1118;
 $color-dark-accent: #262730;
 $color-dark-dark: #a0a6b7;
+
+.slender-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.slender-scrollbar::-webkit-scrollbar-track {
+  background: #f1f2f6;
+}
+
+.slender-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #818594;
+  border-radius: 10px;
+  border: 2px solid #f1f2f6;
+}
+
+.dark .slender-scrollbar::-webkit-scrollbar-track {
+  background: #262730;
+}
+
+.dark .slender-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #a0a6b7;
+  border: 2px solid #262730;
+}
+  
