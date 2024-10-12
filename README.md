@@ -26,7 +26,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
   - [ ] File Upload
 - [ ] **Audio**
   - [ ] File Upload
-  - [ ] Integrate with [audio-recorder-streamlit](https://github.com/stefanrmmr/Audio-Recorder-Streamlit)
 
 ### Output Message Types
 - [ ] **Text**
