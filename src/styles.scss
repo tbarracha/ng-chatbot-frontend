@@ -33,4 +33,21 @@ $color-dark-dark: #a0a6b7;
   background-color: #a0a6b7;
   border: 2px solid #262730;
 }
-  
+
+.sidebar {
+  width: 256px;
+  height: 100vh;
+  background-color: var(--color-light-main);
+}
+
+.sub-section-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+}
+
+.nested-sub-section {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1rem;
+}

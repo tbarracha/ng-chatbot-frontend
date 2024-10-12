@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
 import { SelectorComponent } from "../../standalone/selector/selector.component";
 import { SelectorOption } from '../../../models/standalone-models';
 import { ThemeToggleComponent } from "../../standalone/theme-toggle/theme-toggle.component";
@@ -13,6 +13,7 @@ import { ThemeService } from '../../../services/theme.service';
 })
 export class ChatbotHeaderComponent {
   @ViewChild('themeToggle') themeToggle!: ThemeToggleComponent;
+  @Output() toggleSidebarEvent = new EventEmitter<void>();
 
   isDropdownOpen = false;
 
@@ -49,5 +50,9 @@ export class ChatbotHeaderComponent {
 
   isDarkMode() {
     return this.themeService.isDarkMode();
+  }
+
+  toggleSidebar() {
+    this.toggleSidebarEvent.emit();
   }
 }
