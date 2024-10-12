@@ -1,9 +1,16 @@
 <div class="slender-scrollbar w-full h-full flex flex-col p-4 overflow-y-auto">
-    @for (msg of messages; track msg.content) {
+  @for (msg of messages; track msg.content) {
+    @if (msg.role === 'user') {
+      <app-user-message
+        [message]="msg.content"
+        [role]="msg.role"
+      ></app-user-message>
+    }
+    @else {
       <app-chatbot-message
         [message]="msg.content"
         [role]="msg.role"
       ></app-chatbot-message>
     }
-  </div>
-  
+  }
+</div>

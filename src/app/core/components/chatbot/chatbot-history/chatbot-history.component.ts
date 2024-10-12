@@ -1,10 +1,11 @@
 import { Component, Input, input } from '@angular/core';
-import { ChatbotMessageComponent } from "../chatbot-message/chatbot-message.component";
+import { ChatbotMessageComponent } from "../messages/chatbot-message/chatbot-message.component";
+import { UserMessageComponent } from "../messages/user-message/user-message.component";
 
 @Component({
   selector: 'app-chatbot-history',
   standalone: true,
-  imports: [ChatbotMessageComponent],
+  imports: [ChatbotMessageComponent, UserMessageComponent],
   templateUrl: './chatbot-history.component.html',
   styleUrl: './chatbot-history.component.scss'
 })
