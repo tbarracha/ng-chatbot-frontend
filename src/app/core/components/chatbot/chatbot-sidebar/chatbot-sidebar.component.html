@@ -1,7 +1,13 @@
-<div #sidebar class="relative h-full p-2 bg-light-accent dark:bg-dark-accent">
-    <p>Side Bar</p>
+<div #sidebar class="relative h-full p-2 bg-light-accent dark:bg-dark-main drop-shadow-lg">
+  <div class="h-8 flex items-center">
+    <button (click)="toggleSidebar()" class="focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 -960 960 960" fill="currentColor">
+        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-80h280v-560H480v560Z"/>
+      </svg>
+    </button>
+  </div>
   
-    <div class="resizer-container group absolute top-0 right-0 h-full w-4">
+    <div #resizerContainer class="resizer-container group absolute top-0 right-0 h-full w-4">
       <div 
         #resizer 
         class="absolute top-0 right-0 h-full w-1 bg-light-dark dark:bg-dark-dark cursor-col-resize opacity-0 group-hover:opacity-100 transition-opacity duration-200"

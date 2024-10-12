@@ -1,7 +1,7 @@
 <div
-  class="w-full h-full flex items-center justify-between bg-light-accent text-dark-main dark:bg-dark-accent dark:text-white px-4 shadow-lg"
+  class="w-full h-full flex items-center justify-between bg-light-accent text-dark-main dark:bg-dark-main dark:text-white px-4 shadow-lg"
 >
-  <button (click)="toggleSidebar()" class="focus:outline-none ml-4">
+  <button (click)="toggleSidebar()" class="focus:outline-none">
     <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 -960 960 960" fill="currentColor">
       <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-80h280v-560H480v560Z"/>
     </svg>
@@ -39,7 +39,7 @@
         class="absolute right-0 w-48 bg-white dark:bg-dark-main border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-10"
       >
       <ul class="text-sm text-gray-700 dark:text-gray-300">
-        <li class="h-full px-4 py-2 flex items-center hover:bg-gray-100 dark:hover:bg-gray-600 hover:rounded-t-sm">
+        <li class="h-full px-4 py-2 flex items-center hover:bg-gray-100 dark:hover:bg-gray-600 hover:rounded-t-md">
           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd"/>
           </svg>
@@ -56,7 +56,7 @@
           (click)="themeToggle.toggleTheme()">
           <app-theme-toggle [isIconOnly]="false" #themeToggle class="w-full"></app-theme-toggle>
         </li>
-        <li class="h-full px-4 py-2 flex items-center hover:bg-red-300 dark:hover:bg-red-900 hover:rounded-b-sm">
+        <li class="h-full px-4 py-2 flex items-center hover:bg-red-300 dark:hover:bg-red-900 hover:rounded-b-md">
           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"/>
           </svg>

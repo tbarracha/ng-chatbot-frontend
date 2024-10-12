@@ -1,26 +1,36 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { SelectorOption } from '../../../models/standalone-models';
 
 @Component({
   selector: 'app-selector',
   standalone: true,
-  imports: [],
   templateUrl: './selector.component.html',
   styleUrls: ['./selector.component.scss']
 })
 export class SelectorComponent {
+  @ViewChild('selector', { static: false }) selectorRef!: ElementRef;
+
   @Input() options: SelectorOption[] = [];
   @Output() selectionChange = new EventEmitter<SelectorOption>();
 
   currentSelection: SelectorOption | null = null;
+  isDropdownOpen = false;
 
-  // Method to handle selection change
-  onSelectionChange(event: Event) {
-    const selectedId = (event.target as HTMLSelectElement).value;
-    const selectedOption = this.options.find(option => option.id.toString() === selectedId);
-    if (selectedOption) {
-      this.currentSelection = selectedOption;
-      this.selectionChange.emit(selectedOption);
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  selectOption(option: SelectorOption) {
+    this.currentSelection = option;
+    this.selectionChange.emit(option);
+    this.isDropdownOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    const clickedInside = this.selectorRef.nativeElement.contains(event.target);
+    if (!clickedInside) {
+      this.isDropdownOpen = false;
     }
   }
 }

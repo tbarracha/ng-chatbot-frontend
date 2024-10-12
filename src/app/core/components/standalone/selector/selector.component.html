@@ -1,15 +1,31 @@
-<div>
-  <select
-    class="bg-light-accent text-gray-900 focus:ring-blue-500 dark:bg-dark-main dark:text-white dark:focus:ring-blue-300 px-4 py-2 rounded-lg focus:outline-none transition ease-in-out duration-200"
-    (change)="onSelectionChange($event)"
+<div #selector class="relative">
+  <button
+    (click)="toggleDropdown()"
+    class="bg-transparent w-full text-left bg-light-main text-gray-900 dark:text-white p-2 rounded-lg focus:outline-none transition ease-in-out duration-200"
   >
-    @for (option of options; track option.id) {
-      <option
-        class="bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
-        [value]="option.id"
-      >
-        {{ option.value }}
-      </option>
+    @if (currentSelection) {
+      {{ currentSelection.value }}
     }
-  </select>
+    @else {
+      Select an option
+    }
+  </button>
+
+  <!-- Dropdown Options -->
+  @if (isDropdownOpen) {
+    <div class="absolute z-10 w-full bg-light-main dark:bg-dark-main rounded-lg shadow-lg mt-2">
+      @for (option of options; track option.id; let i = $index;) {
+        <div
+          class="p-2 cursor-pointer hover:bg-light-accent dark:hover:bg-dark-accent
+                {{
+                  i === 0 ? 'rounded-t-lg' :
+                  i === options.length - 1 ? 'rounded-b-lg' : ''
+                }}"
+          (click)="selectOption(option)"
+        >
+          {{ option.value }}
+        </div>
+      }
+    </div>
+  }
 </div>

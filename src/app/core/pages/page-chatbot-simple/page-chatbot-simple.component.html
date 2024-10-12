@@ -1,11 +1,11 @@
-<div class="w-screen h-screen flex bg-light-main dark:bg-dark-main">
+<div class="w-screen h-screen flex bg-light-main dark:bg-dark-accent">
   
     <!-- Sidebar -->
     <app-chatbot-sidebar [isResizable]="true"></app-chatbot-sidebar>
   
     <!-- Main Content (Chatbot Section) -->
     <div class="flex flex-col w-full">
-      <app-chatbot-header class="h-16 flex-shrink-0"></app-chatbot-header>
+      <app-chatbot-header class="h-12 flex-shrink-0"></app-chatbot-header>
       <app-chatbot-history class="flex-grow overflow-y-auto"></app-chatbot-history>
       <app-chatbot-input class="mb-5 mx-2 flex-shrink-0"></app-chatbot-input>
     </div>
