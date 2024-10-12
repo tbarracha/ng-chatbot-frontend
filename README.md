@@ -29,8 +29,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
   - [ ] Integrate with [audio-recorder-streamlit](https://github.com/stefanrmmr/Audio-Recorder-Streamlit)
 
 ### Output Message Types
-- [ ] **Text/Markdown/Image/Audio/Video**
-- [ ] **Additional Output Types Supported by Streamlit**
+- [ ] **Text**
+- [ ] **Markdown**
+- [ ] **Image**
+- [ ] **Audio**
+- [ ] **Video**
 
 ### Performance Improvements
 - [ ] **Streaming Output Messages**
