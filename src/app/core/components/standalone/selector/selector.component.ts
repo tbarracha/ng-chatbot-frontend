@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { SelectorOption } from '../../../models/standalone-models';
+import { SelectorOption } from '../../../common/standalone-models';
 
 @Component({
   selector: 'app-selector',
