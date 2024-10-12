@@ -1,15 +1,17 @@
-<div class="slender-scrollbar w-full h-full flex flex-col p-4 overflow-y-auto">
+<div class="slender-scrollbar flex-grow h-full w-full p-4 overflow-y-auto">
   @for (msg of messages; track msg.content) {
     @if (msg.role === 'user') {
       <app-user-message
         [message]="msg.content"
         [role]="msg.role"
+        class="w-full"
       ></app-user-message>
     }
     @else {
       <app-chatbot-message
         [message]="msg.content"
         [role]="msg.role"
+        class="w-full"
       ></app-chatbot-message>
     }
   }

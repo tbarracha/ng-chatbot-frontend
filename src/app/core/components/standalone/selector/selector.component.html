@@ -7,7 +7,7 @@
       {{ currentSelection.value }}
     }
     @else {
-      Select an option
+      {{ defaultMessage }}
     }
   </button>
 
@@ -16,7 +16,7 @@
     <div class="absolute z-10 w-full bg-light-main dark:bg-dark-main rounded-lg shadow-lg mt-2">
       @for (option of options; track option.id; let i = $index;) {
         <div
-          class="p-2 cursor-pointer hover:bg-light-accent dark:hover:bg-dark-accent
+          class="p-2 cursor-pointer hover:bg-light-accent dark:hover:bg-gray-600
                 {{
                   i === 0 ? 'rounded-t-lg' :
                   i === options.length - 1 ? 'rounded-b-lg' : ''

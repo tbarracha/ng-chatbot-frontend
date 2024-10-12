@@ -6,11 +6,12 @@ import { ThemeToggleComponent } from "../../standalone/theme-toggle/theme-toggle
 import { ThemeService } from '../../../services/theme-service/theme.service';
 import { ChatbotEventManagerService } from '../../../services/chatbot/chatbot-event-manager.service';
 import { Subscription } from 'rxjs';
+import { ChatbotUserOptionsComponent } from "../chatbot-user-options/chatbot-user-options.component";
 
 @Component({
   selector: 'app-chatbot-header',
   standalone: true,
-  imports: [SelectorComponent, ThemeToggleComponent, NgClass],
+  imports: [SelectorComponent, ThemeToggleComponent, NgClass, ChatbotUserOptionsComponent],
   templateUrl: './chatbot-header.component.html',
   styleUrl: './chatbot-header.component.scss'
 })
@@ -18,8 +19,6 @@ export class ChatbotHeaderComponent {
   @ViewChild('themeToggle') themeToggle!: ThemeToggleComponent;
 
   private sidebarToggleSubscription!: Subscription;
-  
-  isDropdownOpen = false;
 
   selectedModel: SelectorOption | null = null;
 
@@ -50,18 +49,6 @@ export class ChatbotHeaderComponent {
   onModelSelected(model: SelectorOption) {
     this.selectedModel = model;
     console.log('Selected LLM model:', model);
-  }
-
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onClickOutside(event: Event) {
-    const target = event.target as HTMLElement;
-    if (!target.closest('.dropdown-container')) {
-      this.isDropdownOpen = false;
-    }
   }
 
   toggleTheme() {

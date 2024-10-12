@@ -10,6 +10,7 @@ import { SelectorOption } from '../../../models/standalone-models';
 export class SelectorComponent {
   @ViewChild('selector', { static: false }) selectorRef!: ElementRef;
 
+  @Input() defaultMessage: string = 'Select an option';
   @Input() options: SelectorOption[] = [];
   @Output() selectionChange = new EventEmitter<SelectorOption>();
 
