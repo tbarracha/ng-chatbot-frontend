@@ -127,14 +127,12 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
     if (this.isSidebarOpen) {
       // Close sidebar
       sidebar.style.width = '0px';
-      sidebar.classList.remove('p-2');
 
       resizerContainer.classList.remove('w-4');
       resizer.classList.remove('w-1');
     } else {
       // Open sidebar
       sidebar.style.width = `${this.minWidth}px`;
-      sidebar.classList.add('p-2');
 
       resizerContainer.classList.add('w-4');
       resizer.classList.add('w-1');

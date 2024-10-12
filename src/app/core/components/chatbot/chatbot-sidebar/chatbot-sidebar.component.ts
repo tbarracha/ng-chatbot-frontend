@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SidebarComponent } from '../../standalone/sidebar/sidebar.component';
+import { Subscription } from 'rxjs';
+import { ChatbotEventManagerService } from '../../../services/chatbot/chatbot-event-manager.service';
 
 @Component({
   selector: 'app-chatbot-sidebar',
@@ -7,6 +9,24 @@ import { SidebarComponent } from '../../standalone/sidebar/sidebar.component';
   templateUrl: './chatbot-sidebar.component.html',
   styleUrls: ['./chatbot-sidebar.component.scss']
 })
-export class ChatbotSidebarComponent extends SidebarComponent {
-  // You can add additional properties and methods here
+export class ChatbotSidebarComponent extends SidebarComponent implements OnInit, OnDestroy {
+  private sidebarToggleSubscription!: Subscription;
+
+  constructor(private chatbotEventManagerService: ChatbotEventManagerService) {
+    super();
+  }
+
+  ngOnInit() {
+    this.sidebarToggleSubscription = this.chatbotEventManagerService
+      .getSidebarToggleObservable()
+      .subscribe(() => this.toggleSidebar());
+  }
+
+  override ngOnDestroy() {
+    super.ngOnDestroy();
+
+    if (this.sidebarToggleSubscription) {
+      this.sidebarToggleSubscription.unsubscribe();
+    }
+  }
 }

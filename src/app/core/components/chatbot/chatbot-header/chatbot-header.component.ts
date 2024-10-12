@@ -2,7 +2,8 @@ import { Component, EventEmitter, HostListener, Output, ViewChild } from '@angul
 import { SelectorComponent } from "../../standalone/selector/selector.component";
 import { SelectorOption } from '../../../models/standalone-models';
 import { ThemeToggleComponent } from "../../standalone/theme-toggle/theme-toggle.component";
-import { ThemeService } from '../../../services/theme.service';
+import { ThemeService } from '../../../services/theme-service/theme.service';
+import { ChatbotEventManagerService } from '../../../services/chatbot/chatbot-event-manager.service';
 
 @Component({
   selector: 'app-chatbot-header',
@@ -13,7 +14,6 @@ import { ThemeService } from '../../../services/theme.service';
 })
 export class ChatbotHeaderComponent {
   @ViewChild('themeToggle') themeToggle!: ThemeToggleComponent;
-  @Output() toggleSidebarEvent = new EventEmitter<void>();
 
   isDropdownOpen = false;
 
@@ -25,7 +25,10 @@ export class ChatbotHeaderComponent {
 
   selectedModel: SelectorOption | null = null;
 
-  constructor(protected themeService: ThemeService) {}
+  constructor(
+    protected themeService: ThemeService,
+    protected chatbotEventManagerService: ChatbotEventManagerService
+  ) {}
 
   onModelSelected(model: SelectorOption) {
     this.selectedModel = model;
@@ -53,6 +56,6 @@ export class ChatbotHeaderComponent {
   }
 
   toggleSidebar() {
-    this.toggleSidebarEvent.emit();
+    this.chatbotEventManagerService.toggleSidebar();
   }
 }
