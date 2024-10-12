@@ -29,4 +29,9 @@ export class ChatbotSidebarComponent extends SidebarComponent implements OnInit,
       this.sidebarToggleSubscription.unsubscribe();
     }
   }
+
+  override toggleSidebar() {
+    super.toggleSidebar();
+    this.chatbotEventManagerService.isSidebarOpen = this.isSidebarOpen;
+  }
 }

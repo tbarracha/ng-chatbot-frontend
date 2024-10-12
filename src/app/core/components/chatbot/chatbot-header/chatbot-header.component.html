@@ -1,7 +1,14 @@
 <div
   class="px-2 w-full flex items-center justify-between bg-light-accent text-dark-main dark:bg-dark-main dark:text-white shadow-lg"
 >
-  <button (click)="toggleSidebar()" class="focus:outline-none">
+  <button 
+    (click)="toggleSidebar()"
+    [ngClass]="{
+      'opacity-100 pointer-events-auto': !isSidebarOpen(),
+      'opacity-0 pointer-events-none': isSidebarOpen()
+    }"
+    class="transition-opacity duration-300 focus:outline-none"
+  >
     <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 -960 960 960" fill="currentColor">
       <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-80h280v-560H480v560Z"/>
     </svg>

@@ -18,7 +18,7 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
 
   private isResizing: boolean = false;
   private resizeHandlerBound: any;
-  private isSidebarOpen: boolean = true; // To track open/closed state
+  protected isSidebarOpen: boolean = true; // To track open/closed state
 
   ngAfterViewInit() {
     this.initializeSidebar();
@@ -31,6 +31,10 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
       document.removeEventListener('mousemove', this.resizeHandlerBound);
       document.removeEventListener('mouseup', this.stopResize);
     }
+  }
+
+  getIsSidebarOpen() {
+    return this.isSidebarOpen;
   }
 
   private initializeSidebar() {

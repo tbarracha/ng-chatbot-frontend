@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 })
 export class ChatbotEventManagerService {
   private sidebarToggleSubject = new Subject<void>();
+  isSidebarOpen = true;
 
   constructor() {}
 
@@ -16,6 +17,7 @@ export class ChatbotEventManagerService {
 
   // Method to trigger the sidebar toggle
   toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
     this.sidebarToggleSubject.next();
   }
 }
