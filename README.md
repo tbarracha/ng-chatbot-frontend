@@ -21,7 +21,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - [x] **Text**
 - [ ] **Image**
 - [ ] **File Upload**
-- [ ] **Paste from Clipboard** (requires improvement by [#7069](https://github.com/streamlit/streamlit/issues/7069))
+- [ ] **Paste from Clipboard**
 - [ ] **Video**
   - [ ] File Upload
 - [ ] **Audio**
@@ -38,7 +38,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### Performance Improvements
 - [ ] **Streaming Output Messages**
 - [ ] **Show Message in Expander**
-- [ ] **Rich Output Messages Using `streamlit-markdown`**
+- [ ] **Rich Output Messages**
 
 ### User Feedback
 - [ ] **Allow User Feedback on Messages**
