@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { SelectorComponent } from "../../standalone/selector/selector.component";
 import { SelectorOption } from '../../../models/standalone-models';
 import { ThemeToggleComponent } from "../../standalone/theme-toggle/theme-toggle.component";
+import { ThemeService } from '../../../services/theme.service';
 
 @Component({
   selector: 'app-chatbot-header',
@@ -11,6 +12,10 @@ import { ThemeToggleComponent } from "../../standalone/theme-toggle/theme-toggle
   styleUrl: './chatbot-header.component.scss'
 })
 export class ChatbotHeaderComponent {
+  @ViewChild('themeToggle') themeToggle!: ThemeToggleComponent;
+
+  isDropdownOpen = false;
+
   llmModels: SelectorOption[] = [
     { id: 1, value: 'GPT-3.5' },
     { id: 2, value: 'GPT-4' },
@@ -19,8 +24,30 @@ export class ChatbotHeaderComponent {
 
   selectedModel: SelectorOption | null = null;
 
+  constructor(protected themeService: ThemeService) {}
+
   onModelSelected(model: SelectorOption) {
     this.selectedModel = model;
     console.log('Selected LLM model:', model);
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.dropdown-container')) {
+      this.isDropdownOpen = false;
+    }
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
+  }
+
+  isDarkMode() {
+    return this.themeService.isDarkMode();
   }
 }
