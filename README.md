@@ -10,7 +10,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ### Screenshots
 - **v0.1:**
-  ![v0.1](https://github.com/user-attachments/assets/3b622478-15b3-46ac-895c-9c8f1c309818)
+  ![image](https://github.com/user-attachments/assets/2fac0c53-0ba9-4d06-8e5d-199765a50f94)
 
 - **v0:**
   ![v0](https://github.com/user-attachments/assets/089c5524-cd9c-4252-afb0-ab46c24c3080)
