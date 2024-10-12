@@ -9,11 +9,8 @@ Here's the updated README with the todos transformed into a more structured list
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
 
 ### Screenshots
-- **v0.1:**
-  ![image](https://github.com/user-attachments/assets/2fac0c53-0ba9-4d06-8e5d-199765a50f94)
+![image](https://github.com/user-attachments/assets/86f874c0-f23e-4b32-b9a7-7f451c77afc8)
 
-- **v0:**
-  ![v0](https://github.com/user-attachments/assets/089c5524-cd9c-4252-afb0-ab46c24c3080)
 
 ## Todos
 
