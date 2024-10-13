@@ -1,18 +1,23 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ChatbotMessageService as ChatbotMessageService } from '../../../services/chatbot/chatbot-message.service';
+import { ChatbotInputAttachmentComponent } from "../chatbot-input-attachment/chatbot-input-attachment.component";
 
 @Component({
   selector: 'app-chatbot-input',
   standalone: true,
   templateUrl: './chatbot-input.component.html',
-  styleUrls: ['./chatbot-input.component.scss']
+  styleUrls: ['./chatbot-input.component.scss'],
+  imports: [ChatbotInputAttachmentComponent]
 })
 export class ChatbotInputComponent {
   @ViewChild('chatInput') chatInput!: ElementRef<HTMLDivElement>;
   @ViewChild('chatTextInput') chatTextInput!: ElementRef<HTMLTextAreaElement>;
-
+  
+  files: File[] = [];
   isDragging = false;
   dragCounter = 0;
+
+  inputText: string = ''; // Preserve the message text
 
   constructor(private chatbotMessageService: ChatbotMessageService) {}
 
@@ -26,22 +31,23 @@ export class ChatbotInputComponent {
     const textarea = event.target as HTMLTextAreaElement;
     textarea.style.height = 'auto';
     textarea.style.height = `${Math.min(textarea.scrollHeight, 128)}px`;
+    this.inputText = textarea.value;
   }
 
   handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Enter' && !event.shiftKey) {
-      // Prevents the default behavior (adding a new line) and submits the message
       event.preventDefault();
       this.submitMessage();
     }
   }
 
   submitMessage(): void {
-    const message = this.chatTextInput.nativeElement.value.trim();
+    const message = this.chatTextInput?.nativeElement.value.trim();
     if (message) {
       this.chatbotMessageService.sendMessage(message);
       this.chatTextInput.nativeElement.value = '';
       this.chatTextInput.nativeElement.style.height = 'auto';
+      this.inputText = ''; // Reset the preserved input text
     }
   }
 
@@ -81,6 +87,10 @@ export class ChatbotInputComponent {
     if (files && files.length > 0) {
       this.handleDroppedFiles(files);
     }
+
+    setTimeout(() => {
+      this.refreshInputText();
+    }, 50);
   }
 
   private isDroppedOnInput(event: DragEvent): boolean {
@@ -89,11 +99,35 @@ export class ChatbotInputComponent {
   }
 
   handleDroppedFiles(files: FileList): void {
-    // Handle the dropped files here, e.g., upload them to a server or display previews
     Array.from(files).forEach(file => {
-      console.log('Dropped file:', file);
-      // Example: Send the file to the chatbot service
-      this.chatbotMessageService.handleFileDrop(file);
+      const isDuplicate = this.files.some(existingFile =>
+        existingFile.name === file.name && existingFile.type === file.type
+      );
+  
+      if (!isDuplicate) {
+        this.files.push(file);
+      }
     });
+  }
+
+  removeFile(index: number): void {
+    this.files.splice(index, 1);
+  }
+
+  clearFiles(): void {
+    this.files = [];
+  }
+
+  refreshInputText(): void {
+    if (!this.chatTextInput) {
+      console.error('Chat text input element not found');
+    }
+
+    const textarea = this.chatTextInput.nativeElement;
+    textarea.value = this.inputText;
+    textarea.style.height = 'auto';
+    textarea.style.height = `${Math.min(textarea.scrollHeight, 128)}px`;
+
+    console.log("Message:", this.inputText);
   }
 }

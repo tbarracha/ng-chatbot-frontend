@@ -1,60 +1,74 @@
 <!-- Wrapper div -->
-<div
-  #chatInput
-  class="bg-light-accent dark:bg-dark-main flex items-center w-full rounded-xl p-2 shadow-xl
+<div #chatInput class="bg-light-accent dark:bg-dark-main flex items-center w-full rounded-xl p-2 shadow-xl relative
   {{ isDragging ? 'border-dashed border-2 border-dark-accent dark:border-light-accent' : '' }}"
-  (dragover)="onDragOver($event)"
-  (drop)="onDrop($event)"
->
+  (dragover)="onDragOver($event)" (drop)="onDrop($event)">
 
-  <!-- Conditionally show the normal input area or the drag-and-drop area -->
+  @if (files.length > 0) {
+    <div class="absolute -top-16 left-0 w-full h-16 flex items-center justify-between mt-2 p-2">
   
-  <!-- Normal input when not dragging -->
-  @if (!isDragging) {
-    <!-- Attachment Button -->
-    <button
-      class="bg-transparent text-dark-accent dark:text-white flex items-center justify-center h-12 w-12 rounded-md self-end"
-      aria-label="Attach File"
-    >
-      <!-- Paperclip Icon -->
-      <svg class="w-2/4 h-2/4 text-gray-800 hover:opacity-70 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8v8a5 5 0 1 0 10 0V6.5a3.5 3.5 0 1 0-7 0V15a2 2 0 0 0 4 0V8"/>
-      </svg>
-    </button>
-
-    <!-- Input Field -->
-    <div class="flex-grow mx-2">
-      <textarea
-        #chatTextInput
-        class="slender-scrollbar text-dark-main dark:text-white w-full max-h-32 resize-none bg-transparent px-3 py-2 placeholder-gray-400 outline-none"
-        placeholder="Type your message..."
-        rows="1"
-        id="chat-input"
-        style="min-height: 40px;"
-        (input)="adjustTextareaHeight($event)"
-        (keydown)="handleKeyDown($event)"
-      ></textarea>
+      <div class="slender-scrollbar h-full overflow-x-auto whitespace-nowrap flex space-x-2 items-center px-2 mr-4">
+        @for (file of files; track file.name; let i = $index) {
+          <app-chatbot-input-attachment
+            [file]="file"
+            (remove)="removeFile(i)"
+            class="inline-block"
+          ></app-chatbot-input-attachment>
+        }
+      </div>
+  
+      <div class="flex-shrink-0 mr-1 mb-2">
+        <button
+          (click)="clearFiles()"
+          class="p-2 bg-light-dark hover:bg-red-600 dark:bg-dark-dark dark:hover:bg-red-600 text-white rounded-md shadow-lg"
+        >
+          Clear
+        </button>
+      </div>
+  
     </div>
+  }
 
-    <!-- Submit Button -->
-    <button
-      class="text-light-dark dark:text-dark-dark flex items-center justify-center h-12 w-12 rounded-full transition-colors hover:opacity-80 self-end"
-      (click)="submitMessage()"
-      aria-label="Send Message"
-    >
-      <!-- Arrow Icon -->
-      <svg class="w-3/4 h-3/4" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <rect width="24" height="24" fill="none"></rect>
-        <path d="M3 5.51v3.71c0 .46.31.86.76.97L11 12l-7.24 1.81c-.45.11-.76.51-.76.97v3.71c0 .72.73 1.2 1.39.92l15.42-6.49c.82-.34.82-1.5 0-1.84L4.39 4.58C3.73 4.31 3 4.79 3 5.51z"></path>
-      </svg>
-    </button>
+  @if (!isDragging) {
+  <!-- Attachment Button -->
+  <button
+    class="bg-transparent text-dark-accent dark:text-white flex items-center justify-center h-12 w-12 rounded-md self-end"
+    aria-label="Attach File">
+    <!-- Paperclip Icon -->
+    <svg class="w-2/4 h-2/4 text-gray-800 hover:opacity-70 dark:text-white" aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M7 8v8a5 5 0 1 0 10 0V6.5a3.5 3.5 0 1 0-7 0V15a2 2 0 0 0 4 0V8" />
+    </svg>
+  </button>
+
+  <!-- Input Field -->
+  <div class="flex-grow mx-2">
+    <textarea #chatTextInput
+      class="slender-scrollbar text-dark-main dark:text-white w-full max-h-32 resize-none bg-transparent px-3 py-2 placeholder-gray-400 outline-none"
+      placeholder="Type your message..." rows="1" id="chat-input" style="min-height: 40px;"
+      (input)="adjustTextareaHeight($event)" (keydown)="handleKeyDown($event)"></textarea>
+  </div>
+
+  <!-- Submit Button -->
+  <button
+    class="text-light-dark dark:text-dark-dark flex items-center justify-center h-12 w-12 rounded-full transition-colors hover:opacity-80 self-end"
+    (click)="submitMessage()" aria-label="Send Message">
+    <!-- Arrow Icon -->
+    <svg class="w-3/4 h-3/4" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg">
+      <rect width="24" height="24" fill="none"></rect>
+      <path
+        d="M3 5.51v3.71c0 .46.31.86.76.97L11 12l-7.24 1.81c-.45.11-.76.51-.76.97v3.71c0 .72.73 1.2 1.39.92l15.42-6.49c.82-.34.82-1.5 0-1.84L4.39 4.58C3.73 4.31 3 4.79 3 5.51z">
+      </path>
+    </svg>
+  </button>
   }
 
   <!-- Drop zone when dragging -->
   @if (isDragging) {
-    <div class="flex-grow mx-2 p-4 text-center text-dark-accent dark:text-light-accent">
-      <p>Drop your files here</p>
-    </div>
+  <div class="flex-grow mx-2 p-4 text-center text-dark-accent dark:text-light-accent">
+    <p>Drop your files here</p>
+  </div>
   }
 
 </div>

@@ -13,6 +13,7 @@ $color-dark-dark: #a0a6b7;
 
 .slender-scrollbar::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 .slender-scrollbar::-webkit-scrollbar-track {
@@ -33,6 +34,7 @@ $color-dark-dark: #a0a6b7;
   background-color: #a0a6b7;
   border: 2px solid #262730;
 }
+
 
 .sidebar {
   width: 256px;
@@ -55,4 +57,16 @@ $color-dark-dark: #a0a6b7;
 .drop-active {
   background-color: rgba(255, 255, 255, 0.2);
   border: 2px dashed #4a90e2;
+}
+
+.feather-horizontal {
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, black 1%, black 98%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 1%, black 98%, transparent);
+}
+
+.feather-vertical {
+  position: relative;
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
 }
