@@ -11,7 +11,7 @@ export class ChatbotMessageService {
     console.log('Sending message:', message);
   }
 
-  handleFileDrop(file: File): void {
-    console.log('Handling dropped file:', file);
+  handleFiles(files: File[]): void {
+    console.log('Handling files:', files);
   }
 }

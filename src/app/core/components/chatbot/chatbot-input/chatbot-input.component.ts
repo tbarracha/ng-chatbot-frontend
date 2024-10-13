@@ -45,9 +45,13 @@ export class ChatbotInputComponent {
     const message = this.chatTextInput?.nativeElement.value.trim();
     if (message) {
       this.chatbotMessageService.sendMessage(message);
+      this.chatbotMessageService.handleFiles(this.files);
+      
       this.chatTextInput.nativeElement.value = '';
       this.chatTextInput.nativeElement.style.height = 'auto';
-      this.inputText = ''; // Reset the preserved input text
+
+      this.inputText = '';
+      this.clearFiles();
     }
   }
 
@@ -127,7 +131,5 @@ export class ChatbotInputComponent {
     textarea.value = this.inputText;
     textarea.style.height = 'auto';
     textarea.style.height = `${Math.min(textarea.scrollHeight, 128)}px`;
-
-    console.log("Message:", this.inputText);
   }
 }
