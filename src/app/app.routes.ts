@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { PageChatbotSimpleComponent } from './core/pages/page-chatbot-simple/page-chatbot-simple.component';
+import { PageChatbotComponent } from './core/pages/page-chatbot/page-chatbot.component';
 
 export const routes: Routes = [
-    { path: '', component: PageChatbotSimpleComponent },
+    { path: '', component: PageChatbotComponent },
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

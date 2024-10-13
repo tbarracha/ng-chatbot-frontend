@@ -5,13 +5,13 @@ import { ChatbotInputComponent } from "../../components/chatbot/chatbot-input/ch
 import { ChatbotSidebarComponent } from '../../components/chatbot/chatbot-sidebar/chatbot-sidebar.component';
 
 @Component({
-  selector: 'app-page-chatbot-simple',
+  selector: 'app-page-chatbot',
   standalone: true,
   imports: [ChatbotHeaderComponent, ChatbotHistoryComponent, ChatbotInputComponent, ChatbotSidebarComponent],
-  templateUrl: './page-chatbot-simple.component.html',
-  styleUrl: './page-chatbot-simple.component.scss'
+  templateUrl: './page-chatbot.component.html',
+  styleUrl: './page-chatbot.component.scss'
 })
 
-export class PageChatbotSimpleComponent {
+export class PageChatbotComponent {
 
 }

@@ -4,7 +4,7 @@ import { SelectorComponent } from "../../standalone/selector/selector.component"
 import { SelectorOption } from '../../../common/standalone-models';
 import { ThemeToggleComponent } from "../../standalone/theme-toggle/theme-toggle.component";
 import { ThemeService } from '../../../services/theme-service/theme.service';
-import { ChatbotEventManagerService } from '../../../services/chatbot/chatbot-event-manager.service';
+import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.service';
 import { Subscription } from 'rxjs';
 import { ChatbotUserOptionsComponent } from "../chatbot-user-options/chatbot-user-options.component";
 
@@ -30,7 +30,7 @@ export class ChatbotHeaderComponent {
 
   constructor(
     protected themeService: ThemeService,
-    protected chatbotEventManagerService: ChatbotEventManagerService,
+    protected chatbotEventManagerService: ChatbotEventService,
     protected cdr: ChangeDetectorRef
   ) {}
 

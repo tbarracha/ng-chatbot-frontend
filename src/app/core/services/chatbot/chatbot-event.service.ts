@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ChatbotEventManagerService {
+export class ChatbotEventService {
   private sidebarToggleSubject = new Subject<void>();
   isSidebarOpen = true;
 
