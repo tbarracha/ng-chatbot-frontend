@@ -12,7 +12,8 @@ import { ChatbotInputAttachmentComponent } from "../chatbot-input-attachment/cha
 export class ChatbotInputComponent {
   @ViewChild('chatInput') chatInput!: ElementRef<HTMLDivElement>;
   @ViewChild('chatTextInput') chatTextInput!: ElementRef<HTMLTextAreaElement>;
-  
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
   files: File[] = [];
   isDragging = false;
   dragCounter = 0;
@@ -52,6 +53,17 @@ export class ChatbotInputComponent {
 
       this.inputText = '';
       this.clearFiles();
+    }
+  }
+
+  openFileSelector(): void {
+    this.fileInput.nativeElement.click(); // Trigger file input click
+  }
+
+  onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.handleDroppedFiles(input.files);
     }
   }
 
