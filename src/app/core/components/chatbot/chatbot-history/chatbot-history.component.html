@@ -1,4 +1,4 @@
-<div #chatHistoryContainer class="slender-scrollbar flex-grow h-full w-full p-4 overflow-y-auto">
+<div #chatHistoryContainer class="slender-scrollbar flex-grow h-full w-full p-4 overflow-y-auto" (scroll)="onScroll()">
   @for (msg of messages; track msg.content) {
     @if (msg.role === 'user') {
       <app-user-message
@@ -16,3 +16,18 @@
     }
   }
 </div>
+
+@if (!isAtBottom) {
+  <div class="absolute bottom-24 p-4 flex center">
+    <button
+      (click)="scrollToBottom()"
+      class="p-2 rounded-full bg-light-accent hover:bg-light-dark hover:text-white text-light-dark dark:bg-dark-main dark:hover:bg-dark-dark shadow-lg"
+      aria-label="Scroll to bottom"
+    >
+    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 14-4-4m4 4 4-4"/>
+    </svg>    
+    </button>
+  </div>
+  
+}

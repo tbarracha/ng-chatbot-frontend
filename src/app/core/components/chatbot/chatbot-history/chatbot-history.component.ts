@@ -18,6 +18,7 @@ export class ChatbotHistoryComponent implements OnInit, OnDestroy {
 
   messages: ChatMessage[] = [];
   private sessionChangeSubscription!: Subscription;
+  isAtBottom: boolean = true;
 
   constructor(
     readonly chatbotEventService: ChatbotEventService,
@@ -54,5 +55,13 @@ export class ChatbotHistoryComponent implements OnInit, OnDestroy {
     } catch (err) {
       console.error('Smooth scroll to bottom failed:', err);
     }
+  }
+
+  onScroll(): void {
+    const container = this.chatHistoryContainer.nativeElement;
+    const isScrolledToBottom =
+      container.scrollHeight - container.scrollTop <= container.clientHeight + 150;
+
+    this.isAtBottom = isScrolledToBottom;
   }
 }
