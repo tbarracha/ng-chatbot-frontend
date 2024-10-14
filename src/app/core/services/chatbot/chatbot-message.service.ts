@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ChatSession } from '../../common/chatbot-models';
+import { ChatbotEventService } from './chatbot-event.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class ChatbotMessageService {
   currentSession!: ChatSession;
   sessions: ChatSession[] = [];
 
-  constructor() {
+  constructor(private chatbotEventService: ChatbotEventService) {
     this.initializeExampleSession();
     this.initializeFrontendSession();
     this.initializeGameDevSession();
@@ -83,6 +84,8 @@ export class ChatbotMessageService {
       this.currentSession.isCurrent = false;
       this.currentSession = session;
       this.currentSession.isCurrent = true;
+      
+      this.chatbotEventService.notifySessionChange();
     }
   }
 

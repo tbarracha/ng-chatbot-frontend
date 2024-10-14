@@ -6,18 +6,26 @@ import { Subject } from 'rxjs';
 })
 export class ChatbotEventService {
   private sidebarToggleSubject = new Subject<void>();
+  private sessionChangeSubject = new Subject<void>();
+
   isSidebarOpen = true;
 
   constructor() {}
 
-  // Method to get the observable for sidebar toggle
   getSidebarToggleObservable() {
     return this.sidebarToggleSubject.asObservable();
   }
 
-  // Method to trigger the sidebar toggle
+  getSessionChangeObservable() {
+    return this.sessionChangeSubject.asObservable();
+  }
+
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
     this.sidebarToggleSubject.next();
+  }
+
+  notifySessionChange() {
+    this.sessionChangeSubject.next();
   }
 }
