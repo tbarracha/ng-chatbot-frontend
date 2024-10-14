@@ -50,7 +50,7 @@ export class ChatbotHistoryComponent implements OnInit, OnDestroy {
           top: this.chatHistoryContainer.nativeElement.scrollHeight,
           behavior: 'smooth'
         });
-      }, 0);
+      }, 10);
     } catch (err) {
       console.error('Smooth scroll to bottom failed:', err);
     }
