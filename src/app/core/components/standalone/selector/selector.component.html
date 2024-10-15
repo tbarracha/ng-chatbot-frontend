@@ -1,7 +1,7 @@
 <div #selector class="relative">
   <button
     (click)="toggleDropdown()"
-    class="bg-transparent w-full text-left bg-light-main text-gray-900 dark:text-white p-2 rounded-lg focus:outline-none transition ease-in-out duration-200"
+    class="bg-transparent w-full text-left bg-main-bg text-gray-900 dark:text-white p-2 rounded-lg focus:outline-none transition ease-in-out duration-200"
   >
     @if (currentSelection) {
       {{ currentSelection.value }}
@@ -13,10 +13,10 @@
 
   <!-- Dropdown Options -->
   @if (isDropdownOpen) {
-    <div class="absolute z-10 w-full bg-light-main dark:bg-dark-main rounded-lg shadow-lg mt-2">
+    <div class="absolute z-10 w-full bg-main-bg dark:bg-dark-primary rounded-lg shadow-lg mt-2">
       @for (option of options; track option.id; let i = $index;) {
         <div
-          class="p-2 cursor-pointer hover:bg-light-accent dark:hover:bg-gray-600
+          class="p-2 cursor-pointer hover:bg-main-primary dark:hover:bg-dark-primary-light
                 {{
                   i === 0 ? 'rounded-t-lg' :
                   i === options.length - 1 ? 'rounded-b-lg' : ''

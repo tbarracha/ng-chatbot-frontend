@@ -3,12 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
-$color-light-main: #fffefe;
-$color-light-accent: #f1f2f6;
-$color-light-dark: #818594;
+$color-main-bg: #fffefe;
+$color-main-primary: #f1f2f6;
+$color-main-terciary: #818594;
 
-$color-dark-main: #0e1118;
-$color-dark-accent: #262730;
+$color-dark-primary: #0e1118;
+$color-dark-secondary: #262730;
 $color-dark-dark: #a0a6b7;
 
 .slender-scrollbar::-webkit-scrollbar {
@@ -39,7 +39,7 @@ $color-dark-dark: #a0a6b7;
 .sidebar {
   width: 256px;
   height: 100vh;
-  background-color: var(--color-light-main);
+  background-color: var(--color-main-bg);
 }
 
 .sub-section-container {

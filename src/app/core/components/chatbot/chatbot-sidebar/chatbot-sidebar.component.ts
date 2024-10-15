@@ -16,8 +16,8 @@ export class ChatbotSidebarComponent extends SidebarComponent implements OnInit,
   chatSessions: ChatSession[] = [];
 
   constructor(
-    private chatbotEventManagerService: ChatbotEventService,
-    private chatbotMessageService: ChatbotMessageService
+    readonly chatbotEventManagerService: ChatbotEventService,
+    readonly chatbotMessageService: ChatbotMessageService
   ) {
     super();
   }

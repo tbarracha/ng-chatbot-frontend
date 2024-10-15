@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { SelectorComponent } from "../../standalone/selector/selector.component";
 import { SelectorOption } from '../../../common/standalone-models';
@@ -7,6 +7,8 @@ import { ThemeService } from '../../../services/theme-service/theme.service';
 import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.service';
 import { Subscription } from 'rxjs';
 import { ChatbotUserOptionsComponent } from "../chatbot-user-options/chatbot-user-options.component";
+
+
 
 @Component({
   selector: 'app-chatbot-header',
@@ -17,6 +19,8 @@ import { ChatbotUserOptionsComponent } from "../chatbot-user-options/chatbot-use
 })
 export class ChatbotHeaderComponent {
   @ViewChild('themeToggle') themeToggle!: ThemeToggleComponent;
+
+  @Input() showSidebarToggle: boolean = true;
 
   private sidebarToggleSubscription!: Subscription;
 
@@ -29,9 +33,9 @@ export class ChatbotHeaderComponent {
   ];
 
   constructor(
-    protected themeService: ThemeService,
-    protected chatbotEventManagerService: ChatbotEventService,
-    protected cdr: ChangeDetectorRef
+    readonly themeService: ThemeService,
+    readonly chatbotEventManagerService: ChatbotEventService,
+    readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {

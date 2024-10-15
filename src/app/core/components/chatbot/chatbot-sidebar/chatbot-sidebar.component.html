@@ -1,4 +1,4 @@
-<div #sidebar class="h-full bg-light-accent text-dark-main dark:bg-dark-main dark:text-white drop-shadow-lg
+<div #sidebar class="h-full bg-main-primary text-dark-primary dark:bg-dark-primary dark:text-white drop-shadow-lg
   overflow-hidden whitespace-nowrap text-ellipsis
 ">
   <div class="h-12 px-2 flex items-center">
@@ -16,7 +16,7 @@
       @for (session of chatSessions; track session.sessionId) {
         <div 
           class="cursor-pointer p-2 rounded 
-          {{ session.isCurrent ? 'bg-light-dark bg-opacity-30 dark:bg-gray-600' : 'hover:bg-light-dark hover:bg-opacity-10 dark:hover:bg-gray-800' }} "
+          {{ session.isCurrent ? 'bg-main-secondary-light bg-opacity-20 dark:bg-dark-bg dark:bg-opacity-100' : 'hover:bg-main-secondary-light hover:bg-opacity-10 dark:hover:bg-dark-bg dark:hover:bg-opacity-50' }} "
           (click)="selectSession(session.sessionId)"
         >
           <span class="text-sm">{{ session.title }}</span>
@@ -30,7 +30,7 @@
   <div #resizerContainer class="resizer-container group absolute top-0 right-0 h-full w-4">
     <div 
       #resizer 
-      class="absolute top-0 right-0 h-full w-1 bg-light-dark dark:bg-dark-dark cursor-col-resize opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+      class="absolute top-0 right-0 h-full w-1 bg-main-secondary dark:bg-dark-secondary cursor-col-resize opacity-0 group-hover:opacity-100 transition-opacity duration-200"
     ></div>
   </div>
 </div>

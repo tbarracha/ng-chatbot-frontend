@@ -1,0 +1,17 @@
+{
+    "colors": {
+        "main-background": "#FFFEFE",
+        "main-primary": "#E6E7E6",
+        "main-secondary": "#1B3A49",
+        "main-primary-light": "#F3F3F2",
+        "main-secondary-light": "#819198",
+        "main-hl-primary": "#FCE1D3",
+        "main-hl-primary-dark": "#F6B08D",
+        "main-hl-secondary": "#78C2B4",
+        "main-hl-secondary-dark": "#4A7E7F",
+
+        "dark-primary": "#0e1118",
+        "dark-secondary": "#262730",
+        "dark-dark": "#a0a6b7"
+    }
+}

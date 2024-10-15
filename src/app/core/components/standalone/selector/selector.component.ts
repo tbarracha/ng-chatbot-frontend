@@ -29,6 +29,10 @@ export class SelectorComponent {
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event) {
+    if (!this.selectorRef) {
+      return;
+    }
+
     const clickedInside = this.selectorRef.nativeElement.contains(event.target);
     if (!clickedInside) {
       this.isDropdownOpen = false;
