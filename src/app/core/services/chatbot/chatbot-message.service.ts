@@ -9,7 +9,7 @@ export class ChatbotMessageService {
   currentSession!: ChatSession;
   sessions: ChatSession[] = [];
 
-  constructor(private chatbotEventService: ChatbotEventService) {
+  constructor(readonly chatbotEventService: ChatbotEventService) {
     this.initializeExampleSession();
     this.initializeFrontendSession();
     this.initializeGameDevSession();

@@ -1,39 +1,30 @@
+import { Role } from "./enums";
+
 export class ChatMessage {
+    id: string;
     role: 'user' | 'assistant';
     content: string;
     timestamp: Date;
   
-    constructor(role: 'user' | 'assistant', content: string) {
+    constructor(id: string, role: 'user' | 'assistant', content: string) {
+      this.id = id;
       this.role = role;
       this.content = content;
       this.timestamp = new Date();
     }
   }
   
-  export class Prompt {
-    id: string;
-    content: string;
-    timestamp: Date;
-  
-    constructor(id: string, content: string) {
-      this.id = id;
-      this.content = content;
-      this.timestamp = new Date();
-    }
+  export class Prompt extends ChatMessage {
   }
   
-  export class PromptAnswer {
-    id: string;
+  export class PromptAnswer extends ChatMessage {
     promptId: string;
-    content: string;
-    timestamp: Date;
     isFinal: boolean;
   
     constructor(id: string, promptId: string, content: string, isFinal: boolean = true) {
-      this.id = id;
+      super(id, 'assistant', content);
+
       this.promptId = promptId;
-      this.content = content;
-      this.timestamp = new Date();
       this.isFinal = isFinal;
     }
   }
@@ -61,19 +52,19 @@ export class ChatMessage {
     }
   
     addUserMessage(content: string): void {
-      const message = new ChatMessage('user', content);
+      const message = new ChatMessage(this.generateId(), 'user', content);
       this.messages.push(message);
       this.updatedAt = new Date();
     }
   
     addAssistantMessage(content: string): void {
-      const message = new ChatMessage('assistant', content);
+      const message = new ChatMessage(this.generateId(), 'assistant', content);
       this.messages.push(message);
       this.updatedAt = new Date();
     }
   
     addPrompt(content: string): Prompt {
-      const prompt = new Prompt(this.generateId(), content);
+      const prompt = new Prompt(this.generateId(), Role.User, content);
       this.prompts.push(prompt);
       this.addUserMessage(content);
       this.updatedAt = new Date();
