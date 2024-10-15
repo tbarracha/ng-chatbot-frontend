@@ -5,8 +5,10 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatbotEventService {
-  private sidebarToggleSubject = new Subject<void>();
-  private sessionChangeSubject = new Subject<void>();
+  readonly sidebarToggleSubject = new Subject<void>();
+  readonly sessionChangeSubject = new Subject<void>();
+  readonly userMessageSent = new Subject<void>();
+  readonly chatbotMessageRecieved = new Subject<void>();
 
   isSidebarOpen = true;
 

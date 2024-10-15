@@ -92,10 +92,12 @@ export class ChatbotMessageService {
   sendMessage(message: string): void {
     console.log('Sending message:', message);
     this.currentSession.addUserMessage(message);
+    this.chatbotEventService.userMessageSent.next();
   }
 
   handleAssistantResponse(promptId: string, message: string, isFinal: boolean = true): void {
     this.currentSession.addPromptAnswer(promptId, message, isFinal);
+    this.chatbotEventService.chatbotMessageRecieved.next();
   }
 
   handleFiles(files: File[]): void {

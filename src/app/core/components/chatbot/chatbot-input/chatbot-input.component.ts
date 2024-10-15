@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { ChatbotMessageService as ChatbotMessageService } from '../../../services/chatbot/chatbot-message.service';
+import { ChatbotMessageService } from '../../../services/chatbot/chatbot-message.service';
 import { ChatbotInputAttachmentComponent } from "../chatbot-input-attachment/chatbot-input-attachment.component";
 
 @Component({
@@ -18,9 +18,9 @@ export class ChatbotInputComponent {
   isDragging = false;
   dragCounter = 0;
 
-  inputText: string = ''; // Preserve the message text
+  inputText: string = '';
 
-  constructor(private chatbotMessageService: ChatbotMessageService) {}
+  constructor(readonly chatbotMessageService: ChatbotMessageService) {}
 
   ngAfterViewInit() {
     if (this.chatTextInput) {
@@ -57,7 +57,7 @@ export class ChatbotInputComponent {
   }
 
   openFileSelector(): void {
-    this.fileInput.nativeElement.click(); // Trigger file input click
+    this.fileInput.nativeElement.click();
   }
 
   onFilesSelected(event: Event): void {
@@ -67,7 +67,6 @@ export class ChatbotInputComponent {
     }
   }
 
-  // Global Drag and Drop Handlers
   @HostListener('document:dragenter', ['$event'])
   onDragEnter(event: DragEvent): void {
     this.dragCounter++;
@@ -86,7 +85,7 @@ export class ChatbotInputComponent {
 
   @HostListener('document:dragover', ['$event'])
   onDragOver(event: DragEvent): void {
-    event.preventDefault(); // Necessary to allow drop
+    event.preventDefault();
   }
 
   @HostListener('document:drop', ['$event'])

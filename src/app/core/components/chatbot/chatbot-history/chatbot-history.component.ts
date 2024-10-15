@@ -17,8 +17,11 @@ export class ChatbotHistoryComponent implements OnInit, OnDestroy {
   @ViewChild('chatHistoryContainer') readonly chatHistoryContainer!: ElementRef<HTMLDivElement>;
 
   messages: ChatMessage[] = [];
-  private sessionChangeSubscription!: Subscription;
   isAtBottom: boolean = true;
+
+  private sessionChangeSubscription!: Subscription;
+  private userMessageSubscription!: Subscription;
+  private chatbotMessageSubscription!: Subscription;
 
   constructor(
     readonly chatbotEventService: ChatbotEventService,
@@ -34,6 +37,20 @@ export class ChatbotHistoryComponent implements OnInit, OnDestroy {
         this.messages = this.chatbotMessageService.currentSession.messages;
         this.scrollToBottom();
       });
+
+      this.userMessageSubscription = this.chatbotEventService
+        .userMessageSent
+        .subscribe(() => {
+          this.scrollToBottom();
+        });
+  
+      this.chatbotMessageSubscription = this.chatbotEventService
+        .chatbotMessageRecieved
+        .subscribe(() => {
+          this.scrollToBottom();
+        });
+  
+      this.scrollToBottom();
 
     this.scrollToBottom();
   }
