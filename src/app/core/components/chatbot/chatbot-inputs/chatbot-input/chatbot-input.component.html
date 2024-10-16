@@ -32,10 +32,10 @@
     <!-- Attachment Button -->
     <button
       (click)="openFileSelector()"
-      class="bg-transparent text-dark-secondary dark:text-white flex items-center justify-center h-12 w-12 rounded-md self-end"
+      class="bg-transparent text-main-secondary dark:text-dark-secondary hover:text-main-secondary-light hover:dark:text-dark-secondary-light flex items-center justify-center h-12 w-12 rounded-md self-end"
       aria-label="Attach File">
       <!-- Paperclip Icon -->
-      <svg class="w-2/4 h-2/4 text-gray-800 hover:opacity-70 dark:text-white" aria-hidden="true"
+      <svg class="w-2/4 h-2/4" aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M7 8v8a5 5 0 1 0 10 0V6.5a3.5 3.5 0 1 0-7 0V15a2 2 0 0 0 4 0V8" />
@@ -54,14 +54,14 @@
     <!-- Input Field -->
     <div class="flex-grow mx-2">
       <textarea #chatTextInput
-        class="slender-scrollbar text-dark-primary dark:text-white w-full max-h-32 resize-none bg-transparent px-3 py-2 placeholder-gray-400 outline-none"
+        class="slender-scrollbar text-dark-primary dark:text-main-primary w-full max-h-32 resize-none bg-transparent px-3 py-2 placeholder-gray-400 outline-none"
         placeholder="Type your message..." rows="1" id="chat-input" style="min-height: 40px;"
         (input)="adjustTextareaHeight($event)" (keydown)="handleKeyDown($event)"></textarea>
     </div>
 
     <!-- Submit Button -->
     <button
-      class="text-main-terciary dark:text-dark-dark flex items-center justify-center h-12 w-12 rounded-full transition-colors hover:opacity-80 self-end"
+      class="text-main-secondary dark:text-dark-secondary hover:text-main-secondary-light hover:dark:text-dark-secondary-light flex items-center justify-center h-12 w-12 rounded-full transition-colors self-end"
       (click)="submitMessage()" aria-label="Send Message">
       <!-- Arrow Icon -->
       <svg class="w-3/4 h-3/4" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"

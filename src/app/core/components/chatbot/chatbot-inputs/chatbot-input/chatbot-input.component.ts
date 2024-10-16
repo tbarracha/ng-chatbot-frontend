@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { ChatbotMessageService } from '../../../../services/chatbot/chatbot-message.service';
+import { ChatbotSessionService } from '../../../../services/chatbot/chatbot-session.service';
 import { ChatbotInputAttachmentComponent } from "../chatbot-input-attachment/chatbot-input-attachment.component";
 
 @Component({
@@ -20,7 +20,7 @@ export class ChatbotInputComponent {
 
   inputText: string = '';
 
-  constructor(readonly chatbotMessageService: ChatbotMessageService) {}
+  constructor(readonly chatbotMessageService: ChatbotSessionService) {}
 
   ngAfterViewInit() {
     if (this.chatTextInput) {

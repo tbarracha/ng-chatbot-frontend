@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SidebarComponent } from '../../standalone/sidebar/sidebar.component';
 import { Subscription } from 'rxjs';
 import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.service';
-import { ChatbotMessageService } from '../../../services/chatbot/chatbot-message.service';
+import { ChatbotSessionService } from '../../../services/chatbot/chatbot-session.service';
 import { ChatSession } from '../../../common/chatbot-models';
 
 @Component({
@@ -17,7 +17,7 @@ export class ChatbotSidebarComponent extends SidebarComponent implements OnInit,
 
   constructor(
     readonly chatbotEventManagerService: ChatbotEventService,
-    readonly chatbotMessageService: ChatbotMessageService
+    readonly chatbotMessageService: ChatbotSessionService
   ) {
     super();
   }

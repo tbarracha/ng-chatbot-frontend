@@ -32,12 +32,13 @@ export class PromptAnswer extends PromptBase {
   }
 }
 
-// Chat session class with prompts and answers
+// Chat session class with prompts, answers, and messages
 export class ChatSession {
   sessionId: string;
   title: string;
-  prompts: Prompt[];
-  promptAnswers: PromptAnswer[];
+  prompts: Prompt[]; // Stores prompts
+  promptAnswers: PromptAnswer[]; // Stores answers
+  messages: ChatSessionMessage[]; // Stores both prompts and answers
   userId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -48,23 +49,26 @@ export class ChatSession {
     this.title = title;
     this.prompts = [];
     this.promptAnswers = [];
+    this.messages = []; // Initialize empty message array
     this.userId = userId;
     this.createdAt = new Date();
     this.updatedAt = new Date();
   }
 
-  // Add a user prompt
+  // Add a user prompt and update messages array
   addPrompt(content: string): Prompt {
     const prompt = new Prompt(this.generateId(), content);
     this.prompts.push(prompt);
+    this.messages.push(new ChatSessionMessage(prompt.id, 'user', content)); // Add prompt as a message
     this.updatedAt = new Date();
     return prompt;
   }
 
-  // Add an assistant answer associated with a specific prompt
+  // Add an assistant answer and update messages array
   addPromptAnswer(promptId: string, content: string): void {
     const answer = new PromptAnswer(this.generateId(), promptId, content);
     this.promptAnswers.push(answer);
+    this.messages.push(new ChatSessionMessage(answer.id, 'assistant', content)); // Add answer as a message
     this.updatedAt = new Date();
   }
 
@@ -74,7 +78,8 @@ export class ChatSession {
   }
 }
 
-export class Message {
+// Message class representing both prompts and answers in a unified structure
+export class ChatSessionMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
@@ -85,3 +90,4 @@ export class Message {
     this.content = content;
   }
 }
+

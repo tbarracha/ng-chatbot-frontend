@@ -3,12 +3,13 @@
     "url": "http://127.0.0.1:5000/hello",
     "promptUrl": "http://127.0.0.1:5000/model/prompt",
     "feedbackUrl": "http://127.0.0.1:5000/model/prompt/vote",
-
     "modelName": "model_name",
 
     "request": {
       "promptDTO": {
-        "prompt": "question",
+        "id": "id",
+        "role": "role",
+        "content": "question",
         "user": "user_groups",
         "project": "project_name",
         "modelName": "model_name"
@@ -42,23 +43,20 @@
     }
   },
   
-  "layout" : {
-    "chatbotPrompt" : {
+  "layout": {
+    "chatbotPrompt": {
       "allowCopy": true
     },
-
-    "chatbotPromptAnswer" : {
+    "chatbotPromptAnswer": {
       "promptFeedback": {
         "active": true,
         "style": "rating",
         "maxRating": 5
       },
-  
       "promptCopy": {
         "active": true
       }
     },
-
     "sidePanel": {
       "active": true,
       "position": "left",
@@ -79,7 +77,7 @@
     "main_hl_primary_dark": "#F6B08D",
     "main_hl_secondary": "#78C2B4",
     "main_hl_secondary_dark": "#4A7E7F",
-    
+
     "dark_bg": "#262730",
     "dark_primary": "#0e1118",
     "dark_secondary": "#a0a6b7",

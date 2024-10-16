@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-import { ChatbotMessageService } from '../../../services/chatbot/chatbot-message.service';
+import { ChatbotSessionService } from '../../../services/chatbot/chatbot-session.service';
 import { ChatbotPromptAnswerComponent } from '../chatbot-prompts/chatbot-prompt-answer/chatbot-prompt-answer.component';
 import { ChatbotPromptComponent } from '../chatbot-prompts/chatbot-prompt/chatbot-prompt.component';
 import { Subscription } from 'rxjs';
-import { Message } from '../../../common/chatbot-models';
+import { ChatSessionMessage } from '../../../common/chatbot-models';
 import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.ser
 export class ChatbotSessionHistoryComponent implements OnInit, OnDestroy {
   @ViewChild('chatHistoryContainer') readonly chatHistoryContainer!: ElementRef<HTMLDivElement>;
 
-  messages: Message[] = [];
+  messages: ChatSessionMessage[] = []; // Messages are unified into a single array
   isAtBottom: boolean = true;
 
   private sessionChangeSubscription!: Subscription;
@@ -25,7 +25,7 @@ export class ChatbotSessionHistoryComponent implements OnInit, OnDestroy {
 
   constructor(
     readonly chatbotEventService: ChatbotEventService,
-    readonly chatbotMessageService: ChatbotMessageService
+    readonly chatbotMessageService: ChatbotSessionService
   ) {}
 
   ngOnInit(): void {
@@ -39,13 +39,13 @@ export class ChatbotSessionHistoryComponent implements OnInit, OnDestroy {
       });
 
     this.userMessageSubscription = this.chatbotEventService
-      .userMessageSent
+      .promptSent
       .subscribe(() => {
         this.scrollToBottom();
       });
 
     this.chatbotMessageSubscription = this.chatbotEventService
-      .chatbotMessageRecieved
+      .promptAnswerRecieved
       .subscribe(() => {
         this.scrollToBottom();
       });
@@ -60,7 +60,7 @@ export class ChatbotSessionHistoryComponent implements OnInit, OnDestroy {
   }
 
   refreshMessages(): void {
-    this.messages = this.chatbotMessageService.getSessionMessages();
+    this.messages = this.chatbotMessageService.currentSession.messages; // Directly use the messages array
   }
 
   scrollToBottom(): void {

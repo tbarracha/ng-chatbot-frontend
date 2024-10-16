@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ChatSession, Message } from '../../common/chatbot-models';
+import { ChatSession, ChatSessionMessage } from '../../common/chatbot-models';
 import { ChatbotEventService } from './chatbot-event.service';
 import { ConfigService } from '../config/config.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChatbotMessageService {
+export class ChatbotSessionService {
   currentSession!: ChatSession;
   sessions: ChatSession[] = [];
 
@@ -96,25 +96,25 @@ export class ChatbotMessageService {
   sendMessage(message: string): void {
     console.log('Sending message:', message);
     this.currentSession.addPrompt(message);
-    this.chatbotEventService.userMessageSent.next();
+    this.chatbotEventService.promptSent.next();
   }
 
   handleAssistantResponse(promptId: string, message: string): void {
     this.currentSession.addPromptAnswer(promptId, message);
-    this.chatbotEventService.chatbotMessageRecieved.next();
+    this.chatbotEventService.promptAnswerRecieved.next();
   }
 
-  getSessionMessages(): Message[] {
+  getSessionMessages(): ChatSessionMessage[] {
     const session = this.currentSession;
-    const allMessages: Message[] = [];
+    const allMessages: ChatSessionMessage[] = [];
 
     session.prompts.forEach((prompt, index) => {
-      allMessages.push(new Message(prompt.id, 'user', prompt.content));
+      allMessages.push(new ChatSessionMessage(prompt.id, 'user', prompt.content));
 
       // If there's a corresponding answer, add it right after the prompt
       if (session.promptAnswers[index]) {
         const answer = session.promptAnswers[index];
-        allMessages.push(new Message(answer.id, 'assistant', answer.content));
+        allMessages.push(new ChatSessionMessage(answer.id, 'assistant', answer.content));
       }
     });
 
