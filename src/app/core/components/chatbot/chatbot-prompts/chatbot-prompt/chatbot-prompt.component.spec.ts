@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChatbotHistoryComponent } from './chatbot-history.component';
+import { ChatbotPromptComponent } from './chatbot-prompt.component';
 
-describe('ChatbotHistoryComponent', () => {
-  let component: ChatbotHistoryComponent;
-  let fixture: ComponentFixture<ChatbotHistoryComponent>;
+describe('ChatbotPromptComponent', () => {
+  let component: ChatbotPromptComponent;
+  let fixture: ComponentFixture<ChatbotPromptComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChatbotHistoryComponent]
+      imports: [ChatbotPromptComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ChatbotHistoryComponent);
+    fixture = TestBed.createComponent(ChatbotPromptComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

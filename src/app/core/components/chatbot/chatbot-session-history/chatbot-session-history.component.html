@@ -1,18 +1,18 @@
 <div #chatHistoryContainer class="slender-scrollbar flex-grow h-full w-full p-4 overflow-y-auto" (scroll)="onScroll()">
   @for (msg of messages; track msg.id) {
     @if (msg.role === 'user') {
-      <app-user-message
+      <app-chatbot-prompt
         [message]="msg.content"
         [role]="msg.role"
         class="w-full"
-      ></app-user-message>
+      ></app-chatbot-prompt>
     }
     @else {
-      <app-chatbot-message
+      <app-chatbot-prompt-answer
         [message]="msg.content"
         [role]="msg.role"
         class="w-full"
-      ></app-chatbot-message>
+      ></app-chatbot-prompt-answer>
     }
   }
 </div>

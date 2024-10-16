@@ -19,13 +19,11 @@ export class ChatMessage {
   
   export class PromptAnswer extends ChatMessage {
     promptId: string;
-    isFinal: boolean;
   
-    constructor(id: string, promptId: string, content: string, isFinal: boolean = true) {
+    constructor(id: string, promptId: string, content: string) {
       super(id, 'assistant', content);
 
       this.promptId = promptId;
-      this.isFinal = isFinal;
     }
   }
   
@@ -71,8 +69,8 @@ export class ChatMessage {
       return prompt;
     }
   
-    addPromptAnswer(promptId: string, content: string, isFinal: boolean = true): void {
-      const answer = new PromptAnswer(this.generateId(), promptId, content, isFinal);
+    addPromptAnswer(promptId: string, content: string): void {
+      const answer = new PromptAnswer(this.generateId(), promptId, content);
       this.promptAnswers.push(answer);
       this.addAssistantMessage(content);
       this.updatedAt = new Date();

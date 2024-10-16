@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-chat-message',
+  selector: 'app-chatbot-prompt-container',
   standalone: true,
   imports: [],
-  templateUrl: './chat-message.component.html',
-  styleUrl: './chat-message.component.scss'
+  templateUrl: './chatbot-prompt-container.component.html',
+  styleUrl: './chatbot-prompt-container.component.scss'
 })
 
-export class ChatMessageComponent {
+export class ChatbotPromptContainerComponent {
   @Input() role: string = 'assistant';
   @Input() message: string = '';
   @Input() avatar: string | null = null;

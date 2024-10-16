@@ -23,4 +23,16 @@ export class ConfigService {
   getConfig() {
     return this.config;
   }
+
+  get apiUrl(): string {
+    return this.config.apiConnection.url;
+  }
+
+  get promptUrl(): string {
+    return this.config.apiConnection.promptUrl;
+  }
+
+  get feedbackUrl(): string {
+    return this.config.apiConnection.feedbackUrl;
+  }
 }

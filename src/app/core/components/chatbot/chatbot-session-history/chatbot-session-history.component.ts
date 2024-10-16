@@ -1,19 +1,19 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { ChatbotMessageService } from '../../../services/chatbot/chatbot-message.service';
-import { ChatbotMessageComponent } from "../messages/chatbot-message/chatbot-message.component";
+import { ChatbotPromptAnswerComponent } from "../chatbot-prompts/chatbot-prompt-answer/chatbot-prompt-answer.component";
 import { ChatMessage } from '../../../common/chatbot-models';
 import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.service';
 import { Subscription } from 'rxjs';
-import { UserMessageComponent } from '../messages/user-message/user-message.component';
+import { ChatbotPromptComponent } from '../chatbot-prompts/chatbot-prompt/chatbot-prompt.component';
 
 @Component({
-  selector: 'app-chatbot-history',
+  selector: 'app-chatbot-session-history',
   standalone: true,
-  imports: [ChatbotMessageComponent, UserMessageComponent],
-  templateUrl: './chatbot-history.component.html',
-  styleUrls: ['./chatbot-history.component.scss']
+  imports: [ChatbotPromptAnswerComponent, ChatbotPromptComponent],
+  templateUrl: './chatbot-session-history.component.html',
+  styleUrls: ['./chatbot-session-history.component.scss']
 })
-export class ChatbotHistoryComponent implements OnInit, OnDestroy {
+export class ChatbotSessionHistoryComponent implements OnInit, OnDestroy {
   @ViewChild('chatHistoryContainer') readonly chatHistoryContainer!: ElementRef<HTMLDivElement>;
 
   messages: ChatMessage[] = [];

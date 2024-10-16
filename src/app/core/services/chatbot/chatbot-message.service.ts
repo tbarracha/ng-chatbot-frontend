@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ChatSession } from '../../common/chatbot-models';
 import { ChatbotEventService } from './chatbot-event.service';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,10 @@ export class ChatbotMessageService {
   currentSession!: ChatSession;
   sessions: ChatSession[] = [];
 
-  constructor(readonly chatbotEventService: ChatbotEventService) {
+  constructor(
+    readonly chatbotEventService: ChatbotEventService,
+    readonly configService: ConfigService
+  ) {
     this.initializeExampleSession();
     this.initializeFrontendSession();
     this.initializeGameDevSession();
@@ -95,8 +99,8 @@ export class ChatbotMessageService {
     this.chatbotEventService.userMessageSent.next();
   }
 
-  handleAssistantResponse(promptId: string, message: string, isFinal: boolean = true): void {
-    this.currentSession.addPromptAnswer(promptId, message, isFinal);
+  handleAssistantResponse(promptId: string, message: string): void {
+    this.currentSession.addPromptAnswer(promptId, message);
     this.chatbotEventService.chatbotMessageRecieved.next();
   }
 

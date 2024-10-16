@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { ChatbotMessageService } from '../../../services/chatbot/chatbot-message.service';
+import { ChatbotMessageService } from '../../../../services/chatbot/chatbot-message.service';
 import { ChatbotInputAttachmentComponent } from "../chatbot-input-attachment/chatbot-input-attachment.component";
 
 @Component({

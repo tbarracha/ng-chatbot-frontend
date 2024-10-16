@@ -1,27 +1,72 @@
 {
-  "sidePanel": {
-    "active": true,
-    "position": "left",
-    "resizeable": true,
-    "width": "300px",
-    "minWidth": "200px",
-    "maxWidth": "400px"
-  },
+  "apiConnection": {
+    "url": "http://127.0.0.1:5000/hello",
+    "promptUrl": "http://127.0.0.1:5000/model/prompt",
+    "feedbackUrl": "http://127.0.0.1:5000/model/prompt/vote",
 
-  "assistantPrompt" : {
-    "promptFeedback": {
-      "active": true,
-      "style": "rating",
-      "maxRating": 5
+    "modelName": "model_name",
+
+    "request": {
+      "promptDTO": {
+        "prompt": "question",
+        "user": "user_groups",
+        "project": "project_name",
+        "modelName": "model_name"
+      },
+      "feedbackDTO": {
+        "promptId": "prompt_answer_id",
+        "feedbackStyle": "feedback_style",
+        "rating": "vote_type"
+      }
     },
 
-    "promptCopy": {
-      "active": true
+    "response": {
+      "promptDTO": {
+        "id": "id",
+        "role": "role",
+        "content": "content",
+        "timestamp": "created_at"
+      },
+      "promptAnswerDTO": {
+        "id": "id",
+        "role": "role",
+        "promptId": "prompt_id",
+        "content": "content",
+        "timestamp": "created_at"
+      },
+      "feedbackDTO": {
+        "promptId": "prompt_answer_id",
+        "rating": "rating",
+        "timestamp": "created_at"
+      }
     }
   },
+  
+  "layout" : {
+    "chatbotPrompt" : {
+      "allowCopy": true
+    },
 
-  "userPrompt": {
-    "allowCopy": true
+    "chatbotPromptAnswer" : {
+      "promptFeedback": {
+        "active": true,
+        "style": "rating",
+        "maxRating": 5
+      },
+  
+      "promptCopy": {
+        "active": true
+      }
+    },
+
+    "sidePanel": {
+      "active": true,
+      "position": "left",
+      "resizeable": true,
+      "width": "300px",
+      "minWidth": "200px",
+      "maxWidth": "400px"
+    }
   },
 
   "colors": {
