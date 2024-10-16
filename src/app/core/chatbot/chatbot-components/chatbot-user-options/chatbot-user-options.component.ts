@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
-import { ThemeService } from '../../../services/theme-service/theme.service';
-import { ThemeToggleComponent } from "../../standalone/theme-toggle/theme-toggle.component";
+import { ThemeToggleComponent } from '../../../common/components/theme-toggle/theme-toggle.component';
+import { ThemeService } from '../../../common/services/theme-service/theme.service';
 
 @Component({
   selector: 'app-chatbot-user-options',

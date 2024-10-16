@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-import { ChatbotSessionService } from '../../../services/chatbot/chatbot-session.service';
+import { ChatbotSessionService } from '../../../chatbot/chatbot-services/chatbot-session.service';
 import { ChatbotPromptAnswerComponent } from '../chatbot-prompts/chatbot-prompt-answer/chatbot-prompt-answer.component';
 import { ChatbotPromptComponent } from '../chatbot-prompts/chatbot-prompt/chatbot-prompt.component';
 import { Subscription } from 'rxjs';
-import { ChatSessionMessage } from '../../../common/chatbot-models';
-import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.service';
+import { ChatbotEventService } from '../../../chatbot/chatbot-services/chatbot-event.service';
+import { ChatSessionMessage } from '../../chatbot-models/chatbot-models';
 
 @Component({
   selector: 'app-chatbot-session-history',

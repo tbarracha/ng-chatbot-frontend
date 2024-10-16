@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ChatSession, ChatSessionMessage } from '../../common/chatbot-models';
 import { ChatbotEventService } from './chatbot-event.service';
-import { ConfigService } from '../config/config.service';
+import { ChatSession, ChatSessionMessage } from '../chatbot-models/chatbot-models';
+import { ConfigService } from '../../config/config.service';
 
 @Injectable({
   providedIn: 'root'

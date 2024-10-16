@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AvatarType } from '../../../common/enums';
+import { AvatarType } from '../../models/enums';
 
 @Component({
   selector: 'app-entity-avatar',

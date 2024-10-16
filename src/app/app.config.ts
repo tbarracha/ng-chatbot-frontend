@@ -2,8 +2,8 @@ import { ApplicationConfig, APP_INITIALIZER, provideZoneChangeDetection } from '
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { ConfigService } from './core/services/config/config.service';
-import { APP_CONFIG } from './core/services/config/config.token';
+import { ConfigService } from './core/config/config.service';
+import { APP_CONFIG } from './core/config/config.token';
 
 // Function to load the configuration before app initialization
 export function loadAppConfig(configService: ConfigService) {

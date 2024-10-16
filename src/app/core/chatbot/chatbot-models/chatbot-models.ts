@@ -1,4 +1,3 @@
-import { Role } from "./enums";
 
 // Base class for prompts and answers
 export abstract class PromptBase {

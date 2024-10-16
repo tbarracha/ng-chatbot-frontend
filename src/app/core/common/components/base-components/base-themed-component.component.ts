@@ -1,6 +1,6 @@
 // base-themed.component.ts
 import { Directive } from '@angular/core';
-import { ThemeService } from '../../../services/theme-service/theme.service';
+import { ThemeService } from '../../services/theme-service/theme.service';
 
 @Directive()
 export abstract class BaseThemedComponent {

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ChatbotHeaderComponent } from "../../core/components/chatbot/chatbot-header/chatbot-header.component";
-import { ChatbotSessionHistoryComponent } from "../../core/components/chatbot/chatbot-session-history/chatbot-session-history.component";
-import { ChatbotInputComponent } from "../../core/components/chatbot/chatbot-inputs/chatbot-input/chatbot-input.component";
-import { ChatbotSidebarComponent } from '../../core/components/chatbot/chatbot-sidebar/chatbot-sidebar.component';
+import { ChatbotHeaderComponent } from '../../core/chatbot/chatbot-components/chatbot-header/chatbot-header.component';
+import { ChatbotInputComponent } from '../../core/chatbot/chatbot-components/chatbot-inputs/chatbot-input/chatbot-input.component';
+import { ChatbotSessionHistoryComponent } from '../../core/chatbot/chatbot-components/chatbot-session-history/chatbot-session-history.component';
+import { ChatbotSidebarComponent } from '../../core/chatbot/chatbot-components/chatbot-sidebar/chatbot-sidebar.component';
 
 @Component({
   selector: 'app-page-chatbot',

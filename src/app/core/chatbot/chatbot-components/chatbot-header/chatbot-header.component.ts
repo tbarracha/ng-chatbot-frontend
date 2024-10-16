@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { SelectorComponent } from "../../standalone/selector/selector.component";
-import { SelectorOption } from '../../../common/standalone-models';
-import { ThemeToggleComponent } from "../../standalone/theme-toggle/theme-toggle.component";
-import { ThemeService } from '../../../services/theme-service/theme.service';
-import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.service';
+import { SelectorOption } from '../../../common/models/standalone-models';
+import { ChatbotEventService } from '../../../chatbot/chatbot-services/chatbot-event.service';
 import { Subscription } from 'rxjs';
 import { ChatbotUserOptionsComponent } from "../chatbot-user-options/chatbot-user-options.component";
+import { SelectorComponent } from '../../../common/components/selector/selector.component';
+import { ThemeToggleComponent } from '../../../common/components/theme-toggle/theme-toggle.component';
+import { ThemeService } from '../../../common/services/theme-service/theme.service';
 
 
 

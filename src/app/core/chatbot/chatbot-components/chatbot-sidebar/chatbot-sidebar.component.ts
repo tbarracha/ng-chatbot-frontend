@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SidebarComponent } from '../../standalone/sidebar/sidebar.component';
 import { Subscription } from 'rxjs';
-import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.service';
-import { ChatbotSessionService } from '../../../services/chatbot/chatbot-session.service';
-import { ChatSession } from '../../../common/chatbot-models';
+import { ChatbotEventService } from '../../../chatbot/chatbot-services/chatbot-event.service';
+import { ChatbotSessionService } from '../../../chatbot/chatbot-services/chatbot-session.service';
+import { SidebarComponent } from '../../../common/components/sidebar/sidebar.component';
+import { ChatSession } from '../../chatbot-models/chatbot-models';
 
 @Component({
   selector: 'app-chatbot-sidebar',
