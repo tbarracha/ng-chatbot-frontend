@@ -14,7 +14,7 @@ export class ChatbotApiService {
     private readonly configService: ConfigService
   ) {}
 
-  getChatbotReply(question: string, user_groups: string[], project_name: string, model_name: string): Observable<any> {
+  sendPromptAndGetPromptAnswer(question: string, user_groups: string[], project_name: string, model_name: string): Observable<any> {
     const requestBody = {
       question,
       user_groups,
@@ -24,7 +24,7 @@ export class ChatbotApiService {
     return this.http.post<any>(this.configService.promptUrl, requestBody);
   }
 
-  votePromptAnswer(prompt_answer_id: number, vote_type: string): Observable<any> {
+  sendPromptAnswerFeedback(prompt_answer_id: number, vote_type: string): Observable<any> {
     const requestBody = {
       prompt_answer_id,
       vote_type

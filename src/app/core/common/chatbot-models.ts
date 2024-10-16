@@ -1,83 +1,87 @@
 import { Role } from "./enums";
 
-export class ChatMessage {
-    id: string;
-    role: 'user' | 'assistant';
-    content: string;
-    timestamp: Date;
-  
-    constructor(id: string, role: 'user' | 'assistant', content: string) {
-      this.id = id;
-      this.role = role;
-      this.content = content;
-      this.timestamp = new Date();
-    }
-  }
-  
-  export class Prompt extends ChatMessage {
-  }
-  
-  export class PromptAnswer extends ChatMessage {
-    promptId: string;
-  
-    constructor(id: string, promptId: string, content: string) {
-      super(id, 'assistant', content);
+// Base class for prompts and answers
+export abstract class PromptBase {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
 
-      this.promptId = promptId;
-    }
+  constructor(id: string, role: 'user' | 'assistant', content: string) {
+    this.id = id;
+    this.role = role;
+    this.content = content;
+    this.timestamp = new Date();
   }
-  
-  export class ChatSession {
-    sessionId: string;
-    title: string;
-    messages: ChatMessage[];
-    prompts: Prompt[];
-    promptAnswers: PromptAnswer[];
-    userId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    isCurrent: boolean = false;
-  
-    constructor(sessionId: string, title: string, userId: string) {
-      this.sessionId = sessionId;
-      this.title = title;
-      this.messages = [];
-      this.prompts = [];
-      this.promptAnswers = [];
-      this.userId = userId;
-      this.createdAt = new Date();
-      this.updatedAt = new Date();
-    }
-  
-    addUserMessage(content: string): void {
-      const message = new ChatMessage(this.generateId(), 'user', content);
-      this.messages.push(message);
-      this.updatedAt = new Date();
-    }
-  
-    addAssistantMessage(content: string): void {
-      const message = new ChatMessage(this.generateId(), 'assistant', content);
-      this.messages.push(message);
-      this.updatedAt = new Date();
-    }
-  
-    addPrompt(content: string): Prompt {
-      const prompt = new Prompt(this.generateId(), Role.User, content);
-      this.prompts.push(prompt);
-      this.addUserMessage(content);
-      this.updatedAt = new Date();
-      return prompt;
-    }
-  
-    addPromptAnswer(promptId: string, content: string): void {
-      const answer = new PromptAnswer(this.generateId(), promptId, content);
-      this.promptAnswers.push(answer);
-      this.addAssistantMessage(content);
-      this.updatedAt = new Date();
-    }
-  
-    private generateId(): string {
-      return Math.random().toString(36).substr(2, 9);
-    }
+}
+
+// User prompt class
+export class Prompt extends PromptBase {
+  constructor(id: string, content: string) {
+    super(id, 'user', content);
   }
-  
+}
+
+// Assistant answer class
+export class PromptAnswer extends PromptBase {
+  promptId: string;
+
+  constructor(id: string, promptId: string, content: string) {
+    super(id, 'assistant', content);
+    this.promptId = promptId;
+  }
+}
+
+// Chat session class with prompts and answers
+export class ChatSession {
+  sessionId: string;
+  title: string;
+  prompts: Prompt[];
+  promptAnswers: PromptAnswer[];
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  isCurrent: boolean = false;
+
+  constructor(sessionId: string, title: string, userId: string) {
+    this.sessionId = sessionId;
+    this.title = title;
+    this.prompts = [];
+    this.promptAnswers = [];
+    this.userId = userId;
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
+
+  // Add a user prompt
+  addPrompt(content: string): Prompt {
+    const prompt = new Prompt(this.generateId(), content);
+    this.prompts.push(prompt);
+    this.updatedAt = new Date();
+    return prompt;
+  }
+
+  // Add an assistant answer associated with a specific prompt
+  addPromptAnswer(promptId: string, content: string): void {
+    const answer = new PromptAnswer(this.generateId(), promptId, content);
+    this.promptAnswers.push(answer);
+    this.updatedAt = new Date();
+  }
+
+  // Generate a unique ID for prompts and answers
+  private generateId(): string {
+    return Math.random().toString(36).substr(2, 9);
+  }
+}
+
+export class Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+
+  constructor(id: string, role: 'user' | 'assistant', content: string) {
+    this.id = id;
+    this.role = role;
+    this.content = content;
+  }
+}

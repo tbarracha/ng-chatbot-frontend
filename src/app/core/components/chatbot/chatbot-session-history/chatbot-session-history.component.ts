@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { ChatbotMessageService } from '../../../services/chatbot/chatbot-message.service';
-import { ChatbotPromptAnswerComponent } from "../chatbot-prompts/chatbot-prompt-answer/chatbot-prompt-answer.component";
-import { ChatMessage } from '../../../common/chatbot-models';
-import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.service';
-import { Subscription } from 'rxjs';
+import { ChatbotPromptAnswerComponent } from '../chatbot-prompts/chatbot-prompt-answer/chatbot-prompt-answer.component';
 import { ChatbotPromptComponent } from '../chatbot-prompts/chatbot-prompt/chatbot-prompt.component';
+import { Subscription } from 'rxjs';
+import { Message } from '../../../common/chatbot-models';
+import { ChatbotEventService } from '../../../services/chatbot/chatbot-event.service';
 
 @Component({
   selector: 'app-chatbot-session-history',
@@ -16,7 +16,7 @@ import { ChatbotPromptComponent } from '../chatbot-prompts/chatbot-prompt/chatbo
 export class ChatbotSessionHistoryComponent implements OnInit, OnDestroy {
   @ViewChild('chatHistoryContainer') readonly chatHistoryContainer!: ElementRef<HTMLDivElement>;
 
-  messages: ChatMessage[] = [];
+  messages: Message[] = [];
   isAtBottom: boolean = true;
 
   private sessionChangeSubscription!: Subscription;
@@ -29,28 +29,26 @@ export class ChatbotSessionHistoryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.messages = this.chatbotMessageService.currentSession.messages;
+    this.refreshMessages();
 
     this.sessionChangeSubscription = this.chatbotEventService
       .getSessionChangeObservable()
       .subscribe(() => {
-        this.messages = this.chatbotMessageService.currentSession.messages;
+        this.refreshMessages();
         this.scrollToBottom();
       });
 
-      this.userMessageSubscription = this.chatbotEventService
-        .userMessageSent
-        .subscribe(() => {
-          this.scrollToBottom();
-        });
-  
-      this.chatbotMessageSubscription = this.chatbotEventService
-        .chatbotMessageRecieved
-        .subscribe(() => {
-          this.scrollToBottom();
-        });
-  
-      this.scrollToBottom();
+    this.userMessageSubscription = this.chatbotEventService
+      .userMessageSent
+      .subscribe(() => {
+        this.scrollToBottom();
+      });
+
+    this.chatbotMessageSubscription = this.chatbotEventService
+      .chatbotMessageRecieved
+      .subscribe(() => {
+        this.scrollToBottom();
+      });
 
     this.scrollToBottom();
   }
@@ -59,6 +57,10 @@ export class ChatbotSessionHistoryComponent implements OnInit, OnDestroy {
     if (this.sessionChangeSubscription) {
       this.sessionChangeSubscription.unsubscribe();
     }
+  }
+
+  refreshMessages(): void {
+    this.messages = this.chatbotMessageService.getSessionMessages();
   }
 
   scrollToBottom(): void {
