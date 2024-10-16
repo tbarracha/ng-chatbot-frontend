@@ -1,17 +1,53 @@
 {
-    "colors": {
-        "main-background": "#FFFEFE",
-        "main-primary": "#E6E7E6",
-        "main-secondary": "#1B3A49",
-        "main-primary-light": "#F3F3F2",
-        "main-secondary-light": "#819198",
-        "main-hl-primary": "#FCE1D3",
-        "main-hl-primary-dark": "#F6B08D",
-        "main-hl-secondary": "#78C2B4",
-        "main-hl-secondary-dark": "#4A7E7F",
+  "sidePanel": {
+    "active": true,
+    "position": "left",
+    "resizeable": true,
+    "width": "300px",
+    "minWidth": "200px",
+    "maxWidth": "400px"
+  },
 
-        "dark-primary": "#0e1118",
-        "dark-secondary": "#262730",
-        "dark-dark": "#a0a6b7"
+  "assistantPrompt" : {
+    "promptFeedback": {
+      "active": true,
+      "style": "rating",
+      "maxRating": 5
+    },
+
+    "promptCopy": {
+      "active": true
     }
+  },
+
+  "userPrompt": {
+    "allowCopy": true
+  },
+
+  "colors": {
+    "main_bg": "#FFFEFE",
+    "main_primary": "#E6E7E6",
+    "main_secondary": "#1B3A49",
+    "main_primary_light": "#F3F3F2",
+    "main_secondary_light": "#819198",
+    "main_hl_primary": "#FCE1D3",
+    "main_hl_primary_dark": "#F6B08D",
+    "main_hl_secondary": "#78C2B4",
+    "main_hl_secondary_dark": "#4A7E7F",
+    
+    "dark_bg": "#262730",
+    "dark_primary": "#0e1118",
+    "dark_secondary": "#a0a6b7",
+    "dark_primary_light": "#1A1C24",
+    "dark_secondary_light": "#575C68",
+    "dark_hl_primary": "#FCE1D3",
+    "dark_hl_primary_dark": "#F6B08D",
+    "dark_hl_secondary": "#78C2B4",
+    "dark_hl_secondary_dark": "#4A7E7F",
+
+    "success": "#28a745",
+    "info": "#17a2b8",
+    "warning": "#ffc107",
+    "danger": "#dc3545"
+  }
 }

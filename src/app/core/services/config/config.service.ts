@@ -1,20 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
-  readonly config: any;
+  private config: any;
 
-  constructor(readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   loadConfig(): Observable<any> {
-    return this.http.get('/assets/config/chatbot.config.json');  // Fetch from assets 
+    return this.http.get('/assets/config/chatbot.config.json').pipe(
+      tap((config) => {
+        this.config = config;
+        console.log('Config loaded:', this.config);
+      })
+    );
   }
 
   getConfig() {
-    return this.config;  // Return the stored config
+    return this.config;
   }
 }
