@@ -46,7 +46,10 @@ export class ChatbotInputComponent {
     const message = this.chatTextInput?.nativeElement.value.trim();
     if (message) {
       this.chatbotMessageService.sendMessage(message);
-      this.chatbotMessageService.handleFiles(this.files);
+
+      if (this.files.length > 0) {
+        this.chatbotMessageService.handleFiles(this.files);
+      }
       
       this.chatTextInput.nativeElement.value = '';
       this.chatTextInput.nativeElement.style.height = 'auto';
