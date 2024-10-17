@@ -15,7 +15,10 @@
       class="absolute right-0 w-48 bg-white dark:bg-dark-primary border border-gray-300 dark:border-gray-600 rounded-md shadow-lg z-10 mt-2
       text-gray-800 dark:text-white">
       <ul class="text-sm text-gray-700 dark:text-gray-300">
-        <li class="h-full px-4 py-2 flex items-center hover:bg-main-primary dark:hover:bg-dark-primary-light hover:rounded-t-md">
+
+        <!-- Profile -->
+        <li class="h-full px-4 py-2 flex items-center hover:bg-main-primary dark:hover:bg-dark-primary-lighter hover:rounded-t-md"
+        (click)="triggerOptionEvent('profile')">
           <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <path fill-rule="evenodd"
@@ -25,7 +28,10 @@
 
           <span class="ml-2">Profile</span>
         </li>
-        <li class="h-full px-4 py-2 flex items-center hover:bg-main-primary dark:hover:bg-dark-primary-light">
+
+        <!-- Settings -->
+        <li class="h-full px-4 py-2 flex items-center hover:bg-main-primary dark:hover:bg-dark-primary-lighter"
+        (click)="triggerOptionEvent('settings')">
           <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <path fill-rule="evenodd"
@@ -34,11 +40,16 @@
           </svg>
           <span class="ml-2">Settings</span>
         </li>
-        <li class="h-12 cursor-pointer hover:bg-main-primary dark:hover:bg-dark-primary-light flex items-center px-4"
+
+        <!-- Theme -->
+        <li class="h-12 cursor-pointer hover:bg-main-primary dark:hover:bg-dark-primary-lighter flex items-center px-4"
           (click)="themeToggle.toggleTheme()">
           <app-theme-toggle [isIconOnly]="false" #themeToggle class="w-full"></app-theme-toggle>
         </li>
-        <li class="h-full px-4 py-2 flex items-center hover:bg-red-300 dark:hover:bg-red-900 hover:rounded-b-md">
+
+        <!-- Logout -->
+        <li class="h-full px-4 py-2 flex items-center hover:bg-red-300 dark:hover:bg-red-900 hover:rounded-b-md"
+        (click)="triggerOptionEvent('logout')">
           <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"

@@ -1,20 +1,19 @@
 import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { SelectorOption } from '../../../common/models/standalone-models';
 import { ChatbotEventService } from '../../chatbot-services/chatbot-events/chatbot-event.service';
-import { Subscription } from 'rxjs';
-import { ChatbotUserOptionsComponent } from "../chatbot-user-options/chatbot-user-options.component";
-import { SelectorComponent } from '../../../common/components/selector/selector.component';
+import { UserOptionsComponent } from "../../../common/components/user-options/user-options.component";
+import { SelectorComponent, SelectorOption } from '../../../common/components/selector/selector.component';
 import { ThemeToggleComponent } from '../../../common/components/theme-toggle/theme-toggle.component';
 import { ThemeService } from '../../../common/services/theme-service/theme.service';
 import { ConfigService } from '../../../config/config.service';
+import { ChatbotApiService } from '../../chatbot-services/chatbot-api/chatbot-api.service';
 
 
 
 @Component({
   selector: 'app-chatbot-header',
   standalone: true,
-  imports: [SelectorComponent, ThemeToggleComponent, NgClass, ChatbotUserOptionsComponent],
+  imports: [SelectorComponent, ThemeToggleComponent, NgClass, UserOptionsComponent],
   templateUrl: './chatbot-header.component.html',
   styleUrl: './chatbot-header.component.scss'
 })
@@ -23,8 +22,6 @@ export class ChatbotHeaderComponent {
   @ViewChild('themeToggle') themeToggle!: ThemeToggleComponent;
 
   @Input() showSidebarToggle: boolean = true;
-
-  private sidebarToggleSubscription!: Subscription;
 
   selectedModel: SelectorOption | null = null;
   logoUrl: string = '';
@@ -40,27 +37,17 @@ export class ChatbotHeaderComponent {
     readonly configService: ConfigService,
     readonly themeService: ThemeService,
     readonly chatbotEventManagerService: ChatbotEventService,
+    readonly chatbotApiService: ChatbotApiService,
     readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.sidebarToggleSubscription = this.chatbotEventManagerService
-      .getSidebarToggleObservable()
+    this.chatbotEventManagerService
+      .sidebarToggledEvt
       .subscribe(() => this.sidebarToggled());
 
     this.logoUrl = this.configService.organizationLogo;
     this.logoDarkUrl = this.configService.organizationLogoDark;
-  }
-
-  ngOnDestroy() {
-    if (this.sidebarToggleSubscription) {
-      this.sidebarToggleSubscription.unsubscribe();
-    }
-  }
-
-  onModelSelected(model: SelectorOption) {
-    this.selectedModel = model;
-    console.log('Selected LLM model:', model);
   }
 
   toggleTheme() {
@@ -72,7 +59,7 @@ export class ChatbotHeaderComponent {
   }
 
   toggleSidebar() {
-    this.chatbotEventManagerService.toggleSidebar();
+    this.chatbotEventManagerService.sidebarToggledEvt.emit();
   }
 
   isSidebarOpen() {

@@ -6,4 +6,13 @@
     <app-chatbot-input class="mb-5 mx-2 flex-shrink-0 bg-transparent"></app-chatbot-input>
   </div>
 </div>
-  
+
+<app-blank-modal [modalConfig]="{
+  title: 'Settings',
+  optionToListenFor: 'settings',
+  isSubmitEnabled: false
+}">
+  <ng-template>
+    <app-selector [defaultMessage]="'Select your LLM...'" [options]="llmModels" (selectionChange)="onModelSelected($event)" class="w-48"></app-selector>
+  </ng-template>
+</app-blank-modal>

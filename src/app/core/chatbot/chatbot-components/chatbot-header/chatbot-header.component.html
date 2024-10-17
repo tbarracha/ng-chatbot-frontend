@@ -14,16 +14,27 @@
     }
 
     <div class="h-5 w-auto">
-      <!-- Light mode image -->
+
+      @if (configService.organizationUrl != "") {
+        <!-- Light mode image -->
+        <a [href]="configService.organizationUrl" target="_blank">
+          <img [src]="logoUrl" alt="Organization Logo" class="h-5 w-auto drop-shadow-md object-contain block dark:hidden" />
+        </a>
+        <!-- Dark mode image -->
+        <a [href]="configService.organizationUrl" target="_blank">
+          <img [src]="logoDarkUrl" alt="Organization Logo" class="h-5 w-auto drop-shadow-md object-contain hidden dark:block" />
+        </a>
+      }
+      @else {
+        <!-- Light mode image -->
       <img [src]="logoUrl" alt="Organization Logo" class="h-5 w-auto drop-shadow-md object-contain block dark:hidden" />
       <!-- Dark mode image -->
       <img [src]="logoDarkUrl" alt="Organization Logo" class="h-5 w-auto drop-shadow-md object-contain hidden dark:block" />
+      }
     </div>
-
-    <app-selector [defaultMessage]="'Select your LLM...'" [options]="llmModels" (selectionChange)="onModelSelected($event)" class="w-48"></app-selector>
   </div>
 
   <div class="flex items-center justify-between">
-    <app-chatbot-user-options></app-chatbot-user-options>
+    <app-user-options></app-user-options>
   </div>
 </div>

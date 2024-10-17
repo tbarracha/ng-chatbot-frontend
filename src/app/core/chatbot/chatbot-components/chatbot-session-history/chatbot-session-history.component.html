@@ -4,14 +4,12 @@
       <app-chatbot-prompt
         [message]="msg.content"
         [role]="msg.role"
-        class="w-full"
       ></app-chatbot-prompt>
     }
     @else {
       <app-chatbot-prompt-answer
         [message]="msg.content"
         [role]="msg.role"
-        class="w-full"
       ></app-chatbot-prompt-answer>
     }
   }

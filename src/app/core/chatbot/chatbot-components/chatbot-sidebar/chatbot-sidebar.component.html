@@ -16,7 +16,7 @@
       @for (session of chatSessions; track session.sessionId) {
         <div 
           class="cursor-pointer p-2 rounded 
-          {{ session.isCurrent ? 'bg-main-secondary-light bg-opacity-20 dark:bg-dark-bg dark:bg-opacity-100' : 'hover:bg-main-secondary-light hover:bg-opacity-10 dark:hover:bg-dark-bg dark:hover:bg-opacity-50' }} "
+          {{ session.isCurrent ? 'bg-main-secondary-lighter bg-opacity-20 dark:bg-dark-bg dark:bg-opacity-100' : 'hover:bg-main-secondary-lighter hover:bg-opacity-10 dark:hover:bg-dark-bg dark:hover:bg-opacity-50' }} "
           (click)="selectSession(session.sessionId)"
         >
           <span class="text-sm">{{ session.title }}</span>

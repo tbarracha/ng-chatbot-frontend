@@ -1,4 +1,4 @@
-<div class="inline-flex text-main-secondary-light">
+<div class="inline-flex text-main-secondary-lighter">
     @if (voteStyle === 'thumbs') {
       <!-- Thumbs up and down vote buttons -->
       <button class="hover:text-main-secondary hover:dark:text-main-primary" (click)="vote('up')">
@@ -25,7 +25,7 @@
           <button 
             (mouseenter)="hoverStar(rating)"  
             (click)="voteStar(rating)" 
-            class="{{ rating <= hoverRating || rating <= selectedRating ? (hasVoted ? 'text-main-secondary-light dark:text-main-secondary-light' : 'text-main-hl-primary-dark') : hasVoted ? 'text-main-primary dark:text-dark-primary' :  'text-main-hl-secondary' }}"
+            class="{{ rating <= hoverRating || rating <= selectedRating ? (hasVoted ? 'text-main-secondary-lighter dark:text-main-secondary-lighter' : 'text-main-hl-primary-darker') : hasVoted ? 'text-main-primary dark:text-dark-primary' :  'text-main-hl-secondary' }}"
           >
             <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ChatbotEventService } from '../chatbot-events/chatbot-event.service';
 import { ChatSession, ChatSessionMessage } from '../../chatbot-models/chatbot-models';
 import { ConfigService } from '../../../config/config.service';
+import { SelectorOption } from '../../../common/components/selector/selector.component';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,12 @@ import { ConfigService } from '../../../config/config.service';
 export class ChatbotSessionService {
   currentSession!: ChatSession;
   sessions: ChatSession[] = [];
+
+  llmModels: SelectorOption[] = [
+    { id: 1, value: 'GPT-3.5' },
+    { id: 2, value: 'GPT-4' },
+    { id: 3, value: 'BERT' }
+  ];
 
   constructor(
     readonly chatbotEventService: ChatbotEventService,
@@ -89,19 +96,19 @@ export class ChatbotSessionService {
       this.currentSession = session;
       this.currentSession.isCurrent = true;
       
-      this.chatbotEventService.notifySessionChange();
+      this.chatbotEventService.sessionChangedEvt.emit();
     }
   }
 
   sendMessage(message: string): void {
     console.log('Sending message:', message);
     this.currentSession.addPrompt(message);
-    this.chatbotEventService.promptSent.next();
+    this.chatbotEventService.promptSentEvt.emit();
   }
 
   handleAssistantResponse(promptId: string, message: string): void {
     this.currentSession.addPromptAnswer(promptId, message);
-    this.chatbotEventService.promptAnswerRecieved.next();
+    this.chatbotEventService.promptAnswerReceivedEvt.emit();
   }
 
   getSessionMessages(): ChatSessionMessage[] {

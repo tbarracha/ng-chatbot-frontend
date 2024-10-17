@@ -1,5 +1,14 @@
 import { Component, Input, Output, EventEmitter, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { SelectorOption } from '../../models/standalone-models';
+
+export class SelectorOption {
+  id: number;
+  value: string;
+
+  constructor(id: number, value: string) {
+    this.id = id;
+    this.value = value;
+  }
+}
 
 @Component({
   selector: 'app-selector',

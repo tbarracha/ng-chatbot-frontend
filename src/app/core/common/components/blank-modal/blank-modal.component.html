@@ -1,0 +1,43 @@
+<!-- Full Screen Modal -->
+@if (isOpen) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center">
+  
+      <!-- Blurry Background -->
+      <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+  
+      <!-- Modal Content Wrapper with 80% width and height -->
+      <div class="relative bg-main-bg dark:bg-dark-bg rounded-lg shadow-lg z-10 w-[80%] h-[80%] flex flex-col">
+  
+        <!-- Modal Header with Title and Close Button -->
+        <div class="flex justify-between items-center p-6">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+            {{ modalConfig.title }}
+          </h2>
+          <button (click)="closeModal()" class="text-gray-700 dark:text-white hover:text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+  
+        <!-- Modal Body (fills the available space, starting from the top left) -->
+        <div class="flex-1 p-6 justify-start items-start">
+          <ng-container *ngTemplateOutlet="customContent"></ng-container> <!-- Dynamic content injection -->
+        </div>
+  
+        <!-- Modal Footer with Buttons (pinned to the bottom) -->
+        @if (modalConfig.isSubmitEnabled) {
+          <div class="p-3 flex justify-end space-x-2 bg-main-primary dark:bg-dark-secondary rounded-b-lg">
+            <button (click)="closeModal()" class="px-4 py-2 rounded-md text-gray-800 bg-main-bg hover:bg-main-primary-lighter dark:bg-dark-bg dark:hover:bg-gray-600 dark:text-white">
+              Close
+            </button>
+            <button class="px-4 py-2 rounded-md text-white bg-main-hl-secondary hover:bg-main-hl-secondary-darker dark:bg-main-hl-secondary-darker dark:hover:bg-main-hl-secondary"
+              (click)="submit()">
+              Submit
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  

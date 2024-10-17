@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ChatbotSessionService } from '../../chatbot-services/chatbot-session/chatbot-session.service';
 import { ChatbotPromptAnswerComponent } from '../chatbot-prompts/chatbot-prompt-answer/chatbot-prompt-answer.component';
 import { ChatbotPromptComponent } from '../chatbot-prompts/chatbot-prompt/chatbot-prompt.component';
-import { Subscription } from 'rxjs';
 import { ChatbotEventService } from '../../chatbot-services/chatbot-events/chatbot-event.service';
 import { ChatSessionMessage } from '../../chatbot-models/chatbot-models';
 
@@ -13,15 +12,12 @@ import { ChatSessionMessage } from '../../chatbot-models/chatbot-models';
   templateUrl: './chatbot-session-history.component.html',
   styleUrls: ['./chatbot-session-history.component.scss']
 })
-export class ChatbotSessionHistoryComponent implements OnInit, OnDestroy {
+export class ChatbotSessionHistoryComponent implements OnInit {
   @ViewChild('chatHistoryContainer') readonly chatHistoryContainer!: ElementRef<HTMLDivElement>;
 
   messages: ChatSessionMessage[] = []; // Messages are unified into a single array
   isAtBottom: boolean = true;
 
-  private sessionChangeSubscription!: Subscription;
-  private userMessageSubscription!: Subscription;
-  private chatbotMessageSubscription!: Subscription;
 
   constructor(
     readonly chatbotEventService: ChatbotEventService,
@@ -31,32 +27,26 @@ export class ChatbotSessionHistoryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.refreshMessages();
 
-    this.sessionChangeSubscription = this.chatbotEventService
-      .getSessionChangeObservable()
+    this.chatbotEventService
+      .sessionChangedEvt
       .subscribe(() => {
         this.refreshMessages();
         this.scrollToBottom();
       });
 
-    this.userMessageSubscription = this.chatbotEventService
-      .promptSent
+    this.chatbotEventService
+      .promptSentEvt
       .subscribe(() => {
         this.scrollToBottom();
       });
 
-    this.chatbotMessageSubscription = this.chatbotEventService
-      .promptAnswerRecieved
+    this.chatbotEventService
+      .promptAnswerReceivedEvt
       .subscribe(() => {
         this.scrollToBottom();
       });
 
     this.scrollToBottom();
-  }
-
-  ngOnDestroy(): void {
-    if (this.sessionChangeSubscription) {
-      this.sessionChangeSubscription.unsubscribe();
-    }
   }
 
   refreshMessages(): void {
