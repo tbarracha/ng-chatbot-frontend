@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { SelectorOption } from '../../../common/models/standalone-models';
-import { ChatbotEventService } from '../../../chatbot/chatbot-services/chatbot-event.service';
+import { ChatbotEventService } from '../../chatbot-services/chatbot-events/chatbot-event.service';
 import { Subscription } from 'rxjs';
 import { ChatbotUserOptionsComponent } from "../chatbot-user-options/chatbot-user-options.component";
 import { SelectorComponent } from '../../../common/components/selector/selector.component';
 import { ThemeToggleComponent } from '../../../common/components/theme-toggle/theme-toggle.component';
 import { ThemeService } from '../../../common/services/theme-service/theme.service';
+import { ConfigService } from '../../../config/config.service';
 
 
 
@@ -18,6 +19,7 @@ import { ThemeService } from '../../../common/services/theme-service/theme.servi
   styleUrl: './chatbot-header.component.scss'
 })
 export class ChatbotHeaderComponent {
+
   @ViewChild('themeToggle') themeToggle!: ThemeToggleComponent;
 
   @Input() showSidebarToggle: boolean = true;
@@ -25,6 +27,8 @@ export class ChatbotHeaderComponent {
   private sidebarToggleSubscription!: Subscription;
 
   selectedModel: SelectorOption | null = null;
+  logoUrl: string = '';
+  logoDarkUrl: string = '';
 
   llmModels: SelectorOption[] = [
     { id: 1, value: 'GPT-3.5' },
@@ -33,6 +37,7 @@ export class ChatbotHeaderComponent {
   ];
 
   constructor(
+    readonly configService: ConfigService,
     readonly themeService: ThemeService,
     readonly chatbotEventManagerService: ChatbotEventService,
     readonly cdr: ChangeDetectorRef
@@ -42,6 +47,9 @@ export class ChatbotHeaderComponent {
     this.sidebarToggleSubscription = this.chatbotEventManagerService
       .getSidebarToggleObservable()
       .subscribe(() => this.sidebarToggled());
+
+    this.logoUrl = this.configService.organizationLogo;
+    this.logoDarkUrl = this.configService.organizationLogoDark;
   }
 
   ngOnDestroy() {

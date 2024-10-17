@@ -1,4 +1,12 @@
 {
+  "organization": {
+    "name": "Organization Name",
+    "logo": "assets/images/logominsait_normal.png",
+    "logoDark": "assets/images/logominsait_white.png",
+    "favicon": "assets/images/favicon.png",
+    "url": "https://www.minsait.com"
+  },
+
   "apiConnection": {
     "url": "http://127.0.0.1:5000/hello",
     "promptUrl": "http://127.0.0.1:5000/model/prompt",

@@ -24,6 +24,33 @@ export class ConfigService {
     return this.config;
   }
 
+
+
+  // ----------------------------------------------
+  // Organization
+  // ----------------------------------------------
+  get organizationLogo(): string {
+    return this.config?.organization?.logo ?? '';
+  }
+
+  get organizationLogoDark(): string {
+    return this.config?.organization?.logoDark ?? this.organizationLogo;
+  }
+
+  get organizationName(): string {
+    return this.config?.organization?.name ?? '';
+  }
+
+  get organizationUrl(): string {
+    return this.config?.organization?.url ?? '';
+  }
+
+
+
+  // ----------------------------------------------
+  // API
+  // ----------------------------------------------
+
   get apiUrl(): string {
     return this.config.apiConnection.url;
   }

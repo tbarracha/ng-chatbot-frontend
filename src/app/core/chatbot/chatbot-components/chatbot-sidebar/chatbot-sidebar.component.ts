@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ChatbotEventService } from '../../../chatbot/chatbot-services/chatbot-event.service';
-import { ChatbotSessionService } from '../../../chatbot/chatbot-services/chatbot-session.service';
+import { ChatbotEventService } from '../../chatbot-services/chatbot-events/chatbot-event.service';
+import { ChatbotSessionService } from '../../chatbot-services/chatbot-session/chatbot-session.service';
 import { SidebarComponent } from '../../../common/components/sidebar/sidebar.component';
 import { ChatSession } from '../../chatbot-models/chatbot-models';
 

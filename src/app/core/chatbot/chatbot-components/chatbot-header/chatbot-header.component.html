@@ -1,6 +1,6 @@
 <div
   class="px-2 h-full w-full flex items-center justify-between bg-main-primary text-dark-primary dark:bg-dark-primary dark:text-white shadow-lg">
-  <div class="flex items-center justify-between space-x-2">
+  <div class="flex items-center justify-between space-x-4">
     @if (showSidebarToggle) {
       <button (click)="toggleSidebar()" [ngClass]="{
           'opacity-100 pointer-events-auto': !isSidebarOpen(),
@@ -12,6 +12,13 @@
         </svg>
       </button>
     }
+
+    <div class="h-5 w-auto">
+      <!-- Light mode image -->
+      <img [src]="logoUrl" alt="Organization Logo" class="h-5 w-auto drop-shadow-md object-contain block dark:hidden" />
+      <!-- Dark mode image -->
+      <img [src]="logoDarkUrl" alt="Organization Logo" class="h-5 w-auto drop-shadow-md object-contain hidden dark:block" />
+    </div>
 
     <app-selector [defaultMessage]="'Select your LLM...'" [options]="llmModels" (selectionChange)="onModelSelected($event)" class="w-48"></app-selector>
   </div>

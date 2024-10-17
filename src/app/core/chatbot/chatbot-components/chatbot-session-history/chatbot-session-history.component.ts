@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-import { ChatbotSessionService } from '../../../chatbot/chatbot-services/chatbot-session.service';
+import { ChatbotSessionService } from '../../chatbot-services/chatbot-session/chatbot-session.service';
 import { ChatbotPromptAnswerComponent } from '../chatbot-prompts/chatbot-prompt-answer/chatbot-prompt-answer.component';
 import { ChatbotPromptComponent } from '../chatbot-prompts/chatbot-prompt/chatbot-prompt.component';
 import { Subscription } from 'rxjs';
-import { ChatbotEventService } from '../../../chatbot/chatbot-services/chatbot-event.service';
+import { ChatbotEventService } from '../../chatbot-services/chatbot-events/chatbot-event.service';
 import { ChatSessionMessage } from '../../chatbot-models/chatbot-models';
 
 @Component({

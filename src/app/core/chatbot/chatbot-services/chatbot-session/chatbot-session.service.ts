@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ChatbotEventService } from './chatbot-event.service';
-import { ChatSession, ChatSessionMessage } from '../chatbot-models/chatbot-models';
-import { ConfigService } from '../../config/config.service';
+import { ChatbotEventService } from '../chatbot-events/chatbot-event.service';
+import { ChatSession, ChatSessionMessage } from '../../chatbot-models/chatbot-models';
+import { ConfigService } from '../../../config/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -111,7 +111,6 @@ export class ChatbotSessionService {
     session.prompts.forEach((prompt, index) => {
       allMessages.push(new ChatSessionMessage(prompt.id, 'user', prompt.content));
 
-      // If there's a corresponding answer, add it right after the prompt
       if (session.promptAnswers[index]) {
         const answer = session.promptAnswers[index];
         allMessages.push(new ChatSessionMessage(answer.id, 'assistant', answer.content));
@@ -126,6 +125,6 @@ export class ChatbotSessionService {
   }
 
   private generateSessionId(): string {
-    return Math.random().toString(36).substr(2, 9);
+    return Math.random().toString(36).slice(2, 11);
   }
 }
