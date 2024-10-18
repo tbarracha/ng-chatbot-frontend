@@ -13,6 +13,9 @@ import { ChatbotPageComponent } from '../../core/chatbot/chatbot-components/chat
   templateUrl: './page-company.component.html',
   styleUrl: './page-company.component.scss'
 })
-export class PageCompanyComponent extends ChatbotPageComponent {
 
+export class PageCompanyComponent extends ChatbotPageComponent {
+  ngOnInit() {
+    this.chatbotSessionService.createEmptySession();
+  }
 }

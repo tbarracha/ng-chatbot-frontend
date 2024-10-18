@@ -7,22 +7,21 @@ import { ConfigService } from '../../../config/config.service';
   providedIn: 'root'
 })
 export class ChatbotApiService {
-  readonly apiUrl = 'http://localhost:5000/model';
+  readonly pythonApiEndpoint = 'http://localhost:5000/model';
   
+  readonly apiEndpoint = 'http://localhost:5258/api/'
+  readonly chatbotApiEndpoint = 'http://localhost:5258/api/chatbot/'
+
   constructor(
     private readonly http: HttpClient,
     private readonly configService: ConfigService
   ) {}
 
-  sendPromptAndGetPromptAnswer(question: string, user_groups: string[], project_name: string, model_name: string): Observable<any> {
-    const requestBody = {
-      question,
-      user_groups,
-      project_name,
-      model_name
-    };
-    return this.http.post<any>(this.configService.promptUrl, requestBody);
-  }
+
+  // -----------------------------------------------------
+  // Python Quart & DjangoORM API
+  // -----------------------------------------------------
+
 
   /*
   {
@@ -45,7 +44,45 @@ export class ChatbotApiService {
   }
   */
 
-  sendPromptAnswerFeedback(prompt_answer_id: number, vote_type: string): Observable<any> {
+  sendPromptAndGetPromptAnswerPythonAPI(question: string, user_groups: string[], project_name: string, model_name: string): Observable<any> {
+    const requestBody = {
+      question,
+      user_groups,
+      project_name,
+      model_name
+    };
+    return this.http.post<any>(this.configService.promptUrl, requestBody);
+  }
+
+  sendPromptAnswerFeedbackPythonAPI(prompt_answer_id: number, vote_type: string): Observable<any> {
+    const requestBody = {
+      prompt_answer_id,
+      vote_type
+    };
+    return this.http.post<any>(this.configService.feedbackUrl, requestBody);
+  }
+
+
+
+  // -----------------------------------------------------
+  // ASP Dot Net core Web API
+  // -----------------------------------------------------
+
+  getAvailableModelNamesDotNetAPI(): Observable<any> {
+    return this.http.get<any>(this.chatbotApiEndpoint + 'model_names');
+  }
+
+  sendPromptAndGetPromptAnswerDotNetAPI(question: string, user_groups: string[], project_name: string, model_name: string): Observable<any> {
+    const requestBody = {
+      question,
+      user_groups,
+      project_name,
+      model_name
+    };
+    return this.http.post<any>(this.configService.promptUrl, requestBody);
+  }
+
+  sendPromptAnswerFeedbackDotNetAPI(prompt_answer_id: number, vote_type: string): Observable<any> {
     const requestBody = {
       prompt_answer_id,
       vote_type

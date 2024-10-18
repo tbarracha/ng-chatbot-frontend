@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ChatbotEventService } from '../chatbot-events/chatbot-event.service';
-import { ChatSession, ChatSessionMessage, PromptAnswer } from '../../chatbot-models/chatbot-models';
+import { ChatSession, ChatSessionMessage } from '../../chatbot-models/chatbot-models';
 import { ConfigService } from '../../../config/config.service';
 import { SelectorOption } from '../../../common/components/selector/selector.component';
 import { ChatbotApiService } from '../chatbot-api/chatbot-api.service';
@@ -12,6 +12,8 @@ import { EventService } from '../../../common/services/event-service/event.servi
 export class ChatbotSessionService {
   currentSession!: ChatSession;
   sessions: ChatSession[] = [];
+
+  modelNames: string[] = ['phi', 'llama3', 'aya:8b', 'stablelm2:1.6b'];
 
   llmModels: SelectorOption[] = [
     { id: 1, value: 'phi' },
@@ -33,6 +35,25 @@ export class ChatbotSessionService {
     eventService.selectorClickedEvt.subscribe(({ selectorId, selectedOption }) => {
       this.filterSelectorEvent(selectorId, selectedOption);
     });
+
+    this.getModelNames();
+  }
+
+  private getModelNames() : void {
+    this.chatbotApiService.getAvailableModelNamesDotNetAPI().subscribe(
+      {
+        next: (response) => {
+          this.modelNames = response;
+          this.llmModels = this.modelNames.map((name, index) => ({ id: index + 1, value: name }));
+        },
+        error: (error) => {
+          console.error('Error from chatbot API:', error);
+        },
+        complete: () => {
+          console.log('LLM Models:', this.llmModels);
+        }
+      }
+    );
   }
 
   private initializeSessions(): void {
@@ -83,6 +104,13 @@ export class ChatbotSessionService {
     if (switchToSession) {
       this.switchSession(session.sessionId);
     }
+  }
+
+  createEmptySession(sessionTitle: string = 'New Chat Session'): void {
+    const sessionId = this.generateSessionId();
+    const session = new ChatSession(sessionId, sessionTitle, 'user123');
+    this.sessions.push(session);
+    this.switchSession(sessionId);
   }
 
   filterSelectorEvent(selectorId: string, selectedOption: SelectorOption): void {
@@ -146,7 +174,7 @@ export class ChatbotSessionService {
     const userGroups = ['generic'];
     const projectName = 'generic';
 
-    this.chatbotApiService.sendPromptAndGetPromptAnswer(message, userGroups, projectName, model).subscribe({
+    this.chatbotApiService.sendPromptAndGetPromptAnswerPythonAPI(message, userGroups, projectName, model).subscribe({
       next: (response) => {
         console.log('API response:', response);
         const promptAnswer = response.prompt_answer;
