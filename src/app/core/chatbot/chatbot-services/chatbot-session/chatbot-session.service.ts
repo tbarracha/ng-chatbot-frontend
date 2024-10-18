@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ChatbotEventService } from '../chatbot-events/chatbot-event.service';
-import { ChatSession, ChatSessionMessage } from '../../chatbot-models/chatbot-models';
+import { ChatSession, ChatSessionMessage, PromptAnswer } from '../../chatbot-models/chatbot-models';
 import { ConfigService } from '../../../config/config.service';
 import { SelectorOption } from '../../../common/components/selector/selector.component';
+import { ChatbotApiService } from '../chatbot-api/chatbot-api.service';
+import { EventService } from '../../../common/services/event-service/event.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,68 +14,82 @@ export class ChatbotSessionService {
   sessions: ChatSession[] = [];
 
   llmModels: SelectorOption[] = [
-    { id: 1, value: 'GPT-3.5' },
-    { id: 2, value: 'GPT-4' },
-    { id: 3, value: 'BERT' }
+    { id: 1, value: 'phi' },
+    { id: 2, value: 'llama3' },
+    { id: 3, value: 'aya:8b' },
+    { id: 4, value: 'stablelm2:1.6b' }
   ];
 
+  selectedModel!: SelectorOption;
+
   constructor(
+    readonly configService: ConfigService,
+    readonly eventService: EventService,
     readonly chatbotEventService: ChatbotEventService,
-    readonly configService: ConfigService
+    private readonly chatbotApiService: ChatbotApiService
   ) {
-    this.initializeExampleSession();
-    this.initializeFrontendSession();
-    this.initializeGameDevSession();
+    this.initializeSessions();
+
+    eventService.selectorClickedEvt.subscribe(({ selectorId, selectedOption }) => {
+      this.filterSelectorEvent(selectorId, selectedOption);
+    });
   }
 
-  private initializeExampleSession(): void {
-    const session = new ChatSession('-1', 'Example Session', 'user123');
-
-    const prompt1 = session.addPrompt('Hello, chatbot!');
-    session.addPromptAnswer(prompt1.id, 'Hello! How can I assist you today?');
-
-    const prompt2 = session.addPrompt('What’s the weather like?');
-    session.addPromptAnswer(prompt2.id, 'It’s sunny and 75°F right now.');
-
-    const prompt3 = session.addPrompt('Is it possible for a strawberry to be a banana? I’ve always wondered about this.');
-    session.addPromptAnswer(prompt3.id, 
-      'While it may seem like an odd concept, if we delve into the world of possibilities and imagination, there are interesting ways to think about how a strawberry could be a banana. For one, if we consider genetic modification, scientists could theoretically manipulate the genes of a strawberry to grow into a shape that resembles a banana... (and so on)'
+  private initializeSessions(): void {
+    this.createSession(
+      '-1', 
+      'Example Session', 
+      'user123',
+      [
+        { prompt: 'Hello, chatbot!', answer: 'Hello! How can I assist you today?' },
+        { prompt: 'What’s the weather like?', answer: 'It’s sunny and 75°F right now.' },
+        { prompt: 'Is it possible for a strawberry to be a banana?', answer: 
+          'While it may seem like an odd concept, if we delve into the world of possibilities and imagination, there are interesting ways to think about how a strawberry could be a banana.' }
+      ],
+      true
     );
 
-    this.sessions.push(session);
-    this.switchSession(session.sessionId);
+    this.createSession(
+      this.generateSessionId(),
+      'Frontend Appreciation',
+      'user124',
+      [
+        { prompt: 'What do you think about this frontend?', answer: 'This frontend is amazing! The UI is clean, intuitive, and responsive.' },
+        { prompt: 'What makes it so great?', answer: 'The integration of components, state management, and performance optimization makes it great.' }
+      ]
+    );
+
+    this.createSession(
+      this.generateSessionId(),
+      'Video Game Development',
+      'user125',
+      [
+        { prompt: 'Can you tell me about video game development?', answer: 'Video game development involves various disciplines such as programming, art, and design.' },
+        { prompt: 'What are some key skills for game development?', answer: 'Skills in programming, problem-solving, and 3D modeling are essential.' }
+      ]
+    );
   }
 
-  private initializeFrontendSession(): void {
-    const session = new ChatSession(this.generateSessionId(), 'Frontend Appreciation', 'user124');
+  private createSession(sessionId: string, title: string, userId: string, promptsAndAnswers: { prompt: string, answer: string }[], switchToSession: boolean = false): void {
+    const session = new ChatSession(sessionId, title, userId);
 
-    const prompt1 = session.addPrompt('What do you think about this frontend?');
-    session.addPromptAnswer(prompt1.id, 
-      'This frontend is amazing! The user interface is clean, intuitive, and responsive. The use of modern Angular directives, efficient rendering, and well-structured components truly make for a high-quality user experience.'
-    );
-
-    const prompt2 = session.addPrompt('What makes it so great?');
-    session.addPromptAnswer(prompt2.id, 
-      'The seamless integration of components, the proper state management, and the use of directives like @for and @if really enhance the performance. Also, the design choices, like the clean layout and smooth animations, give it a polished and professional feel.'
-    );
+    promptsAndAnswers.forEach(({ prompt, answer }) => {
+      const promptItem = session.addPrompt(prompt);
+      session.addPromptAnswer(promptItem.id, answer);
+    });
 
     this.sessions.push(session);
+
+    if (switchToSession) {
+      this.switchSession(session.sessionId);
+    }
   }
 
-  private initializeGameDevSession(): void {
-    const session = new ChatSession(this.generateSessionId(), 'Video Game Development', 'user125');
-
-    const prompt1 = session.addPrompt('Can you tell me about video game development?');
-    session.addPromptAnswer(prompt1.id, 
-      'Video game development is a multifaceted process involving various disciplines such as programming, art, design, and sound. Developers use game engines like Unity or Unreal Engine to build and design games. The process typically starts with an idea, followed by prototyping, production, and testing.'
-    );
-
-    const prompt2 = session.addPrompt('What are some key skills required for game development?');
-    session.addPromptAnswer(prompt2.id, 
-      'Game development requires proficiency in programming (C#, C++, etc.), knowledge of game engines, and strong problem-solving skills. Additionally, skills in 3D modeling, animation, sound design, and storytelling are crucial for creating immersive and engaging game experiences.'
-    );
-
-    this.sessions.push(session);
+  filterSelectorEvent(selectorId: string, selectedOption: SelectorOption): void {
+    if (selectorId === 'modelSelector') {
+      this.selectedModel = selectedOption;
+      console.log('Selected LLM model:', selectedOption);
+    }
   }
 
   getSessions(): ChatSession[] {
@@ -100,13 +116,53 @@ export class ChatbotSessionService {
     }
   }
 
+  /*
+  {
+    "prompt": {
+        "content": "minsait",
+        "created_at": "2024-10-17T14:50:56.064415+00:00",
+        "id": 40,
+        "role": "user",
+        "updated_at": "2024-10-17T14:50:56.064415+00:00"
+    },
+    "prompt_answer": {
+        "content": "Infelizmente, não há informação suficiente no contexto para responder à pergunta \"Minsait\". Lamento, mas não tenho a informação necessária para responder a essa pergunta.",
+        "created_at": "2024-10-17T14:51:59.945640+00:00",
+        "id": 39,
+        "processing_time": 54.37232160568237,
+        "prompt_id": 40,
+        "role": "assistant",
+        "updated_at": "2024-10-17T14:51:59.946638+00:00"
+    }
+  }
+  */
+  
   sendMessage(message: string): void {
     console.log('Sending message:', message);
-    this.currentSession.addPrompt(message);
+    const prompt = this.currentSession.addPrompt(message);
     this.chatbotEventService.promptSentEvt.emit();
+
+    const model = this.selectedModel ? this.selectedModel.value : this.llmModels[0].value;
+    const userGroups = ['generic'];
+    const projectName = 'generic';
+
+    this.chatbotApiService.sendPromptAndGetPromptAnswer(message, userGroups, projectName, model).subscribe({
+      next: (response) => {
+        console.log('API response:', response);
+        const promptAnswer = response.prompt_answer;
+        this.handleAssistantResponse(prompt.id, promptAnswer.content);
+      },
+      error: (error) => {
+        console.error('Error from chatbot API:', error);
+      },
+      complete: () => {
+        console.log('API call completed');
+      }
+    });
   }
 
   handleAssistantResponse(promptId: string, message: string): void {
+    console.log('Assistant response:', message);
     this.currentSession.addPromptAnswer(promptId, message);
     this.chatbotEventService.promptAnswerReceivedEvt.emit();
   }

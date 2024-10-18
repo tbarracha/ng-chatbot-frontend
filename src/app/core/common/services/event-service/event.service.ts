@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { SelectorOption } from '../../components/selector/selector.component';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ export class EventService {
 
   public readonly userOptionsClickEvt = new EventEmitter<string>();
 
-  public readonly selectorClickedEvt = new EventEmitter<{selectorId: string, selectedOption: string}>();
+  public readonly selectorClickedEvt = new EventEmitter<{selectorId: string, selectedOption: SelectorOption}>();
 
   constructor() { }
 

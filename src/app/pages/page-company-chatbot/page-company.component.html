@@ -13,6 +13,7 @@
   isSubmitEnabled: false
 }">
   <ng-template>
-    <app-selector [defaultMessage]="'Select your LLM...'" [options]="llmModels" (selectionChange)="onModelSelected($event)" class="w-48"></app-selector>
+    <app-selector [selectorId]="'modelSelector'" [defaultMessage]="'Select your LLM...'" [options]="chatbotSessionService.llmModels"
+    class=""></app-selector>
   </ng-template>
 </app-blank-modal>
