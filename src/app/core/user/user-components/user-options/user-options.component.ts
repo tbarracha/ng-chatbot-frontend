@@ -1,8 +1,8 @@
 import { Component, HostListener } from '@angular/core';
-import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component';
-import { ThemeService } from '../../../services/theme-service/theme.service';
-import { EventService } from '../../../services/event-service/event.service';
 import { UserSettingsComponent } from "../user-settings/user-settings.component";
+import { ThemeToggleComponent } from '../../../common/components/theme-toggle/theme-toggle.component';
+import { EventService } from '../../../common/services/event-service/event.service';
+import { ThemeService } from '../../../common/services/theme-service/theme.service';
 
 @Component({
   selector: 'app-user-options',

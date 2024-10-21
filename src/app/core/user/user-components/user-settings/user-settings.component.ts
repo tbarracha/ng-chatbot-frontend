@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { BlankModalComponent } from "../../blank-modal/blank-modal.component";
-import { SelectorComponent } from "../../selector/selector.component";
+import { BlankModalComponent } from '../../../common/components/blank-modal/blank-modal.component';
+import { SelectorComponent } from '../../../common/components/selector/selector.component';
 
 @Component({
   selector: 'app-user-settings',
