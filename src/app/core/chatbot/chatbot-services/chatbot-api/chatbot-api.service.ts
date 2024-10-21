@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ConfigService } from '../../../config/config.service';
+import { ChatbotEventService } from '../chatbot-events/chatbot-event.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,45 @@ export class ChatbotApiService {
   readonly apiEndpoint = 'http://localhost:5258/api/'
   readonly chatbotApiEndpoint = 'http://localhost:5258/api/chatbot/'
 
-  apiProvider: string = 'python';
+  connectionName: string = 'python';
 
   constructor(
     private readonly http: HttpClient,
-    private readonly configService: ConfigService
-  ) {}
+    private readonly configService: ConfigService,
+    private readonly chatbotEventService: ChatbotEventService
+  ) {
+    chatbotEventService.onChatbotApiConnectionNameChanged.subscribe((connectionName) => {
+      this.connectionName = configService.formatConnectionName(connectionName);
+    });
+  }
+
+
+
+  // -----------------------------------------------------
+  // API Connection by Connection Name
+  // -----------------------------------------------------
+
+  getAvailableModelNames(): Observable<any> {
+    return this.http.get<any>(this.configService.getModelsUrlByConnectionName(this.connectionName));
+  }
+
+  sendChatPromptAndGetChatPromptAnswer(prompt: string, model_name: string): Observable<any> {
+    const requestBody = {
+      prompt,
+      model_name
+    };
+
+    return this.http.post<any>(this.configService.getChatUrlByConnectionName(this.connectionName), requestBody);
+  }
+
+  sendPromptAnswerFeedback(prompt_answer_id: number, vote_type: string): Observable<any> {
+    const requestBody = {
+      prompt_answer_id,
+      vote_type
+    };
+    return this.http.post<any>(this.configService.getFeedbackUrlByConnectionName(this.connectionName), requestBody);
+  }
+
 
 
   // -----------------------------------------------------
@@ -54,27 +88,27 @@ export class ChatbotApiService {
       project_name,
       model_name
     };
-    return this.http.post<any>(this.configService.promptUrl, requestBody);
+    return this.http.post<any>(this.configService.getChatUrlByConnectionName("python"), requestBody);
   }
 
-  py_sendPromptAnswerFeedback(prompt_answer_id: number, vote_type: string): Observable<any> {
+  private py_sendPromptAnswerFeedback(prompt_answer_id: number, vote_type: string): Observable<any> {
     const requestBody = {
       prompt_answer_id,
       vote_type
     };
-    return this.http.post<any>(this.configService.feedbackUrl, requestBody);
+    return this.http.post<any>(this.configService.getFeedbackUrlByConnectionName("python"), requestBody);
   }
 
-  py_sendChatPromptAndGetChatPromptAnswer(prompt: string, model_name: string): Observable<any> {
+  private py_sendChatPromptAndGetChatPromptAnswer(prompt: string, model_name: string): Observable<any> {
     const requestBody = {
       prompt,
       model_name
     };
 
-    return this.http.post<any>(this.pythonChatbotApiEndpoint + "chat", requestBody);
+    return this.http.post<any>(this.configService.getChatUrlByConnectionName("python"), requestBody);
   }
 
-  py_streamChatPromptUsingWebSocket(prompt: string, model_name: string): Observable<string> {
+  private py_streamChatPromptUsingWebSocket(prompt: string, model_name: string): Observable<string> {
     const webSocketUrl = `ws://localhost:5000/chatbot/chat/stream`;
     const ws = new WebSocket(webSocketUrl);
     const responseSubject = new Subject<string>();
@@ -111,25 +145,21 @@ export class ChatbotApiService {
   // ASP Dot Net core Web API
   // -----------------------------------------------------
 
-  dotNet_getAvailableModelNames(): Observable<any> {
-    return this.http.get<any>(this.chatbotApiEndpoint + 'model_names');
-  }
-
-  dotNet_sendPromptAndGetPromptAnswer(question: string, user_groups: string[], project_name: string, model_name: string): Observable<any> {
+  private dotNet_sendPromptAndGetPromptAnswer(question: string, user_groups: string[], project_name: string, model_name: string): Observable<any> {
     const requestBody = {
       question,
       user_groups,
       project_name,
       model_name
     };
-    return this.http.post<any>(this.configService.promptUrl, requestBody);
+    return this.http.post<any>(this.configService.getChatUrlByConnectionName("dotnet"), requestBody);
   }
 
-  dotNet_sendPromptAnswerFeedback(prompt_answer_id: number, vote_type: string): Observable<any> {
+  private dotNet_sendPromptAnswerFeedback(prompt_answer_id: number, vote_type: string): Observable<any> {
     const requestBody = {
       prompt_answer_id,
       vote_type
     };
-    return this.http.post<any>(this.configService.feedbackUrl, requestBody);
+    return this.http.post<any>(this.configService.getFeedbackUrlByConnectionName("dotnet"), requestBody);
   }
 }

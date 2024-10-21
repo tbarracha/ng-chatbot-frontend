@@ -40,8 +40,21 @@ export class ChatbotSessionService {
     this.getModelNames();
   }
 
+  filterSelectorEvent(selectorId: string, selectedOption: SelectorOption): void {
+    console.log('Selector ID:', (selectorId == '') ? '\'undefined\'' : "'" + selectorId + "'",
+              '\nSelector Option:', selectedOption);
+
+    if (selectorId === 'chatbot_model') {
+      this.selectedModel = selectedOption;
+    }
+    else if (selectorId === 'chatbot_connection_name') {
+      this.selectedAPI = selectedOption;
+      this.chatbotEventService.onChatbotApiConnectionNameChanged.emit(selectedOption.value);
+    }
+  }
+
   private getModelNames() : void {
-    this.chatbotApiService.dotNet_getAvailableModelNames().subscribe(
+    this.chatbotApiService.getAvailableModelNames().subscribe(
       {
         next: (response) => {
           this.modelNames = response;
@@ -123,19 +136,6 @@ export class ChatbotSessionService {
     this.switchSession(sessionId);
   }
 
-  filterSelectorEvent(selectorId: string, selectedOption: SelectorOption): void {
-    console.log('Selector event:', (selectorId == '') ? '\'undefined\'' : selectorId, selectedOption);
-
-    if (selectorId === 'chatbot_model') {
-      this.selectedModel = selectedOption;
-      console.log('Selected LLM model:', selectedOption);
-    }
-    else if (selectorId === 'chatbot_api') {
-      this.selectedAPI = selectedOption;
-      console.log('Selected API:', selectedOption);
-    }
-  }
-
   getSessions(): ChatSession[] {
     return this.sessions;
   }
@@ -156,7 +156,7 @@ export class ChatbotSessionService {
       this.currentSession = session;
       this.currentSession.isCurrent = true;
       
-      this.chatbotEventService.sessionChangedEvt.emit();
+      this.chatbotEventService.onSessionChanged.emit();
     }
   }
 
@@ -184,7 +184,7 @@ export class ChatbotSessionService {
   sendMessage(message: string): void {
     console.log('Sending message:', message);
     const prompt = this.currentSession.addPrompt(message);
-    this.chatbotEventService.promptSentEvt.emit();
+    this.chatbotEventService.onPromptSent.emit();
 
     const model = this.selectedModel ? this.selectedModel.value : this.llmModels[0].value;
     const userGroups = ['generic'];
@@ -214,7 +214,7 @@ export class ChatbotSessionService {
   }
 
   private sendMessageWithoutStreaming(prompt: string, model: string): void {
-    this.chatbotApiService.py_sendChatPromptAndGetChatPromptAnswer(prompt, model).subscribe(
+    this.chatbotApiService.sendChatPromptAndGetChatPromptAnswer(prompt, model).subscribe(
       {
         next: (response) => {
           console.log('API response:', response);
@@ -232,7 +232,7 @@ export class ChatbotSessionService {
   }
 
   private sendMessageWithStreaming(prompt: string, model: string): void {
-    this.chatbotApiService.py_streamChatPromptUsingWebSocket(prompt, model).subscribe({
+    this.chatbotApiService.sendChatPromptAndGetChatPromptAnswer(prompt, model).subscribe({
       next: (chunk) => {
         console.log('Received chunk:', chunk);
         this.handleAssistantResponse(prompt, chunk);
@@ -245,7 +245,7 @@ export class ChatbotSessionService {
   handleAssistantResponse(promptId: string, message: string): void {
     console.log('Assistant response:', message);
     this.currentSession.addPromptAnswer(promptId, message);
-    this.chatbotEventService.promptAnswerReceivedEvt.emit();
+    this.chatbotEventService.onPromptAnswerReceived.emit();
   }
 
   getSessionMessages(): ChatSessionMessage[] {

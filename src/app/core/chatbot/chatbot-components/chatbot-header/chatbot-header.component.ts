@@ -43,7 +43,7 @@ export class ChatbotHeaderComponent {
 
   ngOnInit() {
     this.chatbotEventManagerService
-      .sidebarToggledEvt
+      .onSidebarToggled
       .subscribe(() => this.sidebarToggled());
 
     this.logoUrl = this.configService.organizationLogo;
@@ -59,7 +59,7 @@ export class ChatbotHeaderComponent {
   }
 
   toggleSidebar() {
-    this.chatbotEventManagerService.sidebarToggledEvt.emit();
+    this.chatbotEventManagerService.onSidebarToggled.emit();
   }
 
   isSidebarOpen() {

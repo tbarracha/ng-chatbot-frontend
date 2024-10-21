@@ -22,7 +22,7 @@ export class ChatbotSidebarComponent extends SidebarComponent implements OnInit 
 
   ngOnInit() {
     this.chatbotEventManagerService
-      .sidebarToggledEvt
+      .onSidebarToggled
       .subscribe(() => this.toggleSidebar());
 
     this.chatSessions = this.chatbotMessageService.getSessions();

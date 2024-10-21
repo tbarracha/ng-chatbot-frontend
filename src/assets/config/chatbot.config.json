@@ -7,47 +7,103 @@
     "url": "https://www.minsait.com"
   },
 
-  "apiConnection": {
-    "url": "http://127.0.0.1:5000/hello",
-    "promptUrl": "http://127.0.0.1:5000/model/prompt",
-    "feedbackUrl": "http://127.0.0.1:5000/model/prompt/vote",
-    "modelName": "model_name",
-
-    "request": {
-      "promptDTO": {
-        "id": "id",
-        "role": "role",
-        "content": "question",
-        "user": "user_groups",
-        "project": "project_name",
-        "modelName": "model_name"
-      },
-      "feedbackDTO": {
-        "promptId": "prompt_answer_id",
-        "feedbackStyle": "feedback_style",
-        "rating": "vote_type"
-      }
+  "apiSettings": {
+    "connectionSettings": {
+      "connectionName": "Python",
+      "connections": [
+        {
+          "name": "Python",
+          "chatURL": "http://127.0.0.1:5000/chatbot/chat",
+          "feedbackURL": "http://127.0.0.1:5000/chatbot/chat/vote",
+          "availableModelsURL": "http://127.0.0.1:5000/chatbot/model_names"
+        },
+        {
+          "name": "Dot Net",
+          "chatURL": "http://127.0.0.1:5000/chatbot/chat",
+          "feedbackURL": "http://127.0.0.1:5000/chatbot/chat/vote",
+          "availableModelsURL": "http://127.0.0.1:5000/chatbot/model_names"
+        }
+      ]
     },
 
-    "response": {
-      "promptDTO": {
-        "id": "id",
-        "role": "role",
-        "content": "content",
-        "timestamp": "created_at"
+    "dtoMapping": {
+      "request": {
+        "promptDTO": {
+          "id": "id",
+          "role": "role",
+          "content": "question",
+          "user": "user_groups",
+          "project": "project_name",
+          "modelName": "model_name"
+        },
+        "feedbackDTO": {
+          "promptId": "prompt_answer_id",
+          "feedbackStyle": "feedback_style",
+          "rating": "vote_type"
+        }
       },
-      "promptAnswerDTO": {
-        "id": "id",
-        "role": "role",
-        "promptId": "prompt_id",
-        "content": "content",
-        "timestamp": "created_at"
-      },
-      "feedbackDTO": {
-        "promptId": "prompt_answer_id",
-        "rating": "rating",
-        "timestamp": "created_at"
+
+      "response": {
+        "promptDTO": {
+          "id": "id",
+          "role": "role",
+          "content": "content",
+          "timestamp": "created_at"
+        },
+        "promptAnswerDTO": {
+          "id": "id",
+          "role": "role",
+          "promptId": "prompt_id",
+          "content": "content",
+          "timestamp": "created_at"
+        },
+        "feedbackDTO": {
+          "promptId": "prompt_answer_id",
+          "rating": "rating",
+          "timestamp": "created_at"
+        }
       }
+    }
+  },
+
+  "chatbotSettings": {
+    "model": "llama3",
+    "apiProvider": "python",
+    "stream": false,
+    "useOptions": false,
+    "optionsLevel": "simple",
+    "options": {
+      "seed": 0,
+      "top_k": 20,
+      "top_p": 0.9,
+      "temperature": 0.8,
+      "repeat_penalty": 1.2,
+      "stop": [],
+
+
+      "num_keep": 5,
+      "num_predict": 100,
+      "min_p": 0.0,
+      "tfs_z": 0.5,
+      "typical_p": 0.7,
+      "repeat_last_n": 33,
+      "presence_penalty": 1.5,
+      "frequency_penalty": 1.0,
+      "mirostat": 1,
+      "mirostat_tau": 0.8,
+      "mirostat_eta": 0.6,
+      "penalize_newline": true,
+      "numa": false,
+      "num_ctx": 1024,
+      "num_batch": 2,
+      "num_gpu": 0,
+      "main_gpu": 0,
+      "low_vram": false,
+      "f16_kv": true,
+      "vocab_only": false,
+      "use_mmap": true,
+      "use_mlock": false,
+      "num_thread": 8
     }
   },
   
@@ -73,32 +129,5 @@
       "minWidth": "200px",
       "maxWidth": "400px"
     }
-  },
-
-  "colors": {
-    "main_bg": "#FFFEFE",
-    "main_primary": "#E6E7E6",
-    "main_secondary": "#1B3A49",
-    "main_primary_light": "#F3F3F2",
-    "main_secondary_light": "#819198",
-    "main_hl_primary": "#FCE1D3",
-    "main_hl_primary_dark": "#F6B08D",
-    "main_hl_secondary": "#78C2B4",
-    "main_hl_secondary_dark": "#4A7E7F",
-
-    "dark_bg": "#262730",
-    "dark_primary": "#0e1118",
-    "dark_secondary": "#a0a6b7",
-    "dark_primary_light": "#1A1C24",
-    "dark_secondary_light": "#575C68",
-    "dark_hl_primary": "#FCE1D3",
-    "dark_hl_primary_dark": "#F6B08D",
-    "dark_hl_secondary": "#78C2B4",
-    "dark_hl_secondary_dark": "#4A7E7F",
-
-    "success": "#28a745",
-    "info": "#17a2b8",
-    "warning": "#ffc107",
-    "danger": "#dc3545"
   }
 }

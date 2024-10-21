@@ -28,20 +28,20 @@ export class ChatbotSessionHistoryComponent implements OnInit {
     this.refreshMessages();
 
     this.chatbotEventService
-      .sessionChangedEvt
+      .onSessionChanged
       .subscribe(() => {
         this.refreshMessages();
         this.scrollToBottom();
       });
 
     this.chatbotEventService
-      .promptSentEvt
+      .onPromptSent
       .subscribe(() => {
         this.scrollToBottom();
       });
 
     this.chatbotEventService
-      .promptAnswerReceivedEvt
+      .onPromptAnswerReceived
       .subscribe(() => {
         this.scrollToBottom();
       });

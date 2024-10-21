@@ -7,48 +7,140 @@
 >
   <ng-template>
     <div class="flex flex-col space-y-2 text-black dark:text-white">
-        <div class="flex items-center space-x-2">
-            <h5 class="w-[10%]">API:</h5>
-            <app-selector
-                #apiSelector
-                [selectorID]="'chatbot_api'"
-                [defaultMessage]="'Select API Type'"
-                [defaultSelectionID]="1"
-                [options]="[
-                  { id: 1, value: 'Python' },
-                  { id: 2, value: 'Dot Net' }
-                ]"
-                class="w-full"
-            >
-            </app-selector>
-        </div>
-        
-        <div class="flex items-center space-x-2">
-            <h5 class="w-[10%]">Model:</h5>
-            <app-chatbot-model-selector
-                #modelSelector
-                [selectorID]="'chatbot_model'"
-                [defaultMessage]="'Select your LLM...'"
-                [options]="brain.chatbotSessionService.llmModels"
-                class="w-full"
-            ></app-chatbot-model-selector>
-        </div>
+      <!-- API Selector -->
+      <div class="flex items-center space-x-2">
+        <h5 class="w-[25%]">API:</h5>
+        <app-selector
+          #apiSelector
+          [selectorID]="'chatbot_connection_name'"
+          [defaultMessage]="'Select API Type...'"
+          [defaultSelectionID]="1"
+          [options]="[
+            { id: 1, value: 'Python' },
+            { id: 2, value: 'Dot Net' }
+          ]"
+          class="w-full"
+        ></app-selector>
+      </div>
 
-        <div class="flex items-center space-x-2">
-            <h5 class="w-[10%]">Stream:</h5>
-            <app-selector
-                #apiSelector
-                [selectorID]="'chatbot_stream'"
-                [defaultMessage]="'Select Option'"
-                [defaultSelectionID]="1"
-                [options]="[
-                  { id: 0, value: 'True' },
-                  { id: 1, value: 'False' }
-                ]"
-                class="w-full"
-            >
-            </app-selector>
+      <!-- Model Selector -->
+      <div class="flex items-center space-x-2">
+        <h5 class="w-[25%]">Model:</h5>
+        <app-chatbot-model-selector
+          #modelSelector
+          [selectorID]="'chatbot_model'"
+          [defaultMessage]="'Select your LLM...'"
+          [options]="brain.chatbotSessionService.llmModels"
+          class="w-full"
+        ></app-chatbot-model-selector>
+      </div>
+
+      <!-- Stream Selector -->
+      <div class="flex items-center space-x-2">
+        <h5 class="w-[25%]">Stream:</h5>
+        <app-selector
+          #streamSelector
+          [selectorID]="'chatbot_stream'"
+          [defaultMessage]="'Select Option...'"
+          [defaultSelectionID]="1"
+          [options]="[
+            { id: 0, value: 'True' },
+            { id: 1, value: 'False' }
+          ]"
+          class="w-full"
+        ></app-selector>
+      </div>
+
+      <!-- Seed Input -->
+      <div class="flex items-center space-x-2">
+        <h5 class="w-[25%]">Seed:</h5>
+        <input
+          type="number"
+          class="w-full p-2 rounded-lg border dark:bg-inherit dark:border-gray-700"
+          placeholder="Enter Seed Value"
+          [value]="chatbotSettings.options.seed"
+          (input)="onSeedChange($event)"
+        />
+      </div>
+
+      <!-- Top K Slider -->
+      <div class="flex items-center">
+        <h5 class="w-[25%]">Top K:</h5>
+        <div class="flex items-center flex-grow">
+          <input
+            type="range"
+            min="0"
+            max="100"
+            [value]="chatbotSettings.options.top_k"
+            (input)="onTopKChange($event)"
+            class="flex-grow"
+          />
+          <span class="w-[10%] text-right">{{ chatbotSettings.options.top_k }}</span>
         </div>
+      </div>
+
+      <!-- Top P Slider -->
+      <div class="flex items-center">
+        <h5 class="w-[25%]">Top P:</h5>
+        <div class="flex items-center flex-grow">
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            [value]="chatbotSettings.options.top_p"
+            (input)="onTopPChange($event)"
+            class="flex-grow"
+          />
+          <span class="w-[10%] text-right">{{ chatbotSettings.options.top_p }}</span>
+        </div>
+      </div>
+
+      <!-- Temperature Slider -->
+      <div class="flex items-center">
+        <h5 class="w-[25%]">Temperature:</h5>
+        <div class="flex items-center flex-grow">
+          <input
+            type="range"
+            min="0"
+            max="2"
+            step="0.01"
+            [value]="chatbotSettings.options.temperature"
+            (input)="onTemperatureChange($event)"
+            class="flex-grow"
+          />
+          <span class="w-[10%] text-right">{{ chatbotSettings.options.temperature }}</span>
+        </div>
+      </div>
+
+      <!-- Repeat Penalty Slider -->
+      <div class="flex items-center">
+        <h5 class="w-[25%]">Repeat Penalty:</h5>
+        <div class="flex items-center flex-grow">
+          <input
+            type="range"
+            min="0"
+            max="2"
+            step="0.01"
+            [value]="chatbotSettings.options.repeat_penalty"
+            (input)="onRepeatPenaltyChange($event)"
+            class="flex-grow"
+          />
+          <span class="w-[10%] text-right">{{ chatbotSettings.options.repeat_penalty }}</span>
+        </div>
+      </div>
+
+      <!-- Stop Tokens Input -->
+      <div class="flex items-center space-x-2">
+        <h5 class="w-[25%]">Stop Tokens:</h5>
+        <input
+          type="text"
+          class="w-full p-2 rounded-lg border dark:bg-inherit dark:border-gray-700"
+          placeholder="Enter Stop Tokens (comma-separated)"
+          [value]="chatbotSettings.options.stop.join(', ')"
+          (input)="onStopTokensChange($event)"
+        />
+      </div>
     </div>
   </ng-template>
 </app-blank-modal>
