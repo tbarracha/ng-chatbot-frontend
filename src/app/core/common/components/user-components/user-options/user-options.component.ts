@@ -1,12 +1,13 @@
 import { Component, HostListener } from '@angular/core';
-import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
-import { ThemeService } from '../../services/theme-service/theme.service';
-import { EventService } from '../../services/event-service/event.service';
+import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component';
+import { ThemeService } from '../../../services/theme-service/theme.service';
+import { EventService } from '../../../services/event-service/event.service';
+import { UserSettingsComponent } from "../user-settings/user-settings.component";
 
 @Component({
   selector: 'app-user-options',
   standalone: true,
-  imports: [ThemeToggleComponent],
+  imports: [ThemeToggleComponent, UserSettingsComponent],
   templateUrl: './user-options.component.html',
   styleUrl: './user-options.component.scss'
 })

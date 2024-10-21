@@ -1,13 +1,21 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ChatbotSessionService } from '../../../chatbot-services/chatbot-session/chatbot-session.service';
 import { ChatbotInputAttachmentComponent } from "../chatbot-input-attachment/chatbot-input-attachment.component";
+import { ChatbotInputOptionsComponent } from "../chatbot-input-options/chatbot-input-options.component";
+
+export enum ChatbotInputState {
+  Idle = 'idle',
+  Waiting = 'waiting',
+  Dragging = 'dragging',
+  Error = 'error'
+}
 
 @Component({
   selector: 'app-chatbot-input',
   standalone: true,
   templateUrl: './chatbot-input.component.html',
   styleUrls: ['./chatbot-input.component.scss'],
-  imports: [ChatbotInputAttachmentComponent]
+  imports: [ChatbotInputAttachmentComponent, ChatbotInputOptionsComponent]
 })
 export class ChatbotInputComponent {
   @ViewChild('chatInput') chatInput!: ElementRef<HTMLDivElement>;
@@ -45,7 +53,8 @@ export class ChatbotInputComponent {
   submitMessage(): void {
     const message = this.chatTextInput?.nativeElement.value.trim();
     if (message) {
-      this.chatbotMessageService.sendMessage(message);
+      //this.chatbotMessageService.sendMessage(message);
+      this.chatbotMessageService.sendMessagePython(message);
 
       if (this.files.length > 0) {
         this.chatbotMessageService.handleFiles(this.files);

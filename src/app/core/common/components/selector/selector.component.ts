@@ -23,23 +23,45 @@ export class SelectorComponent {
   @Input() defaultMessage: string = 'Select an option';
   @Input() selectorId: string = '';
   @Input() options: SelectorOption[] = [];
+  @Input() defaultSelectionID: number = -1;
   @Output() selectionChange = new EventEmitter<SelectorOption>();
 
   currentSelection: SelectorOption | null = null;
   isDropdownOpen = false;
 
-  constructor(readonly eventService: EventService) {
+  constructor(protected readonly eventService: EventService) {
+    eventService.selectorClickedEvt.subscribe((event) => this.filterSelectorEvent(event.selectorId, event.selectedOption));
   }
 
-  toggleDropdown() {
+  ngOnInit() {
+    this.setDefaultSelection();
+  }
+
+  setDefaultSelection() {
+    if (this.defaultSelectionID !== -1) {
+      const defaultSelection = this.options.find(option => option.id === this.defaultSelectionID);
+      if (defaultSelection) {
+        this.currentSelection = defaultSelection;
+      }
+    }
+  }
+
+  public toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  selectOption(option: SelectorOption) {
+  public selectOption(option: SelectorOption) {
     this.currentSelection = option;
     this.selectionChange.emit(option);
     this.eventService.selectorClickedEvt.emit({selectorId: this.selectorId, selectedOption: option});
     this.isDropdownOpen = false;
+  }
+
+  public selectOptionByID(id: number) {
+    const option = this.options.find(option => option.id === id);
+    if (option) {
+      this.selectOption(option);
+    }
   }
 
   @HostListener('document:click', ['$event'])
@@ -52,5 +74,7 @@ export class SelectorComponent {
     if (!clickedInside) {
       this.isDropdownOpen = false;
     }
-  }
+  }  
+
+  protected filterSelectorEvent(selectorId: string, selectedOption: SelectorOption): void {}
 }

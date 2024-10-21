@@ -1,0 +1,38 @@
+<app-blank-modal
+  [modalConfig]="{
+    title: 'Chatbot Settings',
+    optionToListenFor: 'chatbot_settings',
+    isSubmitEnabled: false
+  }"
+>
+  <ng-template>
+    <div class="flex flex-col space-y-2 text-black dark:text-white">
+        <div class="flex items-center space-x-2">
+            <h5 class="w-[10%]">API:</h5>
+            <app-selector
+                #apiSelector
+                [id]="'apiType'"
+                [defaultMessage]="'Select API Type'"
+                [defaultSelectionID]="1"
+                [options]="[
+                  { id: 1, value: 'Python' },
+                  { id: 2, value: 'Dot Net' }
+                ]"
+                class="w-full"
+            >
+            </app-selector>
+        </div>
+        
+        <div class="flex items-center space-x-2">
+            <h5 class="w-[10%]">Model:</h5>
+            <app-chatbot-model-selector
+                #modelSelector
+                [selectorId]="'modelSelector'"
+                [defaultMessage]="'Select your LLM...'"
+                [options]="chatbotSessionService.llmModels"
+                class="w-full"
+            ></app-chatbot-model-selector>
+        </div>
+    </div>
+  </ng-template>
+</app-blank-modal>

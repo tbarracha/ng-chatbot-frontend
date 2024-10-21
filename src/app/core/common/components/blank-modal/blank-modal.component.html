@@ -3,7 +3,8 @@
     <div class="fixed inset-0 z-50 flex items-center justify-center">
   
       <!-- Blurry Background -->
-      <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+      <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
+      (click)="closeModal()"></div>
   
       <!-- Modal Content Wrapper with 80% width and height -->
       <div class="relative bg-main-bg dark:bg-dark-bg rounded-lg shadow-lg z-10 w-[80%] h-[80%] flex flex-col">

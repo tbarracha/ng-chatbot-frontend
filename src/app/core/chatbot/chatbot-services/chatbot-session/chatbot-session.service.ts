@@ -40,20 +40,29 @@ export class ChatbotSessionService {
   }
 
   private getModelNames() : void {
-    this.chatbotApiService.getAvailableModelNamesDotNetAPI().subscribe(
+    this.chatbotApiService.dotNet_getAvailableModelNames().subscribe(
       {
         next: (response) => {
           this.modelNames = response;
           this.llmModels = this.modelNames.map((name, index) => ({ id: index + 1, value: name }));
+          this.selectInitialModel();
         },
         error: (error) => {
           console.error('Error from chatbot API:', error);
+          this.llmModels = this.modelNames.map((name, index) => ({ id: index + 1, value: name }));
+          this.selectInitialModel();
         },
         complete: () => {
           console.log('LLM Models:', this.llmModels);
         }
       }
     );
+  }
+  
+  private selectInitialModel(): void {
+    const llamaModel = this.llmModels.find(model => model.value.toLowerCase().includes('llama'));
+    this.selectedModel = llamaModel || this.llmModels[0];
+    this.eventService.selectorClickedEvt.emit({ selectorId: 'modelSelector', selectedOption: this.selectedModel });
   }
 
   private initializeSessions(): void {
@@ -174,7 +183,7 @@ export class ChatbotSessionService {
     const userGroups = ['generic'];
     const projectName = 'generic';
 
-    this.chatbotApiService.sendPromptAndGetPromptAnswerPythonAPI(message, userGroups, projectName, model).subscribe({
+    this.chatbotApiService.py_sendPromptAndGetPromptAnswer(message, userGroups, projectName, model).subscribe({
       next: (response) => {
         console.log('API response:', response);
         const promptAnswer = response.prompt_answer;
@@ -186,6 +195,43 @@ export class ChatbotSessionService {
       complete: () => {
         console.log('API call completed');
       }
+    });
+  }
+
+  sendMessagePython(prompt: string) {
+    console.log('Sending prompt:', prompt);
+    const model = this.selectedModel ? this.selectedModel.value : this.llmModels[0].value;
+
+    // this.sendMessageWithoutStreaming(prompt, model);
+    this.sendMessageWithStreaming(prompt, model);
+  }
+
+  private sendMessageWithoutStreaming(prompt: string, model: string): void {
+    this.chatbotApiService.py_sendChatPromptAndGetChatPromptAnswer(prompt, model).subscribe(
+      {
+        next: (response) => {
+          console.log('API response:', response);
+          const promptAnswer = response.prompt_answer;
+          this.handleAssistantResponse(prompt, promptAnswer.content);
+        },
+        error: (error) => {
+          console.error('Error from chatbot API:', error);
+        },
+        complete: () => {
+          console.log('API call completed');
+        }
+      }
+    );
+  }
+
+  private sendMessageWithStreaming(prompt: string, model: string): void {
+    this.chatbotApiService.py_streamChatPromptUsingWebSocket(prompt, model).subscribe({
+      next: (chunk) => {
+        console.log('Received chunk:', chunk);
+        this.handleAssistantResponse(prompt, chunk);
+      },
+      error: (err) => console.error('Streaming error:', err),
+      complete: () => console.log('Stream complete')
     });
   }
 
