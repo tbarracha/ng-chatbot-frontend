@@ -23,6 +23,7 @@ export class ChatbotSessionService {
   ];
 
   selectedModel!: SelectorOption;
+  selectedAPI!: SelectorOption;
 
   constructor(
     readonly configService: ConfigService,
@@ -123,9 +124,15 @@ export class ChatbotSessionService {
   }
 
   filterSelectorEvent(selectorId: string, selectedOption: SelectorOption): void {
-    if (selectorId === 'modelSelector') {
+    console.log('Selector event:', (selectorId == '') ? '\'undefined\'' : selectorId, selectedOption);
+
+    if (selectorId === 'chatbot_model') {
       this.selectedModel = selectedOption;
       console.log('Selected LLM model:', selectedOption);
+    }
+    else if (selectorId === 'chatbot_api') {
+      this.selectedAPI = selectedOption;
+      console.log('Selected API:', selectedOption);
     }
   }
 

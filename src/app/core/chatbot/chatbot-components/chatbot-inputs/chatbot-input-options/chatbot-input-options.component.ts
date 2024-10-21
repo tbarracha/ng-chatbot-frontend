@@ -11,6 +11,6 @@ import { ChatbotBaseComponentComponent } from '../../chatbot-base-component/chat
 export class ChatbotInputOptionsComponent extends ChatbotBaseComponentComponent {
 
   triggerOptionEvent(eventId: string) {
-    this.eventService.userOptionsClickEvt.emit(eventId);
+    this.brain.eventService.userOptionsClickEvt.emit(eventId);
   }
 }

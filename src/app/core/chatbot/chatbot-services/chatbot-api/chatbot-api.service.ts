@@ -13,6 +13,8 @@ export class ChatbotApiService {
   readonly apiEndpoint = 'http://localhost:5258/api/'
   readonly chatbotApiEndpoint = 'http://localhost:5258/api/chatbot/'
 
+  apiProvider: string = 'python';
+
   constructor(
     private readonly http: HttpClient,
     private readonly configService: ConfigService

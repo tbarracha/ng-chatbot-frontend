@@ -21,7 +21,7 @@ export class SelectorComponent {
   @ViewChild('selector', { static: false }) selectorRef!: ElementRef;
 
   @Input() defaultMessage: string = 'Select an option';
-  @Input() selectorId: string = '';
+  @Input() selectorID: string = '';
   @Input() options: SelectorOption[] = [];
   @Input() defaultSelectionID: number = -1;
   @Output() selectionChange = new EventEmitter<SelectorOption>();
@@ -53,7 +53,7 @@ export class SelectorComponent {
   public selectOption(option: SelectorOption) {
     this.currentSelection = option;
     this.selectionChange.emit(option);
-    this.eventService.selectorClickedEvt.emit({selectorId: this.selectorId, selectedOption: option});
+    this.eventService.selectorClickedEvt.emit({selectorId: this.selectorID, selectedOption: option});
     this.isDropdownOpen = false;
   }
 

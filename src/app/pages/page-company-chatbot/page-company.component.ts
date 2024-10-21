@@ -18,6 +18,6 @@ import { ChatbotSettingsComponent } from "../../core/chatbot/chatbot-components/
 
 export class PageCompanyComponent extends ChatbotBaseComponentComponent {
   ngOnInit() {
-    this.chatbotSessionService.createEmptySession();
+    this.brain.chatbotSessionService.createEmptySession();
   }
 }

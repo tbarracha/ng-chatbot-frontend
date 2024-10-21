@@ -11,7 +11,7 @@
             <h5 class="w-[10%]">API:</h5>
             <app-selector
                 #apiSelector
-                [id]="'apiType'"
+                [selectorID]="'chatbot_api'"
                 [defaultMessage]="'Select API Type'"
                 [defaultSelectionID]="1"
                 [options]="[
@@ -27,11 +27,27 @@
             <h5 class="w-[10%]">Model:</h5>
             <app-chatbot-model-selector
                 #modelSelector
-                [selectorId]="'modelSelector'"
+                [selectorID]="'chatbot_model'"
                 [defaultMessage]="'Select your LLM...'"
-                [options]="chatbotSessionService.llmModels"
+                [options]="brain.chatbotSessionService.llmModels"
                 class="w-full"
             ></app-chatbot-model-selector>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <h5 class="w-[10%]">Stream:</h5>
+            <app-selector
+                #apiSelector
+                [selectorID]="'chatbot_stream'"
+                [defaultMessage]="'Select Option'"
+                [defaultSelectionID]="1"
+                [options]="[
+                  { id: 0, value: 'True' },
+                  { id: 1, value: 'False' }
+                ]"
+                class="w-full"
+            >
+            </app-selector>
         </div>
     </div>
   </ng-template>

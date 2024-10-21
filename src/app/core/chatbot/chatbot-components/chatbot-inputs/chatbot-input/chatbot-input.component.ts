@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ChatbotSessionService } from '../../../chatbot-services/chatbot-session/chatbot-session.service';
 import { ChatbotInputAttachmentComponent } from "../chatbot-input-attachment/chatbot-input-attachment.component";
 import { ChatbotInputOptionsComponent } from "../chatbot-input-options/chatbot-input-options.component";
+import { ChatbotSettingsComponent } from "../../chatbot-settings/chatbot-settings.component";
 
 export enum ChatbotInputState {
   Idle = 'idle',
@@ -15,7 +16,7 @@ export enum ChatbotInputState {
   standalone: true,
   templateUrl: './chatbot-input.component.html',
   styleUrls: ['./chatbot-input.component.scss'],
-  imports: [ChatbotInputAttachmentComponent, ChatbotInputOptionsComponent]
+  imports: [ChatbotInputAttachmentComponent, ChatbotInputOptionsComponent, ChatbotSettingsComponent]
 })
 export class ChatbotInputComponent {
   @ViewChild('chatInput') chatInput!: ElementRef<HTMLDivElement>;
