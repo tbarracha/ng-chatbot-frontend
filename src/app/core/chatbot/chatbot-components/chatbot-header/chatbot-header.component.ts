@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { ChatbotEventService } from '../../chatbot-services/chatbot-events/chatbot-event.service';
-import { SelectorComponent, SelectorOption } from '../../../common/components/selector/selector.component';
+import { InputSelectorComponent, SelectorOption } from '../../../common/components/input-components/input-selector/input-selector.component';
 import { ThemeToggleComponent } from '../../../common/components/theme-toggle/theme-toggle.component';
 import { ThemeService } from '../../../common/services/theme-service/theme.service';
 import { ConfigService } from '../../../config/config.service';
@@ -13,7 +13,7 @@ import { UserOptionsComponent } from '../../../user/user-components/user-options
 @Component({
   selector: 'app-chatbot-header',
   standalone: true,
-  imports: [SelectorComponent, ThemeToggleComponent, NgClass, UserOptionsComponent],
+  imports: [InputSelectorComponent, ThemeToggleComponent, NgClass, UserOptionsComponent],
   templateUrl: './chatbot-header.component.html',
   styleUrl: './chatbot-header.component.scss'
 })

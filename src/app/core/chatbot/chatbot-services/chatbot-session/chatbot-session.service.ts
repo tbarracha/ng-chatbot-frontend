@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { ChatbotEventService } from '../chatbot-events/chatbot-event.service';
 import { ChatSession, ChatSessionMessage } from '../../chatbot-models/chatbot-models';
 import { ConfigService } from '../../../config/config.service';
-import { SelectorOption } from '../../../common/components/selector/selector.component';
+import { SelectorOption } from '../../../common/components/input-components/input-selector/input-selector.component';
 import { ChatbotApiService } from '../chatbot-api/chatbot-api.service';
 import { EventService } from '../../../common/services/event-service/event.service';
+import { ChatbotBrainService } from '../chatbot-brain/chatbot-brain.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +42,8 @@ export class ChatbotSessionService {
   }
 
   filterSelectorEvent(selectorId: string, selectedOption: SelectorOption): void {
-    console.log('Selector ID:', (selectorId == '') ? '\'undefined\'' : "'" + selectorId + "'",
-              '\nSelector Option:', selectedOption);
+    //console.log('Selector ID:', (selectorId == '') ? '\'undefined\'' : "'" + selectorId + "'",
+    //          '\nSelector Option:', selectedOption);
 
     if (selectorId === 'chatbot_model') {
       this.selectedModel = selectedOption;
@@ -160,88 +161,6 @@ export class ChatbotSessionService {
     }
   }
 
-  /*
-  {
-    "prompt": {
-        "content": "minsait",
-        "created_at": "2024-10-17T14:50:56.064415+00:00",
-        "id": 40,
-        "role": "user",
-        "updated_at": "2024-10-17T14:50:56.064415+00:00"
-    },
-    "prompt_answer": {
-        "content": "Infelizmente, não há informação suficiente no contexto para responder à pergunta \"Minsait\". Lamento, mas não tenho a informação necessária para responder a essa pergunta.",
-        "created_at": "2024-10-17T14:51:59.945640+00:00",
-        "id": 39,
-        "processing_time": 54.37232160568237,
-        "prompt_id": 40,
-        "role": "assistant",
-        "updated_at": "2024-10-17T14:51:59.946638+00:00"
-    }
-  }
-  */
-  
-  sendMessage(message: string): void {
-    console.log('Sending message:', message);
-    const prompt = this.currentSession.addPrompt(message);
-    this.chatbotEventService.onPromptSent.emit();
-
-    const model = this.selectedModel ? this.selectedModel.value : this.llmModels[0].value;
-    const userGroups = ['generic'];
-    const projectName = 'generic';
-
-    this.chatbotApiService.py_sendPromptAndGetPromptAnswer(message, userGroups, projectName, model).subscribe({
-      next: (response) => {
-        console.log('API response:', response);
-        const promptAnswer = response.prompt_answer;
-        this.handleAssistantResponse(prompt.id, promptAnswer.content);
-      },
-      error: (error) => {
-        console.error('Error from chatbot API:', error);
-      },
-      complete: () => {
-        console.log('API call completed');
-      }
-    });
-  }
-
-  sendMessagePython(prompt: string) {
-    console.log('Sending prompt:', prompt);
-    const model = this.selectedModel ? this.selectedModel.value : this.llmModels[0].value;
-
-    // this.sendMessageWithoutStreaming(prompt, model);
-    this.sendMessageWithStreaming(prompt, model);
-  }
-
-  private sendMessageWithoutStreaming(prompt: string, model: string): void {
-    this.chatbotApiService.sendChatPromptAndGetChatPromptAnswer(prompt, model).subscribe(
-      {
-        next: (response) => {
-          console.log('API response:', response);
-          const promptAnswer = response.prompt_answer;
-          this.handleAssistantResponse(prompt, promptAnswer.content);
-        },
-        error: (error) => {
-          console.error('Error from chatbot API:', error);
-        },
-        complete: () => {
-          console.log('API call completed');
-        }
-      }
-    );
-  }
-
-  private sendMessageWithStreaming(prompt: string, model: string): void {
-    this.chatbotApiService.sendChatPromptAndGetChatPromptAnswer(prompt, model).subscribe({
-      next: (chunk) => {
-        console.log('Received chunk:', chunk);
-        this.handleAssistantResponse(prompt, chunk);
-      },
-      error: (err) => console.error('Streaming error:', err),
-      complete: () => console.log('Stream complete')
-    });
-  }
-
   handleAssistantResponse(promptId: string, message: string): void {
     console.log('Assistant response:', message);
     this.currentSession.addPromptAnswer(promptId, message);
@@ -266,6 +185,74 @@ export class ChatbotSessionService {
 
   handleFiles(files: File[]): void {
     console.log('Handling files:', files);
+  }
+
+  /*
+  {
+    "prompt": {
+        "content": "minsait",
+        "created_at": "2024-10-17T14:50:56.064415+00:00",
+        "id": 40,
+        "role": "user",
+        "updated_at": "2024-10-17T14:50:56.064415+00:00"
+    },
+    "prompt_answer": {
+        "content": "Infelizmente, não há informação suficiente no contexto para responder à pergunta \"Minsait\". Lamento, mas não tenho a informação necessária para responder a essa pergunta.",
+        "created_at": "2024-10-17T14:51:59.945640+00:00",
+        "id": 39,
+        "processing_time": 54.37232160568237,
+        "prompt_id": 40,
+        "role": "assistant",
+        "updated_at": "2024-10-17T14:51:59.946638+00:00"
+    }
+  }
+  */
+
+  sendMessage(promptMessage: string) {
+    console.log('Sending prompt:', promptMessage);
+    const model = this.selectedModel ? this.selectedModel.value : this.llmModels[0].value;
+
+    const prompt = this.currentSession.addPrompt(promptMessage);
+    this.chatbotEventService.onPromptSent.emit();
+
+    this.chatbotApiService.sendChatPromptAndGetChatPromptAnswer(promptMessage, model).subscribe({
+      next: (apiResponse) => {
+        console.log('API response:', apiResponse);
+        const promptAnswer = apiResponse?.response?.message?.content;
+
+        this.handleAssistantResponse(prompt.id, promptAnswer);
+      },
+      error: (error) => {
+        console.error('Error from chatbot API:', error);
+      },
+      complete: () => {
+        //console.log('API call completed');
+      }
+    });
+  }
+  
+  private sendMessage_deprecated(message: string): void {
+    console.log('Sending message:', message);
+    const prompt = this.currentSession.addPrompt(message);
+    this.chatbotEventService.onPromptSent.emit();
+
+    const model = this.selectedModel ? this.selectedModel.value : this.llmModels[0].value;
+    const userGroups = ['generic'];
+    const projectName = 'generic';
+
+    this.chatbotApiService.py_sendPromptAndGetPromptAnswer(message, userGroups, projectName, model).subscribe({
+      next: (response) => {
+        console.log('API response:', response);
+        const promptAnswer = response.prompt_answer;
+        this.handleAssistantResponse(prompt.id, promptAnswer.content);
+      },
+      error: (error) => {
+        console.error('Error from chatbot API:', error);
+      },
+      complete: () => {
+        console.log('API call completed');
+      }
+    });
   }
 
   private generateSessionId(): string {

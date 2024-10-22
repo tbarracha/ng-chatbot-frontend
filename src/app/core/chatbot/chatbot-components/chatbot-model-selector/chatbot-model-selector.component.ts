@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { SelectorComponent, SelectorOption } from '../../../common/components/selector/selector.component';
+import { InputSelectorComponent, SelectorOption } from '../../../common/components/input-components/input-selector/input-selector.component';
 import { EventService } from '../../../common/services/event-service/event.service';
-import { ChatbotEventService } from '../../chatbot-services/chatbot-events/chatbot-event.service';
-import { ChatbotSessionService } from '../../chatbot-services/chatbot-session/chatbot-session.service';
+import { ChatbotBrainService } from '../../chatbot-services/chatbot-brain/chatbot-brain.service';
 
 @Component({
   selector: 'app-chatbot-model-selector',
@@ -11,13 +10,14 @@ import { ChatbotSessionService } from '../../chatbot-services/chatbot-session/ch
   templateUrl: './chatbot-model-selector.component.html',
   styleUrl: './chatbot-model-selector.component.scss'
 })
-export class ChatbotModelSelectorComponent extends SelectorComponent {
+export class ChatbotModelSelectorComponent extends InputSelectorComponent {
   constructor(
     eventService: EventService,
-    readonly chatbotEventService: ChatbotEventService,
-    readonly chatbotSessionService: ChatbotSessionService,
+    readonly brain: ChatbotBrainService
   ) {
-    super(eventService);
+    super();
+    this.onValueChange.subscribe((value) => eventService.selectorClickedEvt.emit({ selectorId: this.inputID, selectedOption: value }));
+    eventService.selectorClickedEvt.subscribe((event) => this.filterSelectorEvent(event.selectorId, event.selectedOption));
   }
 
   override ngOnInit() {
@@ -33,8 +33,8 @@ export class ChatbotModelSelectorComponent extends SelectorComponent {
   }
 
   protected refreshOptions(): void {
-    this.currentSelection = this.chatbotSessionService.selectedModel;
-    this.options = this.chatbotSessionService.llmModels;
+    this.currentSelection = this.brain.chatbotSessionService.selectedModel;
+    this.options = this.brain.chatbotSessionService.llmModels;
   }
 
   protected override filterSelectorEvent(selectorId: string, selectedOption: SelectorOption): void {

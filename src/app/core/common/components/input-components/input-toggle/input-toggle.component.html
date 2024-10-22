@@ -1,0 +1,11 @@
+<div class="relative w-14 h-8" (click)="toggle()">
+    <!-- Background of the toggle -->
+    <div class="absolute inset-0 bg-gray-300 rounded-full transition-colors duration-300" [class.bg-green-500]="value"></div>
+    
+    <!-- The circle/handle of the toggle -->
+    <div
+      class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300"
+      [class.transform]="value"
+      [class.translate-x-6]="value">
+    </div>
+</div>

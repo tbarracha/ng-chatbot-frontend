@@ -4,6 +4,7 @@ export class ChatbotSettings {
     stream: boolean;
     useOptions: boolean;
     options: ChatbotOptions;
+    prePrompt: string | null = null;
 
     public static simpleDefaultOptions: ChatbotOptions = {
         seed: 0,

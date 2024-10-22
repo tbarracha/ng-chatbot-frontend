@@ -8,6 +8,7 @@ import {
   ChatbotSettings,
 } from '../../chatbot-models/chatbot-settings';
 import { ConfigService } from '../../../config/config.service';
+import { SelectorOption } from '../../../common/components/input-components/input-selector/input-selector.component';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,31 @@ export class ChatbotBrainService {
     chatbotEventService.onSaveChatbotSettings.subscribe(() => {
       this.saveChatbotSettings();
     });
+
+    eventService.selectorClickedEvt.subscribe(({ selectorId, selectedOption }) => {
+      this.filterSelectorEvent(selectorId, selectedOption);
+    });
+  }
+  
+  filterSelectorEvent(selectorId: string, selectedOption: SelectorOption): void {
+    console.log('Selector ID:', (selectorId == '') ? '\'undefined\'' : "'" + selectorId + "'",
+              '\nSelector Option:', selectedOption);
+
+    if (selectorId === 'chatbot_model') {
+      ChatbotBrainService.chatbotSettings.model = selectedOption.value;
+    }
+    else if (selectorId === 'chatbot_connection_name') {
+      ChatbotBrainService.chatbotSettings.connectionName = selectedOption.value;
+      this.chatbotEventService.onChatbotApiConnectionNameChanged.emit(selectedOption.value);
+    }
+    else if (selectorId === 'chatbot_stream') {
+      ChatbotBrainService.chatbotSettings.stream = selectedOption.value.toLowerCase() === 'true';
+    }
+    else if (selectorId === 'chatbot_use_options') {
+      ChatbotBrainService.chatbotSettings.useOptions = selectedOption.value.toLowerCase() === 'true';
+    }
+
+    console.log('Chatbot Settings:', ChatbotBrainService.chatbotSettings);
   }
 
   // Load chatbot settings from local storage, or use the config defaults if no saved settings

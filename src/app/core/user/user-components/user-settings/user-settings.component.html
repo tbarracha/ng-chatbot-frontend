@@ -9,7 +9,7 @@
     <div class="flex flex-col space-y-2 text-black dark:text-white">
         <div class="flex items-center space-x-2">
             <h5 class="w-[10%]">Option:</h5>
-            <app-selector
+            <app-input-selector
             #apiSelector
                 [id]="'exampleUserSelector'"
                 [defaultMessage]="'Select Option...'"
@@ -19,7 +19,7 @@
                   { id: 2, value: 'Option 2' }
                 ]"
                 class="w-full">
-            </app-selector>
+            </app-input-selector>
         </div>
     </div>
   </ng-template>

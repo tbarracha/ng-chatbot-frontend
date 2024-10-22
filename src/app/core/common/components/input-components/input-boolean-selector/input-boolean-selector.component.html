@@ -1,0 +1,38 @@
+<div #selector class="relative bg-inherit dark:bg-inherit border-inherit rounded-lg shadow-lg">
+    <button
+      (click)="toggleDropdown()"
+      class="w-full text-left bg-inherit dark:bg-inherit text-gray-900 dark:text-white p-2 rounded-lg focus:outline-none transition ease-in-out duration-200
+      flex items-center justify-between"
+    >
+      @if (currentSelection) {
+        {{ currentSelection.name }}
+      }
+      @else {
+        {{ defaultMessage }}
+      }
+  
+      <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 10 4 4 4-4"/>
+      </svg>
+      
+    </button>
+  
+    <!-- Dropdown Options -->
+    @if (isDropdownOpen) {
+      <div class="absolute z-10 w-full bg-main-bg dark:bg-dark-primary  text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg mt-2">
+        @for (option of options; track option.id; let i = $index;) {
+          <div
+            class="p-2 cursor-pointer hover:bg-main-primary dark:hover:bg-dark-primary-lighter
+                  {{
+                    i === 0 ? 'rounded-t-lg' :
+                    i === options.length - 1 ? 'rounded-b-lg' : ''
+                  }}"
+            (click)="selectOption(option)"
+          >
+            {{ option.name }}
+          </div>
+        }
+      </div>
+    }
+  </div>
+  

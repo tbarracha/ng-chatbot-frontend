@@ -3,7 +3,7 @@ import { ChatbotHeaderComponent } from '../../core/chatbot/chatbot-components/ch
 import { ChatbotInputComponent } from '../../core/chatbot/chatbot-components/chatbot-inputs/chatbot-input/chatbot-input.component';
 import { ChatbotSessionHistoryComponent } from '../../core/chatbot/chatbot-components/chatbot-session-history/chatbot-session-history.component';
 import { BlankModalComponent } from "../../core/common/components/blank-modal/blank-modal.component";
-import { SelectorComponent } from "../../core/common/components/selector/selector.component";
+import { InputSelectorComponent } from "../../core/common/components/input-components/input-selector/input-selector.component";
 import { ChatbotBaseComponentComponent } from '../../core/chatbot/chatbot-components/chatbot-base-component/chatbot-base-component.component';
 import { ChatbotModelSelectorComponent } from "../../core/chatbot/chatbot-components/chatbot-model-selector/chatbot-model-selector.component";
 import { ChatbotSettingsComponent } from "../../core/chatbot/chatbot-components/chatbot-settings/chatbot-settings.component";
@@ -11,7 +11,7 @@ import { ChatbotSettingsComponent } from "../../core/chatbot/chatbot-components/
 @Component({
   selector: 'app-page-company',
   standalone: true,
-  imports: [ChatbotHeaderComponent, ChatbotSessionHistoryComponent, ChatbotInputComponent, BlankModalComponent, SelectorComponent, ChatbotModelSelectorComponent, ChatbotSettingsComponent],
+  imports: [ChatbotHeaderComponent, ChatbotSessionHistoryComponent, ChatbotInputComponent, BlankModalComponent, InputSelectorComponent, ChatbotModelSelectorComponent, ChatbotSettingsComponent],
   templateUrl: './page-company.component.html',
   styleUrl: './page-company.component.scss'
 })

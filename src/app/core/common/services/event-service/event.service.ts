@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { SelectorOption } from '../../components/selector/selector.component';
+import { SelectorOption } from '../../components/input-components/input-selector/input-selector.component';
 
 @Injectable({
   providedIn: 'root'

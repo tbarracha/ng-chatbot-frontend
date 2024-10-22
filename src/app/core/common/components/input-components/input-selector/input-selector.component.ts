@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { EventService } from '../../services/event-service/event.service';
+import { Component, Input, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { EventService } from '../../../services/event-service/event.service';
+import { InputBaseComponent } from '../input-base/input-base.component';
 
 export class SelectorOption {
   id: number;
@@ -12,29 +13,36 @@ export class SelectorOption {
 }
 
 @Component({
-  selector: 'app-selector',
+  selector: 'app-input-selector',
   standalone: true,
-  templateUrl: './selector.component.html',
-  styleUrls: ['./selector.component.scss']
+  templateUrl: './input-selector.component.html',
+  styleUrls: ['./input-selector.component.scss']
 })
-export class SelectorComponent {
+export class InputSelectorComponent extends InputBaseComponent<SelectorOption> {
   @ViewChild('selector', { static: false }) selectorRef!: ElementRef;
 
   @Input() defaultMessage: string = 'Select an option';
-  @Input() selectorID: string = '';
   @Input() options: SelectorOption[] = [];
   @Input() defaultSelectionID: number = -1;
-  @Output() selectionChange = new EventEmitter<SelectorOption>();
 
   currentSelection: SelectorOption | null = null;
   isDropdownOpen = false;
 
-  constructor(protected readonly eventService: EventService) {
-    eventService.selectorClickedEvt.subscribe((event) => this.filterSelectorEvent(event.selectorId, event.selectedOption));
+  constructor() {
+    super();
   }
 
   ngOnInit() {
+    this.refreshCurrentValue();
+  }
+
+  afterViewInit() {
+    this.refreshCurrentValue();
+  }
+
+  refreshCurrentValue() {
     this.setDefaultSelection();
+    this.setValue();
   }
 
   setDefaultSelection() {
@@ -46,14 +54,25 @@ export class SelectorComponent {
     }
   }
 
+  setValue() {
+    if (this.value !== null && this.value !== undefined) {
+      const selection = this.options.find(option =>
+        option.value === this.value?.toString() || option.id === Number(this.value)
+      );
+      if (selection) {
+        this.currentSelection = selection;
+      }
+    }
+  }
+  
+
   public toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
   public selectOption(option: SelectorOption) {
     this.currentSelection = option;
-    this.selectionChange.emit(option);
-    this.eventService.selectorClickedEvt.emit({selectorId: this.selectorID, selectedOption: option});
+    this.onValueChange.emit(option);
     this.isDropdownOpen = false;
   }
 

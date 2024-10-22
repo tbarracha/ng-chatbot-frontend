@@ -54,8 +54,8 @@ export class ChatbotInputComponent {
   submitMessage(): void {
     const message = this.chatTextInput?.nativeElement.value.trim();
     if (message) {
-      //this.chatbotMessageService.sendMessage(message);
-      this.chatbotMessageService.sendMessagePython(message);
+      this.chatbotMessageService.sendMessage(message);
+      //this.chatbotMessageService.sendMessagePython(message);
 
       if (this.files.length > 0) {
         this.chatbotMessageService.handleFiles(this.files);

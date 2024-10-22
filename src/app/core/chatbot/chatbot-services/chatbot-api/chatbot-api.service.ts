@@ -3,11 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ConfigService } from '../../../config/config.service';
 import { ChatbotEventService } from '../chatbot-events/chatbot-event.service';
+import { ChatbotBrainService } from '../chatbot-brain/chatbot-brain.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatbotApiService {
+  private webSocket: WebSocket | null = null;  // WebSocket instance
+  private webSocketSubject: Subject<string> | null = null;  // Subject to stream responses
+
   readonly pythonApiEndpoint = 'http://localhost:5000/model';
   readonly pythonChatbotApiEndpoint = 'http://localhost:5000/chatbot';
   
@@ -29,6 +33,50 @@ export class ChatbotApiService {
 
 
   // -----------------------------------------------------
+  // WebSocket Management
+  // -----------------------------------------------------
+
+  private createWebSocket(): Subject<string> {
+    if (this.webSocket) {
+      return this.webSocketSubject!;
+    }
+
+    const webSocketUrl = `ws://localhost:5000/chatbot/chat/stream`;
+    this.webSocket = new WebSocket(webSocketUrl);
+    this.webSocketSubject = new Subject<string>();
+
+    this.webSocket.onopen = () => {
+      console.log('WebSocket connection opened');
+    };
+
+    this.webSocket.onmessage = (event) => {
+      this.webSocketSubject!.next(event.data);  // Stream WebSocket responses
+    };
+
+    this.webSocket.onclose = () => {
+      console.log('WebSocket connection closed');
+      this.webSocketSubject!.complete();
+      this.webSocket = null;  // Clean up
+    };
+
+    this.webSocket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+      this.webSocketSubject!.error('WebSocket error: ' + error);
+    };
+
+    return this.webSocketSubject!;
+  }
+
+  closeWebSocket() {
+    if (this.webSocket) {
+      this.webSocket.close();
+      this.webSocket = null;
+      this.webSocketSubject = null;
+    }
+  }
+
+
+  // -----------------------------------------------------
   // API Connection by Connection Name
   // -----------------------------------------------------
 
@@ -37,12 +85,35 @@ export class ChatbotApiService {
   }
 
   sendChatPromptAndGetChatPromptAnswer(prompt: string, model_name: string): Observable<any> {
-    const requestBody = {
-      prompt,
-      model_name
-    };
+    if (ChatbotBrainService.chatbotSettings.prePrompt != null && ChatbotBrainService.chatbotSettings.prePrompt != '') {
+      prompt = ChatbotBrainService.chatbotSettings.prePrompt + '\n' + prompt;
+    }
 
-    return this.http.post<any>(this.configService.getChatUrlByConnectionName(this.connectionName), requestBody);
+    if (ChatbotBrainService.chatbotSettings.stream) {
+      return this.ws_sendChatModelAndGetChatPromptAnswer(prompt, model_name);
+    } else {
+      const requestBody = {
+        prompt,
+        model_name
+      };
+
+      const url = this.configService.getChatUrlByConnectionName(this.connectionName);
+      console.log('Sending prompt:', requestBody, 'API URL:', url);
+
+      return this.http.post<any>(url, requestBody);
+    }
+  }
+
+  // webSocket
+  ws_sendChatModelAndGetChatPromptAnswer(prompt: string, model_name: string): Observable<string> {
+    const webSocketSubject = this.createWebSocket();
+
+    if (this.webSocket && this.webSocket.readyState === WebSocket.OPEN) {
+      const requestBody = JSON.stringify({ prompt, model_name });
+      this.webSocket.send(requestBody);  // Send the chat prompt over WebSocket
+    }
+
+    return webSocketSubject.asObservable();  // Return the response observable
   }
 
   sendPromptAnswerFeedback(prompt_answer_id: number, vote_type: string): Observable<any> {
