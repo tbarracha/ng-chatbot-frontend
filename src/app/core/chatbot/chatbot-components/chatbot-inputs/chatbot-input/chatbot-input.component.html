@@ -1,34 +1,51 @@
 <!-- Wrapper div -->
 <div
   #chatInput
-  class="bg-main-primary dark:bg-dark-primary flex items-center w-full rounded-xl p-2 shadow-xl relative
-  {{ isDragging ? 'border-dashed border-2 border-dark-secondary dark:border-main-primary' : '' }}"
+  class="bg-main-primary dark:bg-dark-primary flex items-center w-full rounded-xl p-2 shadow-xl relative min-h-16
+  {{ currentInputState === chatbotInputStates.Dragging ? 'border-dashed border-2 border-dark-secondary dark:border-main-primary' : '' }}
+  {{ currentInputState === chatbotInputStates.Waiting ? 'cursor-not-allowed' : '' }}"
   (dragover)="onDragOver($event)" (drop)="onDrop($event)">
 
-  @if (files.length > 0) {
-    <div class="absolute -top-16 left-0 w-full h-16 flex items-center justify-between mt-2 p-2">
-      <div class="slender-scrollbar h-full overflow-x-auto whitespace-nowrap flex space-x-2 items-center px-2 mr-4">
-        @for (file of files; track file.name; let i = $index) {
-          <app-chatbot-input-attachment
-            [file]="file"
-            (remove)="removeFile(i)"
-            class="inline-block"
-          ></app-chatbot-input-attachment>
-        }
-      </div>
-
-      <div class="flex-shrink-0 mr-1 mb-2">
-        <button
-          (click)="clearFiles()"
-          class="p-2 bg-main-terciary hover:bg-red-600 dark:bg-dark-dark dark:hover:bg-red-900 text-white rounded-md shadow-lg"
-        >
-          Clear
-        </button>
-      </div>
+  @if (currentInputState === chatbotInputStates.Waiting) {
+    <div class="flex-grow mx-2 flex items-center justify-center text-main-secondary-lighter dark:text-dark-secondary-lighter">
+      <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      Processing...
     </div>
   }
 
-  @if (!isDragging) {
+  @if (currentInputState === chatbotInputStates.Dragging) {
+    <div class="flex-grow mx-2 p-4 text-center text-dark-secondary dark:text-main-primary">
+      <p>Drop your files here</p>
+    </div>
+  }
+
+  @if (currentInputState === chatbotInputStates.Idle) {
+    @if (files.length > 0) {
+      <div class="absolute -top-16 left-0 w-full h-16 flex items-center justify-between mt-2 p-2">
+        <div class="slender-scrollbar h-full overflow-x-auto whitespace-nowrap flex space-x-2 items-center px-2 mr-4">
+          @for (file of files; track file.name; let i = $index) {
+            <app-chatbot-input-attachment
+              [file]="file"
+              (remove)="removeFile(i)"
+              class="inline-block"
+            ></app-chatbot-input-attachment>
+          }
+        </div>
+
+        <div class="flex-shrink-0 mr-1 mb-2">
+          <button
+            (click)="clearFiles()"
+            class="p-2 bg-main-terciary hover:bg-red-600 dark:bg-dark-dark dark:hover:bg-red-900 text-white rounded-md shadow-lg"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+    }
+
     <!-- Attachment Button -->
     <button
       (click)="openFileSelector()"
@@ -72,12 +89,6 @@
         </path>
       </svg>
     </button>
-  }
-
-  @if (isDragging) {
-    <div class="flex-grow mx-2 p-4 text-center text-dark-secondary dark:text-main-primary">
-      <p>Drop your files here</p>
-    </div>
   }
 </div>
 

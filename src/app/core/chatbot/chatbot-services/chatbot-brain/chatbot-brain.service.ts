@@ -15,6 +15,14 @@ import { SelectorOption } from '../../../common/components/input-components/inpu
 })
 export class ChatbotBrainService {
   public static chatbotSettings: ChatbotSettings;
+  public static chatbotInputState: string = 'idle';
+
+  public static readonly chatbotInputStates = {
+    Idle: 'idle',
+    Waiting: 'waiting',
+    Dragging: 'dragging',
+    Error: 'error'
+  }
 
   private readonly LOCAL_STORAGE_KEY = 'chatbotSettings';
 
@@ -26,8 +34,13 @@ export class ChatbotBrainService {
     public readonly chatbotApiService: ChatbotApiService
   ) {
     this.loadChatbotSettings();
+
     chatbotEventService.onSaveChatbotSettings.subscribe(() => {
       this.saveChatbotSettings();
+    });
+
+    chatbotEventService.onChatbotInputStateChanged.subscribe((state) => {
+      ChatbotBrainService.chatbotInputState = state;
     });
 
     eventService.selectorClickedEvt.subscribe(({ selectorId, selectedOption }) => {
@@ -74,6 +87,8 @@ export class ChatbotBrainService {
           ? this.configService.getSimpleChatbotOptions() ?? ChatbotSettings.simpleDefaultOptions
           : this.configService.getCompleteChatbotOptions() ?? ChatbotSettings.completeDefaultOptions
       );
+
+      ChatbotBrainService.chatbotSettings.prePrompt = this.configService.prePrompt;
     }
 
     console.log('Chatbot Settings loaded:', ChatbotBrainService.chatbotSettings);

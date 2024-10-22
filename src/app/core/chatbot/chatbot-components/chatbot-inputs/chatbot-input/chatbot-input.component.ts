@@ -1,15 +1,8 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { ChatbotSessionService } from '../../../chatbot-services/chatbot-session/chatbot-session.service';
 import { ChatbotInputAttachmentComponent } from "../chatbot-input-attachment/chatbot-input-attachment.component";
 import { ChatbotInputOptionsComponent } from "../chatbot-input-options/chatbot-input-options.component";
 import { ChatbotSettingsComponent } from "../../chatbot-settings/chatbot-settings.component";
-
-export enum ChatbotInputState {
-  Idle = 'idle',
-  Waiting = 'waiting',
-  Dragging = 'dragging',
-  Error = 'error'
-}
+import { ChatbotBrainService } from '../../../chatbot-services/chatbot-brain/chatbot-brain.service';
 
 @Component({
   selector: 'app-chatbot-input',
@@ -23,18 +16,31 @@ export class ChatbotInputComponent {
   @ViewChild('chatTextInput') chatTextInput!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
-  files: File[] = [];
-  isDragging = false;
-  dragCounter = 0;
+  public readonly chatbotInputStates = ChatbotBrainService.chatbotInputStates;
 
+  currentInputState: string = this.chatbotInputStates.Idle;
+  files: File[] = [];
+  dragCounter = 0;
   inputText: string = '';
 
-  constructor(readonly chatbotMessageService: ChatbotSessionService) {}
+  constructor(readonly brain: ChatbotBrainService) {
+    brain.chatbotEventService.onPromptAnswerReceived.subscribe(() => {
+      this.changeInputState(this.chatbotInputStates.Idle);
+    });
+  }
 
   ngAfterViewInit() {
     if (this.chatTextInput) {
       this.chatTextInput.nativeElement.value = '';
     }
+  }
+
+  changeInputState(state: string): void {
+    if (state === this.currentInputState) {
+      return;
+    }
+    this.currentInputState = state;
+    this.brain.chatbotEventService.onChatbotInputStateChanged.emit(state);
   }
 
   adjustTextareaHeight(event: Event): void {
@@ -54,11 +60,11 @@ export class ChatbotInputComponent {
   submitMessage(): void {
     const message = this.chatTextInput?.nativeElement.value.trim();
     if (message) {
-      this.chatbotMessageService.sendMessage(message);
-      //this.chatbotMessageService.sendMessagePython(message);
+      this.brain.chatbotSessionService.sendMessage(message);
+      this.changeInputState(this.chatbotInputStates.Waiting);
 
       if (this.files.length > 0) {
-        this.chatbotMessageService.handleFiles(this.files);
+        this.brain.chatbotSessionService.handleFiles(this.files);
       }
       
       this.chatTextInput.nativeElement.value = '';
@@ -84,7 +90,7 @@ export class ChatbotInputComponent {
   onDragEnter(event: DragEvent): void {
     this.dragCounter++;
     if (event.dataTransfer?.types.includes('Files')) {
-      this.isDragging = true;
+      this.changeInputState(this.chatbotInputStates.Dragging);
     }
   }
 
@@ -92,7 +98,7 @@ export class ChatbotInputComponent {
   onDragLeave(event: DragEvent): void {
     this.dragCounter--;
     if (this.dragCounter === 0) {
-      this.isDragging = false;
+      this.changeInputState(this.chatbotInputStates.Idle);
     }
   }
 
@@ -104,7 +110,7 @@ export class ChatbotInputComponent {
   @HostListener('document:drop', ['$event'])
   onDrop(event: DragEvent): void {
     event.preventDefault();
-    this.isDragging = false;
+    this.changeInputState(this.chatbotInputStates.Idle);
     this.dragCounter = 0;
 
     if (!this.isDroppedOnInput(event)) {

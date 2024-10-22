@@ -226,7 +226,8 @@ export class ChatbotSessionService {
         console.error('Error from chatbot API:', error);
       },
       complete: () => {
-        //console.log('API call completed');
+        console.log('API call completed');
+        this.chatbotEventService.onPromptAnswerReceived.emit();
       }
     });
   }

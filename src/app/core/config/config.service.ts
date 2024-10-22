@@ -209,11 +209,15 @@ export class ConfigService {
     };
   }
 
+  get prePrompt(): string {
+    return this.config?.prePrompt ?? '';
+  }
+
   // ----------------------------------------------
   // Layout Settings
   // ----------------------------------------------
   get allowCopyInChatbotPrompt(): boolean {
-    return this.config?.layout?.chatbotPrompt?.allowCopy ?? true;
+    return this.config?.layout?.chatbotPrompt?.allowCopy ?? false;
   }
 
   get isFeedbackActive(): boolean {

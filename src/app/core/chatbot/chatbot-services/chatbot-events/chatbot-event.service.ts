@@ -13,6 +13,8 @@ export class ChatbotEventService {
   readonly onChatbotApiConnectionNameChanged = new EventEmitter<string>();
   readonly onSaveChatbotSettings = new EventEmitter<void>();
 
+  readonly onChatbotInputStateChanged = new EventEmitter<string>();
+
   isSidebarOpen = true;
 
   constructor() {}

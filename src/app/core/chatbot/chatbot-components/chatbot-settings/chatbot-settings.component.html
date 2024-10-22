@@ -126,7 +126,7 @@
       <!-- Pre-prompt Section -->
       @if (optionsState === optionStates.prePrompt) {
       <h5>Pre-prompt:</h5>
-      <textarea class="w-full p-2 rounded-lg border dark:bg-inherit dark:border-gray-700"
+      <textarea class="w-full h-40 min-h-16 p-2 rounded-lg border dark:bg-inherit dark:border-gray-700"
         placeholder="Enter a pre-prompt" [value]="chatbotSettings.prePrompt"
         (input)="onPrePromptChange($event)"></textarea>
       }

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ChatbotBaseComponentComponent } from '../../chatbot-base-component/chatbot-base-component.component';
 
 @Component({
   selector: 'app-chatbot-prompt-container',
@@ -8,7 +9,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './chatbot-prompt-container.component.scss'
 })
 
-export class ChatbotPromptContainerComponent {
+export class ChatbotPromptContainerComponent extends ChatbotBaseComponentComponent {
   @Input() role: string = 'assistant';
   @Input() message: string = '';
   @Input() avatar: string | null = null;
